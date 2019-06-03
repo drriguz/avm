@@ -3,10 +3,12 @@
 
 #include <iostream>
 using namespace std;
+using namespace avm;
 
 int main(int argc, char* argv[]) {
-    cout << "Hello !" << endl;
-    avm::ClassParser parser;
-    parser.parse("test/Const.class");
-    return 1;
+	cout << "Running" << endl;
+	avm::ClassParser parser;
+	ClassFile parsed = parser.parse("test/Const.class");
+	parsed.verbose();
+	return 1;
 }

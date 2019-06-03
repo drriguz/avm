@@ -1,18 +1,20 @@
 #ifndef _AVM_CLASS_FILE_H_
 #define _AVM_CLASS_FILE_H_
 
-#include <cstdint>
+#include "types.h"
 
 namespace avm {
-    class ClassFile {
-    	friend class ClassParser;
+class ClassFile {
+	friend class ClassParser;
 
-        private:
-    		uint32_t magic;
-    		uint16_t minor_version;
-    		uint16_t major_version;
-    		uint16_t constant_pool_count;
-    };
+public:
+	void verbose();
+private:
+	u4 magic;
+	u2 minor_version;
+	u2 major_version;
+	u2 constant_pool_count;
+};
 }
 
 #endif
