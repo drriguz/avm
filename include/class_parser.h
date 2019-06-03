@@ -2,11 +2,13 @@
 #define _AVM_CLASS_PARSER_H_
 
 #include "format/types.h"
+#include "format/constants.h"
+#include "format/class_file.h"
 #include "exceptions.h"
 #include <fstream>
 
 namespace avm {
-class ClassFile;
+
 class ClassParser {
 public:
 	ClassParser(const char* file);
@@ -14,7 +16,8 @@ public:
 public:
 	ClassFile parse();
 private:
-	void readConstants(const u2& constant_pool_count);
+	ConstantInfo* readConstant(const ConstantTypes& type);
+	void readConstants(const u2& constant_pool_count, ConstantInfo* out);
 private:
 	inline void readU1(u1* out) {
 		if (!in.read(reinterpret_cast<char *>(out), sizeof(u1)))
