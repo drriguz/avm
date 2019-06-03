@@ -4,6 +4,23 @@
 #include "types.h"
 
 namespace avm {
+enum ConstantTypes {
+	Class = 7,
+	Fieldref = 9,
+	Methodref = 10,
+	InterfaceMethodref = 11,
+	String = 8,
+	Integer = 3,
+	Float = 4,
+	Long = 5,
+	Double = 6,
+	NameAndType = 12,
+	Utf8 = 1,
+	MethodHandle = 15,
+	MethodType = 16,
+	InvokeDynamic = 18,
+};
+
 struct CONSTANT_Class {
 	u1 tag;
 	u2 name_index;
@@ -63,7 +80,7 @@ struct CONSTANT_NameAndType_info {
 struct CONSTANT_Utf8_info {
 	u1 tag;
 	u2 length;
-	u1 bytes[length];
+	u1* bytes;
 };
 }
 
