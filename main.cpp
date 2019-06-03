@@ -7,8 +7,8 @@ using namespace avm;
 
 int main(int argc, char* argv[]) {
 	cout << "Running" << endl;
-	avm::ClassParser parser;
-	ClassFile parsed = parser.parse("test/Const.class");
+	avm::ClassParser parser("test/Const.class");
+	ClassFile parsed = parser.parse();
 	parsed.verbose();
 	return 1;
 }

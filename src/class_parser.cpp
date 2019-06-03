@@ -8,17 +8,30 @@
 
 using namespace avm;
 
-ClassFile ClassParser::parse(const char* file) {
-	std::fstream in;
+ClassParser::ClassParser(const char* file) {
 	in.open(file, std::fstream::in | std::fstream::binary);
 	if (!in.is_open())
 		throw OpenFileException();
+}
+
+ClassParser::~ClassParser() {
+	if (in.is_open())
+		in.close();
+}
+
+ClassFile ClassParser::parse() {
+	in.clear();
+	in.seekg(std::ios::beg);
 
 	ClassFile out;
-	readU4(in, &out.magic);
-	readU2(in, &out.minor_version);
-	readU2(in, &out.major_version);
-	readU2(in, &out.constant_pool_count);
-	in.close();
+	readU4(&out.magic);
+	readU2(&out.minor_version);
+	readU2(&out.major_version);
+	readU2(&out.constant_pool_count);
+
 	return out;
+}
+
+void ClassParser::readConstants(std::fstream& in) {
+
 }
