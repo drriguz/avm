@@ -15,6 +15,7 @@ public:
 private:
 	void ensureConstantPool();
 	void printConstantPool();
+	void printInterfaces();
 private:
 	u4 magic;
 	u2 minor_version;
@@ -24,6 +25,7 @@ private:
 	u2 access_flags;
 	u2 this_class;
 	u2 super_class;
+	u2 interfaces_count;
 };
 }
 

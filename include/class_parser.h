@@ -5,6 +5,7 @@
 #include "format/constants.h"
 #include "format/class_file.h"
 #include "exceptions.h"
+
 #include <fstream>
 
 namespace avm {

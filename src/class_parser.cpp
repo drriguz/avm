@@ -2,6 +2,8 @@
 #include "exceptions.h"
 #include "format/class_file.h"
 
+#include "spdlog/spdlog.h"
+
 #include <fstream>
 #include <iostream>
 #include <netinet/in.h>
@@ -28,11 +30,13 @@ ClassFile ClassParser::parse() {
 	readU2(&out.minor_version);
 	readU2(&out.major_version);
 	readU2(&out.constant_pool_count);
+	spdlog::debug("Parsing constant pool:size={}", out.constant_pool_count);
 	out.ensureConstantPool();
 	readConstants(out.constant_pool_count, out.constant_pool);
 	readU2(&out.access_flags);
 	readU2(&out.this_class);
 	readU2(&out.super_class);
+	readU2(&out.interfaces_count);
 	return out;
 }
 
@@ -120,7 +124,7 @@ ConstantInfo* ClassParser::readConstant(const ConstantTypes& type) {
 	}
 	default:
 		throw ClassFormatException(
-				"Unknown constant type" + std::to_string(type));
+				"Unknown constant type:" + std::to_string(type));
 	}
 }
 
@@ -130,6 +134,7 @@ void ClassParser::readConstants(const u2& constant_pool_count,
 		u1 tag;
 		readU1(&tag);
 		const ConstantTypes type = static_cast<ConstantTypes>(tag);
+		spdlog::debug("Parsing constant:#{}/{}", i, type);
 		out[i] = *(readConstant(type));
 	}
 }

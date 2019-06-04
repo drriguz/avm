@@ -1,9 +1,9 @@
 CC = clang++
-COMPILER_FLAGS = -std=c++11 -Wall -g
-LINKER_FLAGS =
+COMPILER_FLAGS = -std=c++11 -Wall -g -D SPDLOG_COMPILED_LIB
+LINKER_FLAGS = -lspdlog
 
-HEADERS = -I./include
-LIBS = 
+HEADERS = -I./include -I3rd/spdlog/include
+LIBS =  -L3rd/spdlog
 
 APP_OBJS = main.cpp \
 		   src/class_file.cpp \
