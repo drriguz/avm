@@ -2,7 +2,10 @@
 
 #include <iostream>
 #include <iomanip>
-#include "../../include/format/constant_visitor.h"
+
+#include "spdlog/spdlog.h"
+
+#include "format/constant_visitor.h"
 
 using namespace avm;
 
@@ -53,20 +56,29 @@ std::string ConstantVisitor::getConstantTypeName(
 
 void ConstantVisitor::verbose(const ConstantTypes& type, const u1* info) {
 	switch (type) {
-	case Class:
+	case Class: {
+		ConstantClass* classInfo = (ConstantClass*) info;
+		std::cout << "#" << classInfo->name_index;
 		break;
+	}
 	case Fieldref:
 		break;
 	case Methodref: {
 		ConstantMethodref* methodRef = (ConstantMethodref*) info;
-		std::cout << methodRef->toString();
-		//visit(methodRef->class_index, Class);
+		const ConstantTypes c1 = Class;
+		const ConstantTypes c2 = NameAndType;
+		std::cout << methodRef->toString() << "\t// "
+				<< visit(methodRef->class_index, &c1) << "."
+				<< visit(methodRef->name_and_type_index, &c2);
 		break;
 	}
 	case InterfaceMethodref:
 		break;
-	case String:
+	case String: {
+		ConstantString* string = (ConstantString*) info;
+		std::cout << "#" << string->string_index;
 		break;
+	}
 	case Integer:
 		break;
 	case Float:
@@ -105,29 +117,36 @@ void ConstantVisitor::verbose() {
 		std::cout << std::endl;
 	}
 }
-void ConstantVisitor::visit(const u2& constantId,
-		const ConstantTypes& expected) {
+std::string ConstantVisitor::visit(const u2& constantId,
+		const ConstantTypes* expected = nullptr) const {
 	if (constantId < 1 || constantId >= this->constant_pool_count)
-		throw ClassFormatException("ConstantId out of range");
+		throw ClassFormatException(
+				"ConstantId out of range" + std::to_string(constantId));
 	const ConstantInfo info = this->constant_pool[constantId];
 	const ConstantTypes type = static_cast<ConstantTypes>(info.tag);
-	if (type != expected)
+	if (expected && type != *expected)
 		throw ClassFormatException(
 				"Constant is not expected:" + std::to_string(type)
-						+ " Expected is:" + std::to_string(expected));
+						+ " Expected is:" + std::to_string(*expected));
 	switch (type) {
 	case Class: {
-		const ConstantClass classInfo = (const ConstantClass&) info;
-		visit(classInfo.name_index, Utf8);
-		break;
+		const ConstantClass* classInfo = (const ConstantClass*) info.info;
+		const auto expected = Utf8;
+		return visit(classInfo->name_index, &expected);
+	}
+	case NameAndType: {
+		const ConstantNameAndType* nameAndType =
+				(const ConstantNameAndType*) info.info;
+		const auto expected = Utf8;
+		return visit(nameAndType->name_index, &expected) + ":"
+				+ visit(nameAndType->descriptor_index, &expected);
 	}
 	case Utf8: {
-		const ConstantUtf8 utf8Info = (const ConstantUtf8&) info;
-		std::cout << utf8Info.bytes;
-		break;
+		const ConstantUtf8* utf8Info = (const ConstantUtf8*) info.info;
+		return std::string(reinterpret_cast<const char*>(utf8Info->bytes));
 	}
 	default:
-		break;
+		return "";
 	}
 }
 

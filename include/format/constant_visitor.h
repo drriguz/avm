@@ -16,7 +16,8 @@ public:
 	void verbose();
 	void verbose(const ConstantTypes& type, const u1* info);
 
-	void visit(const u2& constantId, const ConstantTypes& expceted);
+	std::string visit(const u2& constantId,
+			const ConstantTypes* expceted) const;
 private:
 	std::string getConstantTypeName(const ConstantTypes& type) const;
 private:

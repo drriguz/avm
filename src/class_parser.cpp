@@ -47,6 +47,7 @@ ConstantInfo* ClassParser::readConstant(const ConstantTypes& type) {
 	case Class: {
 		ConstantClass* classInfo = new ConstantClass();
 		readU2(&classInfo->name_index);
+		spdlog::debug("readed class:{}", classInfo->name_index);
 		return new ConstantInfo { type, (u1*) classInfo };
 	}
 	case Fieldref: {
