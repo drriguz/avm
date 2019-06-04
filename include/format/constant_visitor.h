@@ -14,10 +14,8 @@ public:
 	~ConstantVisitor();
 public:
 	void verbose();
-	void verbose(const ConstantTypes& type, const u1* info);
-
-	std::string visit(const u2& constantId,
-			const ConstantTypes* expceted) const;
+	std::string visit(const u2& constantId, const ConstantTypes* expceted =
+			nullptr) const;
 private:
 	std::string getConstantTypeName(const ConstantTypes& type) const;
 private:

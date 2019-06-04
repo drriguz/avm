@@ -6,7 +6,7 @@ public class Complex implements Serializable {
     private static final int age = 99;
     private static final long length = 28229;
     private static final double balance = 11.5d;
-    private static final float rate = 1.1f;
+    private static final float rate = 1.12345f;
 
     public String sayHi(){
         return message;

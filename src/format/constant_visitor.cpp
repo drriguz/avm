@@ -54,56 +54,6 @@ std::string ConstantVisitor::getConstantTypeName(
 	}
 }
 
-void ConstantVisitor::verbose(const ConstantTypes& type, const u1* info) {
-	switch (type) {
-	case Class: {
-		ConstantClass* classInfo = (ConstantClass*) info;
-		std::cout << "#" << classInfo->name_index;
-		break;
-	}
-	case Fieldref:
-		break;
-	case Methodref: {
-		ConstantMethodref* methodRef = (ConstantMethodref*) info;
-		const ConstantTypes c1 = Class;
-		const ConstantTypes c2 = NameAndType;
-		std::cout << methodRef->toString() << "\t// "
-				<< visit(methodRef->class_index, &c1) << "."
-				<< visit(methodRef->name_and_type_index, &c2);
-		break;
-	}
-	case InterfaceMethodref:
-		break;
-	case String: {
-		ConstantString* string = (ConstantString*) info;
-		std::cout << "#" << string->string_index;
-		break;
-	}
-	case Integer:
-		break;
-	case Float:
-		break;
-	case Long:
-		break;
-	case Double:
-		break;
-	case NameAndType:
-		break;
-	case Utf8: {
-		const ConstantUtf8* utf8Info = (ConstantUtf8*) info;
-		std::cout << utf8Info->bytes;
-		break;
-	}
-	case MethodHandle:
-		break;
-	case MethodType:
-		break;
-	case InvokeDynamic:
-		break;
-	default:
-		break;
-	}
-}
 void ConstantVisitor::verbose() {
 	for (int i = 1; i < constant_pool_count; i++) {
 		ConstantInfo info = constant_pool[i];
@@ -113,12 +63,14 @@ void ConstantVisitor::verbose() {
 		std::string id = "#" + std::to_string(i) + " = ";
 		std::cout << std::right << std::setw(10) << id;
 		std::cout << std::left << std::setw(20) << getConstantTypeName(type);
-		verbose(type, info.info);
+
+		std::cout << visit(i);
 		std::cout << std::endl;
 	}
 }
 std::string ConstantVisitor::visit(const u2& constantId,
-		const ConstantTypes* expected = nullptr) const {
+		const ConstantTypes* expected) const {
+	const auto utf8 = Utf8;
 	if (constantId < 1 || constantId >= this->constant_pool_count)
 		throw ClassFormatException(
 				"ConstantId out of range" + std::to_string(constantId));
@@ -128,23 +80,65 @@ std::string ConstantVisitor::visit(const u2& constantId,
 		throw ClassFormatException(
 				"Constant is not expected:" + std::to_string(type)
 						+ " Expected is:" + std::to_string(*expected));
+	const u1* payload = info.info;
 	switch (type) {
 	case Class: {
-		const ConstantClass* classInfo = (const ConstantClass*) info.info;
-		const auto expected = Utf8;
-		return visit(classInfo->name_index, &expected);
+		const ConstantClass* classInfo = (const ConstantClass*) payload;
+
+		return "#" + std::to_string(classInfo->name_index) + "\t//"
+				+ visit(classInfo->name_index, &utf8);
 	}
+	case Fieldref:
+		break;
+	case Methodref: {
+		const ConstantMethodref* methodRef = (const ConstantMethodref*) payload;
+		const ConstantTypes c1 = Class;
+		const ConstantTypes c2 = NameAndType;
+		return methodRef->toString() + "\t// "
+				+ visit(methodRef->class_index, &c1) + "."
+				+ visit(methodRef->name_and_type_index, &c2);
+	}
+	case InterfaceMethodref:
+		// TODO:
+		break;
+	case String: {
+		const ConstantString* string = (const ConstantString*) payload;
+		return "#" + std::to_string(string->string_index) + "\t//"
+				+ visit(string->string_index, &utf8);
+	}
+	case Integer: {
+		const ConstantInteger* integer = (const ConstantInteger*) payload;
+		return std::to_string(static_cast<int>(integer->bytes));
+	}
+	case Float: {
+		const ConstantFloat* floatNum = (const ConstantFloat*) payload;
+		std::cout << "---" << std::to_string(floatNum->bytes) << std::endl;
+		const int i = static_cast<int>(floatNum->bytes);
+		const float f = static_cast<float>(i);
+		//const int* f = reinterpret_cast<const float*>(floatNum->bytes);
+		std::cout << "~~~" << f << std::endl;
+		return std::to_string(1);
+	}
+	case Long:
+		break;
+	case Double:
+		break;
 	case NameAndType: {
 		const ConstantNameAndType* nameAndType =
-				(const ConstantNameAndType*) info.info;
-		const auto expected = Utf8;
-		return visit(nameAndType->name_index, &expected) + ":"
-				+ visit(nameAndType->descriptor_index, &expected);
+				(const ConstantNameAndType*) payload;
+		return visit(nameAndType->name_index, &utf8) + ":"
+				+ visit(nameAndType->descriptor_index, &utf8);
 	}
 	case Utf8: {
-		const ConstantUtf8* utf8Info = (const ConstantUtf8*) info.info;
+		const ConstantUtf8* utf8Info = (const ConstantUtf8*) payload;
 		return std::string(reinterpret_cast<const char*>(utf8Info->bytes));
 	}
+	case MethodHandle:
+		break;
+	case MethodType:
+		break;
+	case InvokeDynamic:
+		break;
 	default:
 		return "";
 	}
