@@ -43,86 +43,87 @@ ClassFile ClassParser::parse() {
 ConstantInfo* ClassParser::readConstant(const ConstantTypes& type) {
 	switch (type) {
 	case Class: {
-		ConstantClass classInfo;
-		readU2(&classInfo.name_index);
-		return new ConstantInfo { type, (u1*) &classInfo };
+		ConstantClass* classInfo = new ConstantClass();
+		readU2(&classInfo->name_index);
+		return new ConstantInfo { type, (u1*) classInfo };
 	}
 	case Fieldref: {
-		ConstantFieldref fieldRefInfo;
-		readU2(&fieldRefInfo.class_index);
-		readU2(&fieldRefInfo.name_and_type_index);
-		return new ConstantInfo { type, (u1*) &fieldRefInfo };
+		ConstantFieldref* fieldRefInfo = new ConstantFieldref();
+		readU2(&fieldRefInfo->class_index);
+		readU2(&fieldRefInfo->name_and_type_index);
+		return new ConstantInfo { type, (u1*) fieldRefInfo };
 	}
 	case Methodref: {
-		ConstantMethodref methodRefInfo;
-		readU2(&methodRefInfo.class_index);
-		readU2(&methodRefInfo.name_and_type_index);
-		return new ConstantInfo { type, (u1*) &methodRefInfo };
+		ConstantMethodref* methodRefInfo = new ConstantMethodref();
+		readU2(&methodRefInfo->class_index);
+		readU2(&methodRefInfo->name_and_type_index);
+		return new ConstantInfo { type, (u1*) methodRefInfo };
 	}
 	case InterfaceMethodref: {
-		ConstantInterfaceMethodref interfaceMethodref;
-		readU2(&interfaceMethodref.class_index);
-		readU2(&interfaceMethodref.name_and_type_index);
-		return new ConstantInfo { type, (u1*) &interfaceMethodref };
+		ConstantInterfaceMethodref* interfaceMethodref =
+				new ConstantInterfaceMethodref();
+		readU2(&interfaceMethodref->class_index);
+		readU2(&interfaceMethodref->name_and_type_index);
+		return new ConstantInfo { type, (u1*) interfaceMethodref };
 	}
 	case String: {
-		ConstantString stringInfo;
-		readU2(&stringInfo.string_index);
-		return new ConstantInfo { type, (u1*) &stringInfo };
+		ConstantString* stringInfo = new ConstantString();
+		readU2(&stringInfo->string_index);
+		return new ConstantInfo { type, (u1*) stringInfo };
 	}
 	case Integer: {
-		ConstantInteger integerInfo;
-		readU4(&integerInfo.bytes);
-		return new ConstantInfo { type, (u1*) &integerInfo };
+		ConstantInteger* integerInfo = new ConstantInteger();
+		readU4(&integerInfo->bytes);
+		return new ConstantInfo { type, (u1*) integerInfo };
 	}
 	case Float: {
-		ConstantFloat floatInfo;
-		readU4(&floatInfo.bytes);
-		return new ConstantInfo { type, (u1*) &floatInfo };
+		ConstantFloat* floatInfo = new ConstantFloat();
+		readU4(&floatInfo->bytes);
+		return new ConstantInfo { type, (u1*) floatInfo };
 	}
 	case Long: {
-		ConstantLong longInfo;
-		readU4(&longInfo.high_bytes);
-		readU4(&longInfo.low_bytes);
-		return new ConstantInfo { type, (u1*) &longInfo };
+		ConstantLong* longInfo = new ConstantLong();
+		readU4(&longInfo->high_bytes);
+		readU4(&longInfo->low_bytes);
+		return new ConstantInfo { type, (u1*) longInfo };
 	}
 	case Double: {
-		ConstantDouble doubleInfo;
-		readU4(&doubleInfo.high_bytes);
-		readU4(&doubleInfo.low_bytes);
-		return new ConstantInfo { type, (u1*) &doubleInfo };
+		ConstantDouble* doubleInfo = new ConstantDouble();
+		readU4(&doubleInfo->high_bytes);
+		readU4(&doubleInfo->low_bytes);
+		return new ConstantInfo { type, (u1*) doubleInfo };
 	}
 	case NameAndType: {
-		ConstantNameAndType nameAndTypeInfo;
-		readU2(&nameAndTypeInfo.name_index);
-		readU2(&nameAndTypeInfo.descriptor_index);
-		return new ConstantInfo { type, (u1*) &nameAndTypeInfo };
+		ConstantNameAndType* nameAndTypeInfo = new ConstantNameAndType();
+		readU2(&nameAndTypeInfo->name_index);
+		readU2(&nameAndTypeInfo->descriptor_index);
+		return new ConstantInfo { type, (u1*) nameAndTypeInfo };
 	}
 	case Utf8: {
-		ConstantUtf8 utf8Info;
-		readU2(&utf8Info.length);
-		utf8Info.ensureStringBuffer();
-		in.read(reinterpret_cast<char *>(utf8Info.bytes), utf8Info.length);
-		spdlog::debug("Readed utf8:length={}/{}", utf8Info.length,
-				utf8Info.bytes);
-		return new ConstantInfo { type, (u1*) &utf8Info };
+		ConstantUtf8* utf8Info = new ConstantUtf8();
+		readU2(&utf8Info->length);
+		utf8Info->ensureStringBuffer();
+		in.read(reinterpret_cast<char *>(utf8Info->bytes), utf8Info->length);
+		spdlog::debug("Readed utf8:length={} [{}]", utf8Info->length,
+				utf8Info->bytes);
+		return new ConstantInfo { type, (u1*) utf8Info };
 	}
 	case MethodHandle: {
-		ConstantMethodHandle methodHandleInfo;
-		readU1(&methodHandleInfo.reference_kind);
-		readU2(&methodHandleInfo.reference_index);
-		return new ConstantInfo { type, (u1*) &methodHandleInfo };
+		ConstantMethodHandle* methodHandleInfo = new ConstantMethodHandle();
+		readU1(&methodHandleInfo->reference_kind);
+		readU2(&methodHandleInfo->reference_index);
+		return new ConstantInfo { type, (u1*) methodHandleInfo };
 	}
 	case MethodType: {
-		ConstantMethodType methodTypeInfo;
-		readU2(&methodTypeInfo.descriptor_index);
-		return new ConstantInfo { type, (u1*) &methodTypeInfo };
+		ConstantMethodType* methodTypeInfo = new ConstantMethodType;
+		readU2(&methodTypeInfo->descriptor_index);
+		return new ConstantInfo { type, (u1*) methodTypeInfo };
 	}
 	case InvokeDynamic: {
-		ConstantInvokeDynamic invokeDynamicInfo;
-		readU2(&invokeDynamicInfo.bootstrap_method_attr_index);
-		readU2(&invokeDynamicInfo.name_and_type_index);
-		return new ConstantInfo { type, (u1*) &invokeDynamicInfo };
+		ConstantInvokeDynamic* invokeDynamicInfo = new ConstantInvokeDynamic();
+		readU2(&invokeDynamicInfo->bootstrap_method_attr_index);
+		readU2(&invokeDynamicInfo->name_and_type_index);
+		return new ConstantInfo { type, (u1*) invokeDynamicInfo };
 	}
 	default:
 		throw ClassFormatException(
@@ -138,5 +139,7 @@ void ClassParser::readConstants(const u2& constant_pool_count,
 		const ConstantTypes type = static_cast<ConstantTypes>(tag);
 		spdlog::debug("Parsing constant:#{}/{}", i, type);
 		out[i] = *(readConstant(type));
+		if (type == Long || type == Double)
+			i++;
 	}
 }

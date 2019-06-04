@@ -21,7 +21,23 @@ enum ConstantTypes {
 	InvokeDynamic = 18,
 };
 
-struct ConstantInfo {
+class ConstantInfo {
+	friend class ClassParser;
+	friend class ClassFile;
+public:
+	ConstantInfo() :
+			tag(), info(nullptr) {
+
+	}
+	ConstantInfo(const ConstantTypes& t, u1* i) :
+			tag(t), info(i) {
+
+	}
+	~ConstantInfo() {
+		if (info)
+			delete[] info;
+	}
+private:
 	ConstantTypes tag;
 	u1* info;
 };
