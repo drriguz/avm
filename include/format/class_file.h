@@ -14,6 +14,7 @@ public:
 	void verbose();
 private:
 	void ensureConstantPool();
+	void ensureInterfaces();
 	void printConstantPool();
 	void printInterfaces();
 private:
@@ -26,6 +27,7 @@ private:
 	u2 this_class;
 	u2 super_class;
 	u2 interfaces_count;
+	u2* interfaces;
 };
 }
 

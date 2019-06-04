@@ -12,12 +12,12 @@ int main(int argc, char* argv[]) {
 	spdlog::info("Java class parser v{}", 0.1f);
 
 	avm::ClassParser parser("test/Complex.class");
+
 	try {
 		ClassFile parsed = parser.parse();
 		parsed.verbose();
-	} catch (const RuntimeException& ex) {
+	} catch (RuntimeException& ex) {
 		spdlog::error(ex.what());
 	}
-
 	return 1;
 }

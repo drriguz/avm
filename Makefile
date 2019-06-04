@@ -6,7 +6,8 @@ HEADERS = -I./include -I3rd/spdlog/include
 LIBS =  -L3rd/spdlog
 
 APP_OBJS = main.cpp \
-		src/class_file.cpp \
+		src/format/class_file.cpp \
+		src/format/constant_printer.cpp \
 		src/class_parser.cpp
 
 EXE = avm.bin

@@ -18,6 +18,7 @@ public:
 	ClassFile parse();
 private:
 	ConstantInfo* readConstant(const ConstantTypes& type);
+	void readInterfaces(const u2& interfaces_count, u2* out);
 	void readConstants(const u2& constant_pool_count, ConstantInfo* out);
 private:
 	inline void readU1(u1* out) {

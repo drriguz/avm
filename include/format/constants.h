@@ -2,6 +2,8 @@
 #define _AVM_CONSTANTS_H_
 
 #include "types.h"
+#include <string>
+#include <iostream>
 
 namespace avm {
 enum ConstantTypes {
@@ -24,6 +26,7 @@ enum ConstantTypes {
 class ConstantInfo {
 	friend class ClassParser;
 	friend class ClassFile;
+	friend class ConstantPrinter;
 public:
 	ConstantInfo() :
 			tag(), info(nullptr) {
@@ -34,8 +37,6 @@ public:
 
 	}
 	~ConstantInfo() {
-		if (info)
-			delete[] info;
 	}
 private:
 	ConstantTypes tag;
@@ -54,6 +55,10 @@ struct ConstantFieldref {
 struct ConstantMethodref {
 	u2 class_index;
 	u2 name_and_type_index;
+	std::string toString() {
+		return "#" + std::to_string(class_index) + ".#"
+				+ std::to_string(name_and_type_index);
+	}
 };
 
 struct ConstantInterfaceMethodref {
@@ -90,6 +95,7 @@ struct ConstantNameAndType {
 
 class ConstantUtf8 {
 	friend class ClassParser;
+	friend class ConstantPrinter;
 public:
 	ConstantUtf8() :
 			length(0), bytes(nullptr) {

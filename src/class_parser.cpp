@@ -37,6 +37,8 @@ ClassFile ClassParser::parse() {
 	readU2(&out.this_class);
 	readU2(&out.super_class);
 	readU2(&out.interfaces_count);
+	out.ensureInterfaces();
+	readInterfaces(out.interfaces_count, out.interfaces);
 	return out;
 }
 
@@ -142,4 +144,9 @@ void ClassParser::readConstants(const u2& constant_pool_count,
 		if (type == Long || type == Double)
 			i++;
 	}
+}
+
+void ClassParser::readInterfaces(const u2& interfaces_count, u2* out) {
+	if (!in.read(reinterpret_cast<char *>(out), interfaces_count * sizeof(u2)))
+		throw ReadFileException("Could not read interfaces");
 }

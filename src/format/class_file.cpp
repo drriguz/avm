@@ -1,16 +1,20 @@
 #include "format/class_file.h"
 #include "format/access_flags.h"
+#include "format/constant_printer.h"
 #include <iostream>
 
 using namespace avm;
 
-ClassFile::ClassFile() {
+ClassFile::ClassFile() :
+		constant_pool(nullptr), interfaces(nullptr) {
 
 }
 
 ClassFile::~ClassFile() {
 	if (this->constant_pool)
 		delete[] this->constant_pool;
+	if (this->interfaces)
+		delete[] this->interfaces;
 }
 
 void ClassFile::ensureConstantPool() {
@@ -18,16 +22,20 @@ void ClassFile::ensureConstantPool() {
 		delete[] constant_pool;
 	constant_pool = new ConstantInfo[constant_pool_count];
 }
-void ClassFile::printConstantPool() {
-	for (int i = 1; i < constant_pool_count; i++) {
-		ConstantInfo info = constant_pool[i];
 
-		std::cout << "\t#" << i << ":" << info.tag << std::endl;
-	}
+void ClassFile::ensureInterfaces() {
+	if (interfaces)
+		delete[] interfaces;
+	interfaces = new u2[interfaces_count];
+}
+
+void ClassFile::printConstantPool() {
+	ConstantPrinter printer(constant_pool_count, constant_pool);
+	printer.verbose();
 }
 void ClassFile::printInterfaces() {
-	for (int i = 1; i < interfaces_count; i++) {
-		std::cout << "\t#" << i << std::endl;
+	for (int i = 0; i < interfaces_count; i++) {
+		std::cout << "\t#" << i << ":" << interfaces[i] << std::endl;
 	}
 }
 
