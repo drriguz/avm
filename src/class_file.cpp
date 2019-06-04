@@ -22,7 +22,7 @@ void ClassFile::printConstantPool() {
 	for (int i = 1; i < constant_pool_count; i++) {
 		ConstantInfo info = constant_pool[i];
 
-		std::cout << "#" << i << ":" << info.tag << std::endl;
+		std::cout << "\t#" << i << ":" << info.tag << std::endl;
 	}
 }
 void ClassFile::verbose() {
@@ -32,7 +32,7 @@ void ClassFile::verbose() {
 			<< "constant_pool_count:" << this->constant_pool_count << std::endl;
 	printConstantPool();
 	std::string accessFlags;
-	getAccessFlags(this->access_flags, accessFlags);
+	AccessFlags::getAccessFlags(this->access_flags, accessFlags);
 	std::cout << "access_flags:" << accessFlags << std::endl << "this_class:"
 			<< this->this_class << std::endl << "super_class:"
 			<< this->super_class << std::endl;

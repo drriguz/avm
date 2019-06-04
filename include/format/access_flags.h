@@ -13,23 +13,34 @@
 #define ACC_ANNOTATION	0x2000
 #define ACC_ENUM	    0x4000
 
-inline void getAccessFlags(const u2& flags, std::string& names) {
-	if (flags & ACC_PUBLIC)
-		names += "ACC_PUBLIC,";
-	if (flags & ACC_FINAL)
-		names += "ACC_FINAL,";
-	if (flags & ACC_SUPER)
-		names += "ACC_SUPER,";
-	if (flags & ACC_INTERFACE)
-		names += "ACC_INTERFACE,";
-	if (flags & ACC_ABSTRACT)
-		names += "ACC_ABSTRACT,";
-	if (flags & ACC_SYNTHETIC)
-		names += "ACC_SYNTHETIC,";
-	if (flags & ACC_ANNOTATION)
-		names += "ACC_ANNOTATION,";
-	if (flags & ACC_ENUM)
-		names += "ACC_ENUM,";
+namespace avm {
+class AccessFlags {
+public:
+	static void getAccessFlags(const u2& flags, std::string& names) {
+		if (flags & ACC_PUBLIC)
+			append("ACC_PUBLIC", names);
+		if (flags & ACC_FINAL)
+			append("ACC_FINAL", names);
+		if (flags & ACC_SUPER)
+			append("ACC_SUPER", names);
+		if (flags & ACC_INTERFACE)
+			append("ACC_INTERFACE", names);
+		if (flags & ACC_ABSTRACT)
+			append("ACC_ABSTRACT", names);
+		if (flags & ACC_SYNTHETIC)
+			append("ACC_SYNTHETIC", names);
+		if (flags & ACC_ANNOTATION)
+			append("ACC_ANNOTATION", names);
+		if (flags & ACC_ENUM)
+			append("ACC_ENUM", names);
+	}
+private:
+	static void append(const std::string&name, std::string& names) {
+		if (!names.empty())
+			names += "|";
+		names += name;
+	}
+};
 }
 
 #endif

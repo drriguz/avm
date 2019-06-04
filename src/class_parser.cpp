@@ -99,7 +99,6 @@ ConstantInfo* ClassParser::readConstant(const ConstantTypes& type) {
 		readU2(&utf8Info.length);
 		utf8Info.ensureStringBuffer();
 		in.read(reinterpret_cast<char *>(utf8Info.bytes), utf8Info.length);
-		std::cout << utf8Info.bytes << std::endl;
 		return new ConstantInfo { type, (u1*) &utf8Info };
 	}
 	case MethodHandle: {
