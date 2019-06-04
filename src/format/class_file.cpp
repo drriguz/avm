@@ -1,7 +1,7 @@
 #include "format/class_file.h"
 #include "format/access_flags.h"
-#include "format/constant_printer.h"
 #include <iostream>
+#include "format/constant_visitor.h"
 
 using namespace avm;
 
@@ -30,8 +30,8 @@ void ClassFile::ensureInterfaces() {
 }
 
 void ClassFile::printConstantPool() {
-	ConstantPrinter printer(constant_pool_count, constant_pool);
-	printer.verbose();
+	ConstantVisitor visitor(constant_pool_count, constant_pool);
+	visitor.verbose();
 }
 void ClassFile::printInterfaces() {
 	for (int i = 0; i < interfaces_count; i++) {

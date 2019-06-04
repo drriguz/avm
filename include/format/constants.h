@@ -26,7 +26,7 @@ enum ConstantTypes {
 class ConstantInfo {
 	friend class ClassParser;
 	friend class ClassFile;
-	friend class ConstantPrinter;
+	friend class ConstantVisitor;
 public:
 	ConstantInfo() :
 			tag(), info(nullptr) {
@@ -55,7 +55,7 @@ struct ConstantFieldref {
 struct ConstantMethodref {
 	u2 class_index;
 	u2 name_and_type_index;
-	std::string toString() {
+	std::string toString() const {
 		return "#" + std::to_string(class_index) + ".#"
 				+ std::to_string(name_and_type_index);
 	}
@@ -95,7 +95,7 @@ struct ConstantNameAndType {
 
 class ConstantUtf8 {
 	friend class ClassParser;
-	friend class ConstantPrinter;
+	friend class ConstantVisitor;
 public:
 	ConstantUtf8() :
 			length(0), bytes(nullptr) {
@@ -108,7 +108,7 @@ public:
 	void ensureStringBuffer() {
 		if (bytes)
 			delete[] bytes;
-		bytes = new u1[length];
+		bytes = new u1[length + 1];
 	}
 private:
 	u2 length;

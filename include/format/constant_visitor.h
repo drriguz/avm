@@ -8,14 +8,15 @@
 
 namespace avm {
 
-class ConstantPrinter {
+class ConstantVisitor {
 public:
-	ConstantPrinter(const u2&count, const ConstantInfo* pool);
-	~ConstantPrinter();
+	ConstantVisitor(const u2&count, const ConstantInfo* pool);
+	~ConstantVisitor();
 public:
 	void verbose();
 	void verbose(const ConstantTypes& type, const u1* info);
-	void verbose(const u2& utf8Id);
+
+	void visit(const u2& constantId, const ConstantTypes& expceted);
 private:
 	std::string getConstantTypeName(const ConstantTypes& type) const;
 private:
