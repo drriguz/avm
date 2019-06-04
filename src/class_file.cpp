@@ -1,4 +1,5 @@
 #include "format/class_file.h"
+#include "format/access_flags.h"
 #include <iostream>
 
 using namespace avm;
@@ -30,4 +31,10 @@ void ClassFile::verbose() {
 			<< "major_version:" << this->major_version << std::endl
 			<< "constant_pool_count:" << this->constant_pool_count << std::endl;
 	printConstantPool();
+	std::string accessFlags;
+	getAccessFlags(this->access_flags, accessFlags);
+	std::cout << "access_flags:" << accessFlags << std::endl << "this_class:"
+			<< this->this_class << std::endl << "super_class:"
+			<< this->super_class << std::endl;
+
 }

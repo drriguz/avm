@@ -30,6 +30,9 @@ ClassFile ClassParser::parse() {
 	readU2(&out.constant_pool_count);
 	out.ensureConstantPool();
 	readConstants(out.constant_pool_count, out.constant_pool);
+	readU2(&out.access_flags);
+	readU2(&out.this_class);
+	readU2(&out.super_class);
 	return out;
 }
 
@@ -96,6 +99,7 @@ ConstantInfo* ClassParser::readConstant(const ConstantTypes& type) {
 		readU2(&utf8Info.length);
 		utf8Info.ensureStringBuffer();
 		in.read(reinterpret_cast<char *>(utf8Info.bytes), utf8Info.length);
+		std::cout << utf8Info.bytes << std::endl;
 		return new ConstantInfo { type, (u1*) &utf8Info };
 	}
 	case MethodHandle: {
