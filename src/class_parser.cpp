@@ -39,6 +39,9 @@ ClassFile ClassParser::parse() {
 	readU2(&out.interfaces_count);
 	out.ensureInterfaces();
 	readInterfaces(out.interfaces_count, out.interfaces);
+	readU2(&out.fields_count);
+	out.ensureFields();
+	readFields(out.fields_count, out.fields);
 	return out;
 }
 
@@ -149,6 +152,21 @@ void ClassParser::readConstants(const u2& constant_pool_count,
 }
 
 void ClassParser::readInterfaces(const u2& interfaces_count, u2* out) {
-	if (!in.read(reinterpret_cast<char *>(out), interfaces_count * sizeof(u2)))
-		throw ReadFileException("Could not read interfaces");
+	for (int i = 0; i < interfaces_count; i++)
+		readU2(out);
+}
+
+void ClassParser::readFields(const u2& fields_count, FieldInfo* out) {
+	readU2(&out->access_flags);
+	readU2(&out->name_index);
+	readU2(&out->descriptor_index);
+	readU2(&out->attributes_count);
+
+	out->ensureAttributes();
+	for (int i = 0; i < out->attributes_count; i++) {
+		AttributeInfo* attribute = new AttributeInfo();
+		readU2(&attribute->attribute_name_index);
+		readU2(&attribute->attribute_length);
+		//&out->attributes[i] = attribute;
+	}
 }

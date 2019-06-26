@@ -4,6 +4,7 @@
 #include "format/types.h"
 #include "format/constants.h"
 #include "format/class_file.h"
+#include "format/field_info.h"
 #include "exceptions.h"
 
 #include <fstream>
@@ -20,6 +21,7 @@ private:
 	ConstantInfo* readConstant(const ConstantTypes& type);
 	void readInterfaces(const u2& interfaces_count, u2* out);
 	void readConstants(const u2& constant_pool_count, ConstantInfo* out);
+	void readFields(const u2& fields_count, FieldInfo* out);
 private:
 	inline void readU1(u1* out) {
 		if (!in.read(reinterpret_cast<char *>(out), sizeof(u1)))

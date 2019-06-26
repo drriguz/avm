@@ -8,6 +8,7 @@ LIBS =  -L3rd/spdlog
 APP_OBJS = main.cpp \
 		src/format/class_file.cpp \
 		src/format/constant_visitor.cpp \
+		src/format/field_info.cpp \
 		src/class_parser.cpp
 
 EXE = avm.bin

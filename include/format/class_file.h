@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "constants.h"
+#include "field_info.h"
 
 namespace avm {
 class ClassFile {
@@ -15,6 +16,7 @@ public:
 private:
 	void ensureConstantPool();
 	void ensureInterfaces();
+	void ensureFields();
 	void printConstantPool();
 	void printInterfaces();
 private:
@@ -28,6 +30,8 @@ private:
 	u2 super_class;
 	u2 interfaces_count;
 	u2* interfaces;
+	u2 fields_count;
+	FieldInfo* fields;
 };
 }
 

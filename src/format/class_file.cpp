@@ -29,13 +29,23 @@ void ClassFile::ensureInterfaces() {
 	interfaces = new u2[interfaces_count];
 }
 
+void ClassFile::ensureFields() {
+	if (fields)
+		delete[] fields;
+	fields = new FieldInfo[fields_count];
+}
+
 void ClassFile::printConstantPool() {
 	ConstantVisitor visitor(constant_pool_count, constant_pool);
 	visitor.verbose();
 }
 void ClassFile::printInterfaces() {
+	ConstantVisitor visitor(constant_pool_count, constant_pool);
 	for (int i = 0; i < interfaces_count; i++) {
-		std::cout << "\t#" << i << ":" << interfaces[i] << std::endl;
+		const u2 id = interfaces[i];
+		const auto utf8 = Class;
+		std::cout << "\t#" << i << ":" << id << "\t" << visitor.visit(id, &utf8)
+				<< std::endl;
 	}
 }
 
@@ -52,4 +62,5 @@ void ClassFile::verbose() {
 			<< this->super_class << std::endl;
 	std::cout << "interfaces_count:" << interfaces_count << std::endl;
 	printInterfaces();
+	std::cout << "fields_count:" << fields_count << std::endl;
 }
