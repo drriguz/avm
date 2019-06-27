@@ -112,7 +112,7 @@ std::string ConstantVisitor::visit(const u2& constantId,
 	}
 	case Float: {
 		const ConstantFloat* floatNum = (const ConstantFloat*) payload;
-		std::cout << "---" << std::to_string(floatNum->bytes) << std::endl;
+		std::cout << "---" << std::hex << floatNum->bytes << std::endl;
 		const int i = static_cast<int>(floatNum->bytes);
 		const float f = static_cast<float>(i);
 		//const int* f = reinterpret_cast<const float*>(floatNum->bytes);

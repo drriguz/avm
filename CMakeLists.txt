@@ -16,12 +16,31 @@ add_library(
   src/format/attribute_info.cpp
   src/format/constant_visitor.cpp
   src/format/field_info.cpp
+  src/utils/number_parser.cpp
 )
 
 find_library(
   SPDLOG_LIB
   spdlog
   3rd/spdlog
+)
+
+find_library(
+  GOOGLE_TEST_MAIN
+  gtest_main
+  3rd/googletest
+)
+
+find_library(
+  GOOGLE_TEST
+  gtest
+  3rd/googletest
+)
+
+find_library(
+  GOOGLE_MOCK
+  gmock
+  3rd/googletest
 )
 
 add_executable(avm main.cpp)
@@ -32,3 +51,18 @@ target_link_libraries(
   ${SPDLOG_LIB}
   class_parser
 )
+
+add_executable(avm_test test/number_parser_test.cpp)
+target_include_directories(
+  avm_test
+  PRIVATE
+  3rd/googletest/include
+)
+target_link_libraries(
+  avm_test
+  LINK_PUBLIC
+  class_parser
+  ${GOOGLE_TEST}
+  ${GOOGLE_TEST_MAIN}
+)
+
