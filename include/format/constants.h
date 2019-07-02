@@ -73,7 +73,7 @@ namespace avm {
 
 	struct ConstantFloat {
 		mutable u4 bytes;
-		float& getValue() const {
+		float &getValue() const {
 			return *reinterpret_cast<float *>(&bytes);
 		}
 	};
