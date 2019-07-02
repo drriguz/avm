@@ -16,7 +16,7 @@ add_library(
   src/format/attribute_info.cpp
   src/format/constant_visitor.cpp
   src/format/field_info.cpp
-  src/utils/number_parser.cpp
+  src/utils/ieee754.cpp
 )
 
 find_library(
@@ -52,7 +52,7 @@ target_link_libraries(
   class_parser
 )
 
-add_executable(avm_test test/number_parser_test.cpp)
+add_executable(avm_test test/ieee754_test.cpp)
 target_include_directories(
   avm_test
   PRIVATE
