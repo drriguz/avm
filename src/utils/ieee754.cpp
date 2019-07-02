@@ -16,13 +16,6 @@ inline void printBits(const long &raw, const int &width, char out[32 + 1], int s
   }
 }
 
-void IEEE754Helper::printBinary(long raw, int width) {
-  int k;
-  for (k = width - 1; k >= 0; k--) {
-    char it = ((raw >> k) & 1) ? '1' : '0';
-  }
-}
-
 void IEEE754Helper::print(const float &number, char result[32 + 1]) {
   IEEE754Float f;
   f.value = number;
@@ -33,5 +26,10 @@ void IEEE754Helper::print(const float &number, char result[32 + 1]) {
 }
 
 void IEEE754Helper::print(const double &number, char result[64 + 1]) {
-  return printBinary(number, 64);
+  IEEE754Double d;
+  d.value = number;
+  result[0] = convert(d.raw.sign);
+  printBits(d.raw.exponent, 11, result, 1);
+  printBits(d.raw.mantissa, 52, result, 12);
+  result[64] = '\0';
 }
