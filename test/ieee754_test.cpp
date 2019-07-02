@@ -24,16 +24,3 @@ TEST(IEEE754Helper, printDouble) {
     IEEE754Helper::print(3.14, result);
     ASSERT_STREQ("0100000000001001000111101011100001010001111010111000010100011111", result);
 }
-
-TEST(ConstantFloat, getFloatValue) {
-    ConstantFloat f1 = {0x4048f5c3};
-    ConstantFloat f2 = {0x3f800000};
-    ConstantFloat f3 = {0x40490fda};
-    ASSERT_EQ(3.14f, f1.getValue());
-    ASSERT_EQ(1.0f, f2.getValue());
-    ASSERT_EQ(3.1415926f, f3.getValue());
-}
-
-TEST(ConstantFloat, getDoubleValue) {
-    
-}

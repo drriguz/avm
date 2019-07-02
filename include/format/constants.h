@@ -79,8 +79,11 @@ namespace avm {
 	};
 
 	struct ConstantLong {
-		u4 high_bytes;
-		u4 low_bytes;
+		mutable u4 high_bytes;
+		mutable u4 low_bytes;
+		long getValue() const {
+			return ((long)high_bytes << 32) + low_bytes;
+		}
 	};
 
 	struct ConstantDouble {

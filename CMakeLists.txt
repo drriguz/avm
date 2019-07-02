@@ -52,7 +52,11 @@ target_link_libraries(
   class_parser
 )
 
-add_executable(avm_test test/ieee754_test.cpp)
+add_executable(
+    avm_test
+    test/ieee754_test.cpp
+    test/constants_test.cpp
+    )
 target_include_directories(
   avm_test
   PRIVATE
