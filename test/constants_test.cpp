@@ -20,3 +20,10 @@ TEST(Constants, getLongValue) {
     ASSERT_EQ(889089089011123213l, l1.getValue());
     ASSERT_EQ(28229l, l2.getValue());
 }
+
+TEST(Constants, getDoubleValue) {
+    ConstantDouble d1 = {0x40270000, 0x00000000};
+    ConstantDouble d2 = {0x419D6F34, 0x57F35BA8};
+    ASSERT_EQ(11.5, d1.getValue());
+    ASSERT_EQ(123456789.987654321, d2.getValue());
+}

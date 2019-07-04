@@ -108,11 +108,11 @@ std::string ConstantVisitor::visit(const u2 &constantId,
 	}
 	case Long: {
 		const ConstantLong *longNum = (const ConstantLong *)payload;
-		std::cout << std::hex << longNum->high_bytes << " " << longNum->low_bytes << std::endl;
-		return std::to_string(longNum->high_bytes);
+		return std::to_string(longNum->getValue());
 	}
 	case Double: {
-		break;
+		const ConstantDouble *doubleNum = (const ConstantDouble *)payload;
+		return std::to_string(doubleNum->getValue());
 	}
 	case NameAndType: {
 		const ConstantNameAndType *nameAndType =
@@ -130,6 +130,7 @@ std::string ConstantVisitor::visit(const u2 &constantId,
 	case InvokeDynamic:
 		break;
 	default:
-		return "";
+		break;
 	}
+	return "";
 }

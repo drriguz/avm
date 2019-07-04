@@ -5,7 +5,7 @@ public class Complex implements Serializable {
     private static final String message = "你好!";
     private static final int age = 99;
     private static final long length = 28229;
-    private static final double balance = 11.5d;
+    private static final double balance = 123456789.987654321d;
     private static final float f1 = 0.8f;
     private static final float f2 = 0.9f;
     private static final float f3 = 1.0f;
