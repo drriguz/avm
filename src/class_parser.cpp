@@ -167,6 +167,5 @@ void ClassParser::readFields(const u2& fields_count, FieldInfo* out) {
 		AttributeInfo* attribute = new AttributeInfo();
 		readU2(&attribute->attribute_name_index);
 		readU2(&attribute->attribute_length);
-		//&out->attributes[i] = attribute;
 	}
 }
