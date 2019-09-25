@@ -56,7 +56,22 @@ add_executable(
     avm_test
     test/ieee754_test.cpp
     test/constants_test.cpp
+    test/class_parser_test.cpp
     )
+
+file(
+    GLOB
+    TEST_RESOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/test/resources
+    )
+
+file(
+    COPY
+    ${TEST_RESOURCES}
+    DESTINATION
+    ${CMAKE_CURRENT_BINARY_DIR}
+    )
+
 target_include_directories(
   avm_test
   PRIVATE
