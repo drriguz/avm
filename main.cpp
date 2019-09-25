@@ -11,11 +11,13 @@ int main(int argc, char *argv[]) {
 	spdlog::set_level(spdlog::level::debug);
 	spdlog::info("Java class parser v{}", 0.1f);
 
-	avm::ClassParser parser("test/Complex.class");
+	avm::ClassParser parser("test/resources/Complex.class");
 
 	try {
-		ClassFile parsed = parser.parse();
-		parsed.verbose();
+		ClassFile* parsed = parser.parse();
+		parsed->verbose();
+		spdlog::info(parsed->getMajorVersion());
+		delete parsed;
 	} catch (RuntimeException& ex) {
 		spdlog::error(ex.what());
 	}

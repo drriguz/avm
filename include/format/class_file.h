@@ -13,9 +13,9 @@ public:
 	virtual ~ClassFile();
 public:
 	void verbose();
-	u4 getMagic() const { return magic; }
-	u2 getMinorVersion() const { return minor_version; }
-	u2 getMajorVersion() const { return major_version; }
+	const u4& getMagic() const { return magic; }
+	const u2& getMinorVersion() const { return minor_version; }
+	const u2& getMajorVersion() const { return major_version; }
 private:
 	void ensureConstantPool();
 	void ensureInterfaces();

@@ -16,7 +16,7 @@ public:
 	ClassParser(const char* file);
 	virtual ~ClassParser();
 public:
-	ClassFile parse();
+	ClassFile* parse();
 private:
 	ConstantInfo* readConstant(const ConstantTypes& type);
 	void readInterfaces(const u2& interfaces_count, u2* out);
