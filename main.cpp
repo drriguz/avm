@@ -14,13 +14,12 @@ int main(int argc, char *argv[]) {
 	avm::ClassParser parser("test/resources/Complex.class");
 
 	try {
-		ClassFile* parsed = parser.parse();
-		parsed->verbose();
-		spdlog::info(parsed->getMajorVersion());
-		delete parsed;
-	} catch (RuntimeException& ex) {
+		ClassFile parsed = parser.parse();
+		parsed.verbose();
+		spdlog::info(parsed.getMajorVersion());
+	} catch (RuntimeException &ex) {
 		spdlog::error(ex.what());
 	}
-	
+
 	return 1;
 }

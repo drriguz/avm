@@ -21,30 +21,36 @@ ClassParser::~ClassParser() {
 		in.close();
 }
 
-ClassFile* ClassParser::parse() {
+ClassFile ClassParser::parse() {
 	in.clear();
 	in.seekg(std::ios::beg);
-	
-	ClassFile* out = new ClassFile();
-	readU4(&out->magic);
-	readU2(&out->minor_version);
-	readU2(&out->major_version);
-	readU2(&out->constant_pool_count);
-	spdlog::debug("Parsing constant pool:size={}", out->constant_pool_count);
-	out->ensureConstantPool();
-	
-	readConstants(out->constant_pool_count, out->constant_pool);
-	readU2(&out->access_flags);
-	readU2(&out->this_class);
-	readU2(&out->super_class);
-	readU2(&out->interfaces_count);
-	
-	out->ensureInterfaces();
-	readInterfaces(out->interfaces_count, out->interfaces);
-	readU2(&out->fields_count);
-	
-	out->ensureFields();	
-	readFields(out->fields_count, out->fields);
+
+	ClassFile out;
+	try {
+		readU4(&out.magic);
+		if (out.getMagic() != 0xCAFEBABE)
+			throw NotClassFileException("Not a class file format: magic not valid");
+	} catch (const ReadFileException &ex) {
+		throw NotClassFileException("Not a class file format:failed to read magic");
+	}
+	readU2(&out.minor_version);
+	readU2(&out.major_version);
+	readU2(&out.constant_pool_count);
+	spdlog::debug("Parsing constant pool:size={}", out.constant_pool_count);
+	out.ensureConstantPool();
+
+	readConstants(out.constant_pool_count, out.constant_pool);
+	readU2(&out.access_flags);
+	readU2(&out.this_class);
+	readU2(&out.super_class);
+	readU2(&out.interfaces_count);
+
+	out.ensureInterfaces();
+	readInterfaces(out.interfaces_count, out.interfaces);
+	readU2(&out.fields_count);
+
+	out.ensureFields();
+	readFields(out.fields_count, out.fields);
 	return out;
 }
 
