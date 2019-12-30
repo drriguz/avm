@@ -153,4 +153,17 @@ void JavaClassParser::readClassDescriptors(JavaClass &out) {
 
 void JavaClassParser::readFields(JavaClass &out) {
 	readU2(&out._fieldsCount);
+	out.initializeFields();
+	for (u2 i = 0; i < out._fieldsCount; i++) {
+		out._fields[i] = *(readField());
+	}
+}
+
+FieldInfo* JavaClassParser::readField() {
+	FieldInfo* field = new FieldInfo();
+	readU2(&field->_accessFlags);
+	readU2(&field->_nameIndex);
+	readU2(&field->_descriptorIndex);
+	readU2(&field->_attributesCount);
+	return field;
 }

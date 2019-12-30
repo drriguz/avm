@@ -35,21 +35,30 @@ JavaClass::~JavaClass(){
 }
 
 void JavaClass::initializeConstantPool() {
-	if(_constantPool)
+	if(_constantPool){
 		delete[] _constantPool;
-	_constantPool = new ConstantInfo[_constantPoolCount];
+		_constantPool = nullptr;
+	}
+	if(_constantPoolCount > 0)
+		_constantPool = new ConstantInfo[_constantPoolCount];
 }
 
 void JavaClass::initializeInterfaces() {
-	if(_interfaces)
+	if(_interfaces) {
 		delete[] _interfaces;
-	_interfaces = new u2[_interfacesCount];
+		_interfaces = nullptr;
+	}
+	if(_interfacesCount>0)
+		_interfaces = new u2[_interfacesCount];
 }
 
 void JavaClass::initializeFields() {
-	if(_fields)
+	if(_fields) {
 		delete[] _fields;
-	_fields = new FieldInfo[_fieldsCount];
+		_fields = nullptr;
+	}
+	if(_fieldsCount > 0)
+		_fields = new FieldInfo[_fieldsCount];
 }
 
 const ConstantInfo* JavaClass::getConstantAt(const u2& index) const {

@@ -20,5 +20,8 @@ TEST(ClassParser, parseSimpleFields) {
 	ASSERT_TRUE(field->isPublic());
 	ASSERT_TRUE(field->isStatic());
 	ASSERT_FALSE(field->isEnum());
+
+	ASSERT_EQ(4, field->getNameIndex());
+	ASSERT_EQ(5, field->getDescriptorIndex());
 }
 

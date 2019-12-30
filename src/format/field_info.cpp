@@ -16,3 +16,12 @@ FieldInfo::~FieldInfo(){
 		_attributes = nullptr;
 	}
 }
+
+void FieldInfo::initializeAttributes() {
+	if(_attributes) {
+		delete[] _attributes;
+		_attributes = nullptr;
+	}
+	if(_attributesCount > 0)
+		_attributes = new AttributeInfo[_attributesCount];
+}

@@ -28,6 +28,8 @@ public:
 	inline bool isTransient() const { return _accessFlags & ACC_TRANSIENT; }
 	inline bool isSynthetic() const { return _accessFlags & ACC_SYNTHETIC; }
 	inline bool isEnum() const { return _accessFlags & ACC_ENUM; }
+private:
+	void initializeAttributes();
 protected:
 	u2 _accessFlags;
 	u2 _nameIndex;
