@@ -34,6 +34,12 @@ public:
 	NotClassFileException(const std::string &msg) : RuntimeException(msg) {
 	}
 };
+
+class ClassFormatException : public RuntimeException {
+public:
+	ClassFormatException(const std::string &msg) : RuntimeException(msg) {
+	}
+};
 }
 
 #endif

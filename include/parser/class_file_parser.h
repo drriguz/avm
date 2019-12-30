@@ -14,6 +14,7 @@ public:
 	virtual ~ClassFileParser();
 public:
 	virtual void reset();
+	virtual inline void read(char* buffer, unsigned int length);
 	virtual inline void readU1(u1* buffer);
 	virtual inline void readU2(u2* buffer);
 	virtual inline void readU4(u4* buffer);

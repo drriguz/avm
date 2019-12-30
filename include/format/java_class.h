@@ -17,8 +17,9 @@ public:
 	inline const u2& getMinorVersion() const { return _minorVersion; }
 	inline const u2& getMajorVersion() const { return _majorVersion; }
 	inline const u2& getConstantPoolCount() const { return _constantPoolCount; }
+	const ConstantInfo* getConstantAt(u2 index) const;
 private:
-	void ensureConstantPool();
+	void initializeConstantPool();
 private:
 	u4 _magic;
 	u2 _minorVersion;

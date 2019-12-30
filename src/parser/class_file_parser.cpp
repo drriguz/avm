@@ -22,6 +22,11 @@ void ClassFileParser::reset() {
 	_fileStream.seekg(0, std::ios::beg);
 }
 
+void ClassFileParser::read(char* buffer, unsigned int length){
+	if (!_fileStream.read(buffer, length))
+			throw ReadFileException("Could not read from file");
+}
+
 void ClassFileParser::readU1(u1* buffer) {
 	if (!_fileStream.read(reinterpret_cast<char *>(buffer), sizeof(u1)))
 		throw ReadFileException("Could not read u1");

@@ -3,6 +3,7 @@
 
 #include "format/types.h"
 #include "format/java_class.h"
+#include "format/constant_pool.h"
 
 namespace avm {
 
@@ -18,6 +19,7 @@ private:
 	ConstantInfo* readConstant(const ConstantType & type);
 protected:
 	virtual void reset()=0;
+	virtual void read(char* buffer, unsigned int length)=0;
 	virtual void readU1(u1* buffer)=0;
 	virtual void readU2(u2* buffer)=0;
 	virtual void readU4(u4* buffer)=0;

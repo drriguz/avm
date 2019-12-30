@@ -1,6 +1,7 @@
 package com.test;
 
-import java.util.function.Supplier;
+import java.util.*;
+import java.util.function.*;
 
 public class Constants {
     private final String str = "我能吞下玻璃而不伤身体";
@@ -12,4 +13,9 @@ public class Constants {
     private final double pi1 = 3.1415926535898d;
     
     private final Supplier<String> builder = () -> "hello world!";
+    private final List<String> words = new ArrayList<>();
+    
+    public void test() {
+        words.add("Hello");
+    }
 }
