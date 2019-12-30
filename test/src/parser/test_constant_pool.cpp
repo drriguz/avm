@@ -6,22 +6,6 @@
 
 using namespace avm;
 
-TEST(ClassParser, getMetaInfo) {
-	ClassFileParser parser("res/com/test/Simple.class");
-	const JavaClass javaClass = parser.parse();
-	ASSERT_EQ(0xCAFEBABE, javaClass.getMagic());
-	ASSERT_EQ(52, javaClass.getMajorVersion());
-	ASSERT_EQ(0, javaClass.getMinorVersion());
-}
-
-TEST(ClassParser, parseClassMultipleTimes) {
-	ClassFileParser parser("res/com/test/Simple.class");
-	parser.parse();
-	parser.parse();
-	const JavaClass javaClass = parser.parse();
-	ASSERT_EQ(0xCAFEBABE, javaClass.getMagic());
-}
-
 TEST(ClassParser, getConstants) {
 	ClassFileParser parser("res/com/test/Constants.class");
 	const JavaClass javaClass = parser.parse();
@@ -77,23 +61,4 @@ TEST(ClassParser, getConstants) {
 	ASSERT_EQ(63, c15->nameAndTypeIndex);
 }
 
-TEST(ClassParser, parseClassDescriptors) {
-	ClassFileParser parser("res/com/test/Simple.class");
-	const JavaClass javaClass = parser.parse();
-	ASSERT_TRUE(javaClass.isPublic());
-	ASSERT_TRUE(javaClass.isSuper());
-	ASSERT_FALSE(javaClass.isFinal());
-	ASSERT_FALSE(javaClass.isSynthetic());
 
-	ASSERT_EQ(2, javaClass.getThisClass());
-	ASSERT_EQ(3, javaClass.getSuperClass());
-}
-
-TEST(ClassParser, parseClassInterfaces) {
-	ClassFileParser parser("res/com/test/MultipleInterfaces.class");
-	const JavaClass javaClass = parser.parse();
-
-	ASSERT_EQ(2, javaClass.getInterfacesCount());
-	ASSERT_EQ(4, javaClass.getInterfaceAt(0));
-	ASSERT_EQ(5, javaClass.getInterfaceAt(1));
-}

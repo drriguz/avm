@@ -17,6 +17,7 @@ private:
 	void readHeader(JavaClass &out);
 	void readConstantPool(JavaClass &out);
 	void readClassDescriptors(JavaClass &out);
+	void readFields(JavaClass &out);
 	ConstantInfo* readConstant(const ConstantType & type);
 protected:
 	virtual void reset()=0;

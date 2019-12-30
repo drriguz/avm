@@ -13,7 +13,9 @@ JavaClass::JavaClass()
  _thisClass(0),
  _superClass(0),
  _interfacesCount(0),
- _interfaces(nullptr){
+ _interfaces(nullptr),
+ _fieldsCount(0),
+ _fields(nullptr){
 
 }
 
@@ -25,6 +27,10 @@ JavaClass::~JavaClass(){
 	if(_interfaces) {
 		delete[] _interfaces;
 		_interfaces = nullptr;
+	}
+	if(_fields) {
+		delete[] _fields;
+		_fields = nullptr;
 	}
 }
 
@@ -40,6 +46,12 @@ void JavaClass::initializeInterfaces() {
 	_interfaces = new u2[_interfacesCount];
 }
 
+void JavaClass::initializeFields() {
+	if(_fields)
+		delete[] _fields;
+	_fields = new FieldInfo[_fieldsCount];
+}
+
 const ConstantInfo* JavaClass::getConstantAt(const u2& index) const {
 	if((index < 0) || (index >= _constantPoolCount))
 		throw new RuntimeException("Index out of bound");
@@ -50,4 +62,10 @@ const u2& JavaClass::getInterfaceAt(const u2& index) const {
 	if((index < 0) || (index >= _interfacesCount))
 		throw new RuntimeException("Index out of bound");
 	return _interfaces[index];
+}
+
+const FieldInfo* JavaClass::getFieldAt(const u2& index) const {
+	if((index < 0) || (index >= _fieldsCount))
+		throw new RuntimeException("Index out of bound");
+	return &_fields[index];
 }

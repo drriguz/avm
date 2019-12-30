@@ -31,6 +31,7 @@ add_library(
 	SHARED
 	src/format/java_class.cpp
 	src/format/constant_pool.cpp
+	src/format/field_info.cpp
 	src/parser/java_class_parser.cpp
 	src/parser/class_file_parser.cpp
 )
@@ -38,8 +39,11 @@ add_library(
 add_executable(avm avm.cpp)
 
 add_executable(
-	avm_test
-	test/src/class_file_parser_test.cpp
+	unit_test
+	test/src/parser/test_base_info.cpp
+	test/src/parser/test_constant_pool.cpp
+	test/src/parser/test_interfaces.cpp
+	test/src/parser/test_fields.cpp
 )
 
 file(
@@ -63,7 +67,7 @@ add_custom_target(
 )
     
 target_include_directories(
-	avm_test
+	unit_test
 	PRIVATE
 	lib/googletest/include
 )
@@ -75,7 +79,7 @@ target_link_libraries(
 )
 
 target_link_libraries(
-    avm_test
+    unit_test
     LINK_PUBLIC
     java_class_parser
     ${GOOGLE_TEST}
