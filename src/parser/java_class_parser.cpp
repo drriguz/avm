@@ -135,5 +135,17 @@ JavaClass JavaClassParser::parse() {
 	readU2(&out._minorVersion);
 	readU2(&out._majorVersion);
 	readConstantPool(out);
+	readClassDescriptors(out);
 	return out;
+}
+
+void JavaClassParser::readClassDescriptors(JavaClass &out) {
+	readU2(&out._accessFlags);
+	readU2(&out._thisClass);
+	readU2(&out._superClass);
+	readU2(&out._interfacesCount);
+	out.initializeInterfaces();
+	for (u2 i = 0; i < out._interfacesCount; i++) {
+		readU2(&out._interfaces[i]);
+	}
 }
