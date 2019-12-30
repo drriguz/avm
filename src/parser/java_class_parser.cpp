@@ -27,6 +27,19 @@ void JavaClassParser::readHeader(JavaClass& out) {
 void JavaClassParser::readConstantPool(JavaClass& out) {
 	readU2(&out._constantPoolCount);
 	out.ensureConstantPool();
+
+}
+
+ConstantInfo* JavaClassParser::readConstant(const ConstantType & type) {
+	switch(type) {
+	case Class:
+		u2 tmp;
+		readU2(&tmp);
+		//ConstantClass * info = new ConstantClass(tmp);
+		//return new ConstantInfo{type, (u1*)info};
+	default:
+		break;
+	}
 }
 
 JavaClass JavaClassParser::parse() {

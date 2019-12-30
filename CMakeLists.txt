@@ -30,6 +30,9 @@ add_library(
 	java_class_parser
 	SHARED
 	src/format/java_class.cpp
+	src/format/constant_pool.cpp
+	src/format/constants/shared_constant_types.cpp
+	src/format/constants/constant_types.cpp
 	src/parser/java_class_parser.cpp
 	src/parser/class_file_parser.cpp
 )
