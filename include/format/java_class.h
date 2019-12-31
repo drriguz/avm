@@ -5,6 +5,7 @@
 #include "constant_pool.h"
 #include "access_flags.h"
 #include "field_info.h"
+#include "method_info.h"
 
 namespace avm {
 class JavaClassParser;
@@ -27,6 +28,8 @@ public:
 	const u2& getInterfaceAt(const u2& index) const;
 	inline const u2& getFieldsCount() const { return _fieldsCount; }
 	const FieldInfo* getFieldAt(const u2& index) const;
+	inline const u2& getMethodsCount() const { return _methodsCount; }
+	const MethodInfo* getMethodAt(const u2& index) const;
 public:
 	inline bool isPublic() const { return _accessFlags & ACC_PUBLIC; }
 	inline bool isFinal() const { return _accessFlags & ACC_FINAL; }
@@ -37,9 +40,14 @@ public:
 	inline bool isAnnotation() const { return _accessFlags & ACC_ANNOTATION; }
 	inline bool isEnum() const { return _accessFlags & ACC_ENUM; }
 private:
+	void clearConstantPool();
+	void clearInterfaces();
+	void clearFields();
+	void clearMethods();
 	void initializeConstantPool();
 	void initializeInterfaces();
 	void initializeFields();
+	void initializeMethods();
 private:
 	u4 _magic;
 	u2 _minorVersion;
@@ -53,6 +61,8 @@ private:
 	u2 *_interfaces;
 	u2 _fieldsCount;
 	FieldInfo* _fields;
+	u2 _methodsCount;
+	MethodInfo* _methods;
 };
 }
 

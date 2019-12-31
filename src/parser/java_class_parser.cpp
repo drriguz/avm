@@ -137,6 +137,7 @@ JavaClass JavaClassParser::parse() {
 	readConstantPool(out);
 	readClassDescriptors(out);
 	readFields(out);
+	readMethods(out);
 	return out;
 }
 
@@ -155,7 +156,15 @@ void JavaClassParser::readFields(JavaClass &out) {
 	readU2(&out._fieldsCount);
 	out.initializeFields();
 	for (u2 i = 0; i < out._fieldsCount; i++) {
-		out._fields[i] = *(readField());
+		out._fields[i] = *readField();
+	}
+}
+
+void JavaClassParser::readMethods(JavaClass &out) {
+	readU2(&out._methodsCount);
+	out.initializeMethods();
+	for (u2 i = 0; i < out._methodsCount; i++) {
+		out._methods[i] = *readMethod();
 	}
 }
 
@@ -165,5 +174,36 @@ FieldInfo* JavaClassParser::readField() {
 	readU2(&field->_nameIndex);
 	readU2(&field->_descriptorIndex);
 	readU2(&field->_attributesCount);
+
+	field->initializeAttributes();
+	for (u2 i = 0; i < field->_attributesCount; i++) {
+		field->_attributes[i] = *readAttribute();
+	}
 	return field;
+}
+
+MethodInfo* JavaClassParser::readMethod() {
+	MethodInfo* method = new MethodInfo();
+	readU2(&method->_accessFlags);
+	readU2(&method->_nameIndex);
+	readU2(&method->_descriptorIndex);
+	readU2(&method->_attributesCount);
+
+	method->initializeAttributes();
+	for (u2 i = 0; i < method->_attributesCount; i++) {
+		method->_attributes[i] = *readAttribute();
+	}
+	return method;
+}
+
+AttributeInfo* JavaClassParser::readAttribute() {
+	u2 attributeNameIndex;
+	u4 attributeLength;
+	readU2(&attributeNameIndex);
+	readU4(&attributeLength);
+
+	char* info = new char[attributeLength];
+
+	read(info, attributeLength);
+	return new AttributeInfo{attributeNameIndex, attributeLength, (u1*)info};
 }

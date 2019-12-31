@@ -7,7 +7,7 @@ using namespace avm;
 int main(int argc, char **argv) {
 	cout << "♩♪♫♬♭♮" << endl;
 
-	ClassFileParser parser("res/com/test/Constants.class");
+	ClassFileParser parser("res/com/test/SingleField.class");
 	const JavaClass javaClass = parser.parse();
 	const ConstantClass* info = (ConstantClass*)javaClass.getConstantAt(16)->info;
 	cout << info->nameIndex;

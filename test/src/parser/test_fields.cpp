@@ -25,3 +25,14 @@ TEST(ClassParser, parseSimpleFields) {
 	ASSERT_EQ(5, field->getDescriptorIndex());
 }
 
+
+TEST(ClassParser, parseFieldConstantValue) {
+	ClassFileParser parser1("res/com/test/SingleField.class");
+	const JavaClass javaClass1 = parser1.parse();
+	const FieldInfo* field = javaClass1.getFieldAt(0);
+
+	ASSERT_EQ(1, field->getAttributesCount());
+	const AttributeInfo* attr = field->getAttributeAt(0);
+	ASSERT_EQ(6, attr->attributeNameIndex);
+	ASSERT_EQ(2, attr->attributeLength);
+}

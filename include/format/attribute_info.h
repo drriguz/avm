@@ -8,7 +8,7 @@ namespace avm {
 
 struct AttributeInfo {
 	u2 attributeNameIndex;
-	u2 attributeLength;
+	u4 attributeLength;
 	u1* info;
 };
 

@@ -31,7 +31,9 @@ add_library(
 	SHARED
 	src/format/java_class.cpp
 	src/format/constant_pool.cpp
+	src/format/class_property.cpp
 	src/format/field_info.cpp
+	src/format/method_info.cpp
 	src/parser/java_class_parser.cpp
 	src/parser/class_file_parser.cpp
 )
@@ -44,6 +46,7 @@ add_executable(
 	test/src/parser/test_constant_pool.cpp
 	test/src/parser/test_interfaces.cpp
 	test/src/parser/test_fields.cpp
+	test/src/parser/test_methods.cpp
 )
 
 file(
@@ -59,9 +62,16 @@ file(
     ${CMAKE_CURRENT_BINARY_DIR}
 ) 
 
+#[[
+    Tested env:
+    java version "1.8.0_231"
+    Java(TM) SE Runtime Environment (build 1.8.0_231-b11)
+    Java HotSpot(TM) 64-Bit Server VM (build 25.231-b11, mixed mode)
+]]#
 add_custom_target(
     compiledTestClass
     ALL
+    
     COMMAND find ${CMAKE_CURRENT_BINARY_DIR}/res -name "*.java" -print | xargs javac
     COMMENT "Compiling java files..."
 )

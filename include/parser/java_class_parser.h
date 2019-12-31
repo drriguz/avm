@@ -5,6 +5,8 @@
 #include "format/java_class.h"
 #include "format/constant_pool.h"
 #include "format/field_info.h"
+#include "format/method_info.h"
+#include "format/attribute_info.h"
 
 namespace avm {
 
@@ -21,6 +23,9 @@ private:
 	void readFields(JavaClass &out);
 	ConstantInfo* readConstant(const ConstantType & type);
 	FieldInfo* readField();
+	AttributeInfo* readAttribute();
+	void readMethods(JavaClass &out);
+	MethodInfo* readMethod();
 protected:
 	virtual void reset()=0;
 	virtual void read(char* buffer, unsigned int length)=0;
