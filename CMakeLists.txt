@@ -34,8 +34,10 @@ add_library(
 	src/format/class_property.cpp
 	src/format/field_info.cpp
 	src/format/method_info.cpp
+	src/format/with_attributes.cpp
 	src/parser/java_class_parser.cpp
 	src/parser/class_file_parser.cpp
+	
 )
 
 add_executable(avm avm.cpp)

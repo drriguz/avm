@@ -26,6 +26,7 @@ private:
 	AttributeInfo* readAttribute();
 	void readMethods(JavaClass &out);
 	MethodInfo* readMethod();
+	void readAttributes(JavaClass &out);
 protected:
 	virtual void reset()=0;
 	virtual void read(char* buffer, unsigned int length)=0;

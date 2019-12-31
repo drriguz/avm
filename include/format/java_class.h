@@ -6,11 +6,12 @@
 #include "access_flags.h"
 #include "field_info.h"
 #include "method_info.h"
+#include "with_attributes.h"
 
 namespace avm {
 class JavaClassParser;
 
-class JavaClass {
+class JavaClass: public WithAttributes {
 	friend class JavaClassParser;
 public:
 	JavaClass();

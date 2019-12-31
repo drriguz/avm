@@ -138,6 +138,7 @@ JavaClass JavaClassParser::parse() {
 	readClassDescriptors(out);
 	readFields(out);
 	readMethods(out);
+	readAttributes(out);
 	return out;
 }
 
@@ -206,4 +207,12 @@ AttributeInfo* JavaClassParser::readAttribute() {
 
 	read(info, attributeLength);
 	return new AttributeInfo{attributeNameIndex, attributeLength, (u1*)info};
+}
+
+void JavaClassParser::readAttributes(JavaClass &out) {
+	readU2(&out._attributesCount);
+	out.initializeAttributes();
+	for (u2 i = 0; i < out._attributesCount; i++) {
+		out._attributes[i] = *readAttribute();
+	}
 }
