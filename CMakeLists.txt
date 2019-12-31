@@ -40,7 +40,7 @@ add_library(
 	
 )
 
-add_executable(avm avm.cpp)
+add_executable(guava src/main.cpp)
 
 add_executable(
 	unit_test
@@ -85,7 +85,7 @@ target_include_directories(
 )
 
 target_link_libraries(
-	avm
+	guava
 	LINK_PUBLIC
 	java_class_parser
 )
