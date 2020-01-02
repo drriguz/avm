@@ -37,7 +37,12 @@ add_library(
 	src/format/with_attributes.cpp
 	src/parser/java_class_parser.cpp
 	src/parser/class_file_parser.cpp
-	
+)
+
+add_library(
+    java_vm
+    SHARED
+    src/vm/jvm.cpp
 )
 
 add_executable(guava src/main.cpp)
@@ -88,12 +93,14 @@ target_link_libraries(
 	guava
 	LINK_PUBLIC
 	java_class_parser
+	java_vm
 )
 
 target_link_libraries(
     unit_test
     LINK_PUBLIC
     java_class_parser
+    java_vm
     ${GOOGLE_TEST}
     ${GOOGLE_TEST_MAIN}
 )
