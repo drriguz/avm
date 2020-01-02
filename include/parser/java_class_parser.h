@@ -21,11 +21,11 @@ private:
 	void readConstantPool(JavaClass &out);
 	void readClassDescriptors(JavaClass &out);
 	void readFields(JavaClass &out);
-	ConstantInfo* readConstant(const ConstantType & type);
-	FieldInfo* readField();
-	AttributeInfo* readAttribute();
+	void readConstant(const ConstantType & type, ConstantInfo& to);
+	void readField(FieldInfo &to);
+	void readAttribute(AttributeInfo& to);
 	void readMethods(JavaClass &out);
-	MethodInfo* readMethod();
+	void readMethod(MethodInfo& to);
 	void readAttributes(JavaClass &out);
 protected:
 	virtual void reset()=0;

@@ -10,7 +10,7 @@ void help() {
 	cout << "Usage:\n" << "guava -classpath <classpath> mainClass" << endl;
 }
 int main(int argc, char *argv[]) {
-	if(argc != 4) {
+	if(argc != 4 || string(argv[1]) != "-classpath") {
 		help();
 		return 1;
 	}

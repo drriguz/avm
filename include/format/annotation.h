@@ -27,7 +27,6 @@ struct ElementValuePair {
 };
 struct Annotation {
 	u2 typeIndex;
-	u2
 };
 }
 
