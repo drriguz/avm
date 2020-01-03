@@ -43,6 +43,8 @@ add_library(
     java_vm
     SHARED
     src/vm/jvm.cpp
+    src/vm/class_loader.cpp
+    src/vm/classpath_class_loader.cpp
 )
 
 add_executable(guava src/main.cpp)
@@ -54,6 +56,7 @@ add_executable(
 	test/src/parser/test_interfaces.cpp
 	test/src/parser/test_fields.cpp
 	test/src/parser/test_methods.cpp
+	test/src/vm/test_classpath_class_loader.cpp
 )
 
 file(
@@ -90,10 +93,16 @@ target_include_directories(
 )
 
 target_link_libraries(
-	guava
+	java_vm
 	LINK_PUBLIC
 	java_class_parser
-	java_vm
+)
+
+target_link_libraries(
+    guava
+    LINK_PUBLIC
+    java_class_parser
+    java_vm
 )
 
 target_link_libraries(

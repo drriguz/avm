@@ -9,7 +9,7 @@ ClassFileParser::ClassFileParser(const char* file){
 	_fileStream.open(file, std::fstream::in | std::fstream::binary);
 
 	if(!_fileStream.is_open())
-		throw FileOpenFailedException(file);
+		throw FileOpenFailedException("Could not open:" + std::string(file));
 
 }
 ClassFileParser::~ClassFileParser(){
