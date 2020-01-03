@@ -1,5 +1,6 @@
 #include "vm/classpath_class_loader.h"
 #include "parser/class_file_parser.h"
+#include "helper/strings.h"
 
 using namespace avm;
 
@@ -13,13 +14,7 @@ ClasspathClassLoader::~ClasspathClassLoader(){
 }
 
 std::string ClasspathClassLoader::getClassFilePath(const std::string& className) const {
-	std::string path = _classpath + "/" + className;
-	std::string::size_type i = path.find(".");
-	while(i != std::string::npos) {
-		path.replace(i, 1, "/");
-		i = path.find(".");
-	}
-	return path + ".class";
+	return _classpath + "/" + Strings::replaceAll(className, ".", "/") + ".class";
 }
 
 JavaClass ClasspathClassLoader::loadClass(const std::string& className) {

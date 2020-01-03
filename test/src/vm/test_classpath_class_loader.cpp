@@ -18,6 +18,7 @@ TEST(ClasspathClassLoader, parseClass) {
 
 TEST(ClasspathClassLoader, throwExceptionIfClassNotFound) {
 	ClasspathClassLoader loader("res");
-	EXPECT_THROW(JavaClass loaded = loader.loadClass("com.test.NotExist"), FileOpenFailedException);
+	EXPECT_THROW(JavaClass loaded = loader.loadClass("com.test.NotExist"),
+			FileOpenFailedException);
 }
 
