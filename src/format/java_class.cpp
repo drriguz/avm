@@ -1,6 +1,8 @@
 #include "format/java_class.h"
 #include "exceptions.h"
 
+#include <iostream>
+
 using namespace avm;
 
 JavaClass::JavaClass()

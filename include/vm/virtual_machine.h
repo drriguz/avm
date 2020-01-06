@@ -3,6 +3,10 @@
 
 #include <string>
 
+#include "class_loader.h"
+#include "classpath_class_loader.h"
+#include "method_area.h"
+
 namespace avm {
 
 class VirtualMachine {
@@ -14,6 +18,8 @@ public:
 protected:
 	std::string _classPath;
 	std::string _mainClass;
+	ClassLoader* _classLoader;
+	MethodArea* _methodArea;
 };
 }
 
