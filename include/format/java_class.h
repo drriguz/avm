@@ -15,6 +15,7 @@ class JavaClass: public WithAttributes {
 	friend class JavaClassParser;
 public:
 	JavaClass();
+	JavaClass(const JavaClass& p);
 	virtual ~JavaClass();
 public:
 	inline const u4& getMagic() const {return _magic; }

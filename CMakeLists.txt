@@ -35,6 +35,8 @@ add_library(
 	src/format/field_info.cpp
 	src/format/method_info.cpp
 	src/format/with_attributes.cpp
+	src/format/constant/utf8.cpp
+	src/format/constant/constant_info.cpp
 	src/parser/java_class_parser.cpp
 	src/parser/class_file_parser.cpp
 )
@@ -53,6 +55,10 @@ add_executable(guava src/main.cpp)
 
 add_executable(
 	unit_test
+	
+	test/src/format/constant/test_utf8.cpp
+	test/src/format/constant/test_constant_info.cpp
+	
 	test/src/parser/test_base_info.cpp
 	test/src/parser/test_constant_pool.cpp
 	test/src/parser/test_interfaces.cpp

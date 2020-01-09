@@ -2,6 +2,8 @@
 #include "exceptions.h"
 
 #include <iostream>
+#include <algorithm>
+#include <iterator>
 
 using namespace avm;
 
@@ -22,6 +24,29 @@ JavaClass::JavaClass()
  _methods(nullptr){
 
 }
+
+
+JavaClass::JavaClass(const JavaClass& p){
+	_magic = p._magic;
+	_minorVersion = p._minorVersion;
+	_majorVersion = p._majorVersion;
+	_constantPoolCount = p._constantPoolCount;
+	_constantPool = new ConstantInfo[_constantPoolCount];
+	std::copy_n(p._constantPool, _constantPoolCount, _constantPool);
+	_accessFlags = p._accessFlags;
+	_thisClass = p._thisClass;
+	_superClass = p._superClass;
+	_interfacesCount = p._interfacesCount;
+	_interfaces = new u2[_interfacesCount];
+	std::copy_n(p._interfaces, _interfacesCount, _interfaces);
+	_fieldsCount = p._fieldsCount;
+	_fields = new FieldInfo[_fieldsCount];
+	std::copy_n(p._fields, _fieldsCount, _fields);
+	_methodsCount = p._methodsCount;
+	_methods = new MethodInfo[_methodsCount];
+	std::copy_n(p._methods, _methodsCount, _methods);
+}
+
 
 JavaClass::~JavaClass(){
 	clearConstantPool();

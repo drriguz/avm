@@ -41,108 +41,109 @@ void JavaClassParser::readConstantPool(JavaClass& out) {
 }
 
 void JavaClassParser::readConstant(const ConstantType & type, ConstantInfo& to) {
-	u1* info;
 	switch(type) {
 	case Class:{
-		ConstantClass *classInfo = new ConstantClass();
-		readU2(&classInfo->nameIndex);
-		info = (u1 *)classInfo;
+		ConstantClass classInfo;
+		readU2(&classInfo.nameIndex);
+		to.initialize((u1*)&classInfo, sizeof(classInfo));
 		break;
 	}
 	case Fieldref: {
-		ConstantFieldref *fieldRefInfo = new ConstantFieldref();
-		readU2(&fieldRefInfo->classIndex);
-		readU2(&fieldRefInfo->nameAndTypeIndex);
-		info = (u1 *)fieldRefInfo;
+		ConstantFieldref fieldRefInfo;
+		readU2(&fieldRefInfo.classIndex);
+		readU2(&fieldRefInfo.nameAndTypeIndex);
+		to.initialize((u1*)&fieldRefInfo, sizeof(fieldRefInfo));
 		break;
 	}
 	case Methodref: {
-		ConstantMethodref *methodRefInfo = new ConstantMethodref();
-		readU2(&methodRefInfo->classIndex);
-		readU2(&methodRefInfo->nameAndTypeIndex);
-		info = (u1 *)methodRefInfo;
+		ConstantMethodref methodRefInfo;
+		readU2(&methodRefInfo.classIndex);
+		readU2(&methodRefInfo.nameAndTypeIndex);
+		to.initialize((u1*)&methodRefInfo, sizeof(methodRefInfo));
 		break;
 	}
 	case InterfaceMethodref: {
-		ConstantInterfaceMethodref *interfaceMethodref = new ConstantInterfaceMethodref();
-		readU2(&interfaceMethodref->classIndex);
-		readU2(&interfaceMethodref->nameAndTypeIndex);
-		info = (u1 *)interfaceMethodref;
+		ConstantInterfaceMethodref interfaceMethodref;
+		readU2(&interfaceMethodref.classIndex);
+		readU2(&interfaceMethodref.nameAndTypeIndex);
+		to.initialize((u1*)&interfaceMethodref, sizeof(interfaceMethodref));
 		break;
 	}
 	case String: {
-		ConstantString *stringInfo = new ConstantString();
-		readU2(&stringInfo->stringIndex);
-		info = (u1 *)stringInfo;
+		ConstantString stringInfo;
+		readU2(&stringInfo.stringIndex);
+		to.initialize((u1*)&stringInfo, sizeof(stringInfo));
 		break;
 	}
 	case Integer: {
-		ConstantInteger *integerInfo = new ConstantInteger();
-		readU4(&integerInfo->bytes);
-		info = (u1 *)integerInfo;
+		ConstantInteger integerInfo;
+		readU4(&integerInfo.bytes);
+		to.initialize((u1*)&integerInfo, sizeof(integerInfo));
 		break;
 	}
 	case Float: {
-		ConstantFloat *floatInfo = new ConstantFloat();
-		readU4(&floatInfo->bytes);
-		info = (u1 *)floatInfo;
+		ConstantFloat floatInfo;
+		readU4(&floatInfo.bytes);
+		to.initialize((u1*)&floatInfo, sizeof(floatInfo));
 		break;
 	}
 	case Long: {
-		ConstantLong *longInfo = new ConstantLong();
-		readU4(&longInfo->highBytes);
-		readU4(&longInfo->lowBytes);
-		info = (u1 *)longInfo;
+		ConstantLong longInfo;
+		readU4(&longInfo.highBytes);
+		readU4(&longInfo.lowBytes);
+		to.initialize((u1*)&longInfo, sizeof(longInfo));
 		break;
 	}
 	case Double: {
-		ConstantDouble *doubleInfo = new ConstantDouble();
-		readU4(&doubleInfo->highBytes);
-		readU4(&doubleInfo->lowBytes);
-		info = (u1 *)doubleInfo;
+		ConstantDouble doubleInfo;
+		readU4(&doubleInfo.highBytes);
+		readU4(&doubleInfo.lowBytes);
+		to.initialize((u1*)&doubleInfo, sizeof(doubleInfo));
 		break;
 	}
 	case NameAndType: {
-		ConstantNameAndType *nameAndTypeInfo = new ConstantNameAndType();
-		readU2(&nameAndTypeInfo->nameIndex);
-		readU2(&nameAndTypeInfo->descriptorIndex);
-		info = (u1 *)nameAndTypeInfo;
+		ConstantNameAndType nameAndTypeInfo;
+		readU2(&nameAndTypeInfo.nameIndex);
+		readU2(&nameAndTypeInfo.descriptorIndex);
+		to.initialize((u1*)&nameAndTypeInfo, sizeof(nameAndTypeInfo));
 		break;
 	}
 	case Utf8: {
-		ConstantUtf8 *utf8Info = new ConstantUtf8();
-		readU2(&utf8Info->length);
-		utf8Info->initializeStringBuffer();
-		read(reinterpret_cast<char *>(utf8Info->bytes), utf8Info->length);
-		utf8Info->bytes[utf8Info->length] = '\0';
-		info = (u1 *)utf8Info;
+		u2 length;
+		char* buffer;
+		readU2(&length);
+
+		buffer = new char[length + 1];
+		read(buffer, length);
+		buffer[length] = '\0';
+
+		ConstantUtf8 utf8Info(length, std::string(buffer));
+		to.initialize((u1*)&utf8Info, sizeof(utf8Info));
 		break;
 	}
 	case MethodHandle: {
-		ConstantMethodHandle *methodHandleInfo = new ConstantMethodHandle();
-		readU1(&methodHandleInfo->referenceKind);
-		readU2(&methodHandleInfo->referenceIndex);
-		info = (u1 *)methodHandleInfo;
+		ConstantMethodHandle methodHandleInfo;
+		readU1(&methodHandleInfo.referenceKind);
+		readU2(&methodHandleInfo.referenceIndex);
+		to.initialize((u1*)&methodHandleInfo, sizeof(methodHandleInfo));
 		break;
 	}
 	case MethodType: {
-		ConstantMethodType *methodTypeInfo = new ConstantMethodType;
-		readU2(&methodTypeInfo->descriptorIndex);
-		info = (u1 *)methodTypeInfo;
+		ConstantMethodType methodTypeInfo;
+		readU2(&methodTypeInfo.descriptorIndex);
+		to.initialize((u1*)&methodTypeInfo, sizeof(methodTypeInfo));
 		break;
 	}
 	case InvokeDynamic: {
-		ConstantInvokeDynamic *invokeDynamicInfo = new ConstantInvokeDynamic();
-		readU2(&invokeDynamicInfo->bootstrapMethodAttrIndex);
-		readU2(&invokeDynamicInfo->nameAndTypeIndex);
-		info = (u1 *)invokeDynamicInfo;
+		ConstantInvokeDynamic invokeDynamicInfo;
+		readU2(&invokeDynamicInfo.bootstrapMethodAttrIndex);
+		readU2(&invokeDynamicInfo.nameAndTypeIndex);
+		to.initialize((u1*)&invokeDynamicInfo, sizeof(invokeDynamicInfo));
 		break;
 	}
 	default:
 		throw ClassFormatException("Unknown constant type:" + std::to_string(type));
 	}
-	to.type = type;
-	to.info = info;
 }
 
 JavaClass JavaClassParser::parse() {
