@@ -12,7 +12,7 @@ public:
 	ClassLoader();
 	virtual ~ClassLoader();
 public:
-	virtual JavaClass loadClass(const std::string& className) = 0;
+	virtual void loadClass(const std::string& className, JavaClass& out) = 0;
 };
 }
 #endif

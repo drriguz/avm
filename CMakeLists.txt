@@ -40,6 +40,7 @@ add_library(
 	src/format/constant/ref.cpp
 	src/format/constant/string.cpp
 	src/format/constant/number.cpp
+	src/format/constant/name_and_type.cpp
 	src/format/constant/method_handle.cpp
 	src/format/constant/method_type.cpp
 	src/format/constant/invoke_dynamic.cpp

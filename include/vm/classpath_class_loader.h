@@ -12,7 +12,7 @@ public:
 	ClasspathClassLoader(const std::string& classpath);
 	virtual ~ClasspathClassLoader();
 public:
-	virtual JavaClass loadClass(const std::string& className);
+	virtual void loadClass(const std::string& className, JavaClass& out);
 private:
 	std::string getClassFilePath(const std::string& className) const;
 protected:

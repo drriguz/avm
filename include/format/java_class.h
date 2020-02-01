@@ -5,6 +5,7 @@
 #include <memory>
 
 #include "types.h"
+#include "constant_pool.h"
 #include "access_flags.h"
 #include "field_info.h"
 #include "method_info.h"
@@ -18,14 +19,12 @@ class JavaClass: public WithAttributes {
 	friend class JavaClassParser;
 public:
 	JavaClass();
-	JavaClass(const JavaClass& p);
 	virtual ~JavaClass();
 public:
 	inline const u4& getMagic() const {return _magic; }
 	inline const u2& getMinorVersion() const { return _minorVersion; }
 	inline const u2& getMajorVersion() const { return _majorVersion; }
 	inline const u2& getConstantPoolCount() const { return _constantPoolCount; }
-	//const ConstantInfo* getConstantAt(const u2& index) const;
 	inline const u2& getAccessFlags() const { return _accessFlags; }
 	inline const u2& getThisClass() const { return _thisClass; }
 	inline const u2& getSuperClass() const { return _superClass; }
@@ -45,22 +44,26 @@ public:
 	inline bool isAnnotation() const { return _accessFlags & ACC_ANNOTATION; }
 	inline bool isEnum() const { return _accessFlags & ACC_ENUM; }
 private:
-	void clearConstantPool();
 	void clearInterfaces();
 	void clearFields();
 	void clearMethods();
-	void initializeConstantPool();
 	void initializeInterfaces();
 	void initializeFields();
 	void initializeMethods();
+protected:
+	/*
+	 * allow copy & move only for children
+	 * https://stackoverflow.com/questions/8777724/store-derived-class-objects-in-base-class-variables
+	 */
+	JavaClass(JavaClass&&) = default;
+	JavaClass(const JavaClass&) = default;
+	JavaClass& operator=(const JavaClass&) = default;
 private:
 	u4 _magic;
 	u2 _minorVersion;
 	u2 _majorVersion;
 	u2 _constantPoolCount;
-
-	//std::vector<std::unique_ptr<Constant>>
-	//ConstantInfo* _constantPool;
+	std::vector<std::unique_ptr<ConstantInfo>> _constantPool;
 	u2 _accessFlags;
 	u2 _thisClass;
 	u2 _superClass;

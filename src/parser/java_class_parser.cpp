@@ -24,21 +24,66 @@ void JavaClassParser::readHeader(JavaClass& out) {
 	}
 }
 
-//void JavaClassParser::readConstantPool(JavaClass& out) {
-//	readU2(&out._constantPoolCount);
-//	out.initializeConstantPool();
-//	for (u2 i = 1; i < out._constantPoolCount; i++) {
-//		u1 tag;
-//		readU1(&tag);
-//		const ConstantType type = static_cast<ConstantType>(tag);
-//		readConstant(type, out._constantPool[i]);
-//		/*
-//		 * If a CONSTANT_Long_info or CONSTANT_Double_info structure is the item in the constant_pool table at index n, then the next usable item in the pool is located at index n+2. The constant_pool index n+1 must be valid but is considered unusable.
-//		 */
-//		if (type == Long || type == Double)
-//			i++;
-//	}
-//}
+void JavaClassParser::readConstantPool(JavaClass& out) {
+	readU2(&out._constantPoolCount);
+	out._constantPool.clear();
+	out._constantPool.reserve(out._constantPoolCount);
+	for (u2 i = 1; i < out._constantPoolCount; i++) {
+		u1 tag;
+		readU1(&tag);
+		const ConstantType type = static_cast<ConstantType>(tag);
+		out._constantPool[i] = std::unique_ptr<ConstantInfo>(readConstant(type));
+		/*
+		 * If a CONSTANT_Long_info or CONSTANT_Double_info structure is the item in the constant_pool table at index n, then the next usable item in the pool is located at index n+2. The constant_pool index n+1 must be valid but is considered unusable.
+		 */
+		if (type == Long || type == Double)
+			i++;
+	}
+}
+
+ConstantInfo* JavaClassParser::readConstant(const ConstantType & type){
+	switch(type) {
+	case Class:
+		return new ConstantClass(readU2());
+	case Fieldref:
+		return new ConstantFieldref(readU2(), readU2());
+	case Methodref:
+		return new ConstantMethodref(readU2(), readU2());
+	case InterfaceMethodref:
+		return new ConstantInterfaceMethodref(readU2(), readU2());
+	case String:
+		return new ConstantString(readU2());
+	case Integer:
+		return new ConstantInteger(readU4());
+	case Float:
+		return new ConstantFloat(readU4());
+	case Long:
+		return new ConstantLong(readU4(), readU4());
+	case Double:
+		return new ConstantDouble(readU4(), readU4());
+	case NameAndType:
+		return new ConstantNameAndType(readU2(), readU2());
+	case Utf8: {
+		u2 length;
+		char* buffer;
+		readU2(&length);
+
+		buffer = new char[length + 1];
+		read(buffer, length);
+		buffer[length] = '\0';
+
+		return new ConstantUtf8(length, std::string(buffer));
+	}
+	case MethodHandle:
+		return new ConstantMethodHandle(readU1(), readU2());
+	case MethodType:
+		return new ConstantMethodType(readU2());
+	case InvokeDynamic:
+		return new ConstantInvokeDynamic(readU2(), readU2());
+	default:
+		throw ClassFormatException("Unknown constant type:" + std::to_string(type));
+	}
+}
 
 //void JavaClassParser::readConstant(const ConstantType & type, ConstantInfo& to) {
 //	switch(type) {
@@ -146,9 +191,8 @@ void JavaClassParser::readHeader(JavaClass& out) {
 //	}
 //}
 
-JavaClass JavaClassParser::parse() {
+void JavaClassParser::parse(JavaClass& out) {
 	reset();
-	JavaClass out;
 	readHeader(out);
 	readU2(&out._minorVersion);
 	readU2(&out._majorVersion);
@@ -157,7 +201,6 @@ JavaClass JavaClassParser::parse() {
 	readFields(out);
 	readMethods(out);
 	readAttributes(out);
-	return out;
 }
 
 void JavaClassParser::readClassDescriptors(JavaClass &out) {

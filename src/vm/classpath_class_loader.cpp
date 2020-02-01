@@ -17,8 +17,8 @@ std::string ClasspathClassLoader::getClassFilePath(const std::string& className)
 	return _classpath + "/" + Strings::replaceAll(className, ".", "/") + ".class";
 }
 
-JavaClass ClasspathClassLoader::loadClass(const std::string& className) {
+void ClasspathClassLoader::loadClass(const std::string& className, JavaClass& out) {
 	const std::string file = getClassFilePath(className);
 	ClassFileParser parser(file.c_str());
-	return parser.parse();
+	parser.parse(out);
 }

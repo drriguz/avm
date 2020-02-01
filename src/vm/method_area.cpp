@@ -20,5 +20,5 @@ const JavaClass& MethodArea::getClass(const std::string& className) const{
 }
 
 void MethodArea::putClass(const std::string& className, const JavaClass& javaClass){
-	_classes[className] = javaClass;
+	//_classes[className] = javaClass;
 }

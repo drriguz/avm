@@ -15,7 +15,16 @@ public:
 public:
 	inline const ConstantType getType() const { return _type; }
 protected:
-	const ConstantType _type;
+	ConstantType _type;
+
+protected:
+	/*
+	 * allow copy & move only for children
+	 * https://stackoverflow.com/questions/8777724/store-derived-class-objects-in-base-class-variables
+	 */
+	ConstantInfo(ConstantInfo&&) = default;
+	ConstantInfo(const ConstantInfo&) = default;
+	ConstantInfo& operator=(const ConstantInfo&) = default;
 };
 
 }
