@@ -8,6 +8,16 @@
 
 namespace avm {
 
+class Constant {
+public:
+	Constant(const ConstantType& type);
+	virtual ~Constant();
+public:
+	inline const ConstantType getType() const { return _type; }
+protected:
+	const ConstantType _type;
+};
+
 class ConstantInfo {
 public:
 	ConstantInfo();

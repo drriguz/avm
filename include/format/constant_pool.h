@@ -8,6 +8,14 @@
 
 namespace avm {
 
+
+class CClass: public Constant {
+public:
+	CClass(const u2& nameIndex);
+private:
+	const u2 _nameIndex;
+};
+
 struct ConstantClass {
 	u2 nameIndex;
 };

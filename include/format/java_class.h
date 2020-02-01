@@ -1,12 +1,16 @@
 #ifndef _AVM_JAVA_CLASS_H_
 #define _AVM_JAVA_CLASS_H_
 
+#include <vector>
+#include <memory>
+
 #include "types.h"
 #include "constant_pool.h"
 #include "access_flags.h"
 #include "field_info.h"
 #include "method_info.h"
 #include "with_attributes.h"
+
 
 namespace avm {
 class JavaClassParser;
@@ -55,6 +59,7 @@ private:
 	u2 _minorVersion;
 	u2 _majorVersion;
 	u2 _constantPoolCount;
+
 	ConstantInfo* _constantPool;
 	u2 _accessFlags;
 	u2 _thisClass;

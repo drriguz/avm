@@ -57,6 +57,8 @@ add_executable(
 	unit_test
 	
 	test/src/format/constant/test_utf8.cpp
+	
+	#[[
 	test/src/format/constant/test_constant_info.cpp
 	
 	test/src/parser/test_base_info.cpp
@@ -69,6 +71,7 @@ add_executable(
 	
 	test/src/vm/test_classpath_class_loader.cpp
 	test/src/vm/test_method_area.cpp
+	]]#
 )
 
 file(

@@ -2,6 +2,15 @@
 
 using namespace avm;
 
+Constant::Constant(const ConstantType& type)
+:_type(type){
+
+}
+
+Constant::~Constant(){
+
+}
+
 ConstantInfo::ConstantInfo()
 :_type(Utf8), _size(0), _info(nullptr){
 
