@@ -5,7 +5,6 @@
 #include <memory>
 
 #include "types.h"
-#include "constant_pool.h"
 #include "access_flags.h"
 #include "field_info.h"
 #include "method_info.h"
@@ -26,7 +25,7 @@ public:
 	inline const u2& getMinorVersion() const { return _minorVersion; }
 	inline const u2& getMajorVersion() const { return _majorVersion; }
 	inline const u2& getConstantPoolCount() const { return _constantPoolCount; }
-	const ConstantInfo* getConstantAt(const u2& index) const;
+	//const ConstantInfo* getConstantAt(const u2& index) const;
 	inline const u2& getAccessFlags() const { return _accessFlags; }
 	inline const u2& getThisClass() const { return _thisClass; }
 	inline const u2& getSuperClass() const { return _superClass; }
@@ -60,7 +59,8 @@ private:
 	u2 _majorVersion;
 	u2 _constantPoolCount;
 
-	ConstantInfo* _constantPool;
+	//std::vector<std::unique_ptr<Constant>>
+	//ConstantInfo* _constantPool;
 	u2 _accessFlags;
 	u2 _thisClass;
 	u2 _superClass;

@@ -30,13 +30,19 @@ add_library(
 	java_class_parser
 	SHARED
 	src/format/java_class.cpp
-	src/format/constant_pool.cpp
 	src/format/class_property.cpp
 	src/format/field_info.cpp
 	src/format/method_info.cpp
 	src/format/with_attributes.cpp
-	src/format/constant/utf8.cpp
 	src/format/constant/constant_info.cpp
+	src/format/constant/utf8.cpp
+	src/format/constant/class.cpp
+	src/format/constant/ref.cpp
+	src/format/constant/string.cpp
+	src/format/constant/number.cpp
+	src/format/constant/method_handle.cpp
+	src/format/constant/method_type.cpp
+	src/format/constant/invoke_dynamic.cpp
 	src/parser/java_class_parser.cpp
 	src/parser/class_file_parser.cpp
 )

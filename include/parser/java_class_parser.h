@@ -3,7 +3,6 @@
 
 #include "format/types.h"
 #include "format/java_class.h"
-#include "format/constant_pool.h"
 #include "format/field_info.h"
 #include "format/method_info.h"
 #include "format/attribute_info.h"
@@ -18,10 +17,10 @@ public:
 	virtual JavaClass parse();
 private:
 	void readHeader(JavaClass &out);
-	void readConstantPool(JavaClass &out);
+	//void readConstantPool(JavaClass &out);
 	void readClassDescriptors(JavaClass &out);
 	void readFields(JavaClass &out);
-	void readConstant(const ConstantType & type, ConstantInfo& to);
+	//void readConstant(const ConstantType & type, ConstantInfo& to);
 	void readField(FieldInfo &to);
 	void readAttribute(AttributeInfo& to);
 	void readMethods(JavaClass &out);

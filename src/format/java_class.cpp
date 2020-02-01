@@ -12,7 +12,7 @@ JavaClass::JavaClass()
  _minorVersion(0),
  _majorVersion(0),
  _constantPoolCount(0),
- _constantPool(nullptr),
+ //_constantPool(nullptr),
  _accessFlags(0),
  _thisClass(0),
  _superClass(0),
@@ -31,8 +31,8 @@ JavaClass::JavaClass(const JavaClass& p){
 	_minorVersion = p._minorVersion;
 	_majorVersion = p._majorVersion;
 	_constantPoolCount = p._constantPoolCount;
-	_constantPool = new ConstantInfo[_constantPoolCount];
-	std::copy_n(p._constantPool, _constantPoolCount, _constantPool);
+//	_constantPool = new ConstantInfo[_constantPoolCount];
+//	std::copy_n(p._constantPool, _constantPoolCount, _constantPool);
 	_accessFlags = p._accessFlags;
 	_thisClass = p._thisClass;
 	_superClass = p._superClass;
@@ -57,10 +57,10 @@ JavaClass::~JavaClass(){
 
 
 void JavaClass::clearConstantPool(){
-	if(_constantPool){
-		delete[] _constantPool;
-		_constantPool = nullptr;
-	}
+//	if(_constantPool){
+//		delete[] _constantPool;
+//		_constantPool = nullptr;
+//	}
 }
 
 void JavaClass::clearInterfaces(){
@@ -86,8 +86,8 @@ void JavaClass::clearMethods(){
 
 void JavaClass::initializeConstantPool() {
 	clearConstantPool();
-	if(_constantPoolCount > 0)
-		_constantPool = new ConstantInfo[_constantPoolCount];
+//	if(_constantPoolCount > 0)
+//		_constantPool = new ConstantInfo[_constantPoolCount];
 }
 
 void JavaClass::initializeInterfaces() {
@@ -108,11 +108,11 @@ void JavaClass::initializeMethods() {
 		_methods = new MethodInfo[_methodsCount];
 }
 
-const ConstantInfo* JavaClass::getConstantAt(const u2& index) const {
-	if((index < 0) || (index >= _constantPoolCount))
-		throw new RuntimeException("Index out of bound");
-	return &_constantPool[index];
-}
+//const ConstantInfo* JavaClass::getConstantAt(const u2& index) const {
+//	if((index < 0) || (index >= _constantPoolCount))
+//		throw new RuntimeException("Index out of bound");
+//	return &_constantPool[index];
+//}
 
 const u2& JavaClass::getInterfaceAt(const u2& index) const {
 	if((index < 0) || (index >= _interfacesCount))
