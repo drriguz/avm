@@ -19,7 +19,8 @@ TEST(MethodArea, throwExceptionIfClassNotFound) {
 TEST(MethodArea, getClassIfClassFound) {
 	MethodArea methodArea;
 	ClassFileParser parser("res/com/test/Simple.class");
-	const JavaClass javaClass = parser.parse();
+	JavaClass javaClass;
+	parser.parse(javaClass);
 
 	methodArea.putClass("com.riguz.Simple", javaClass);
 	try{

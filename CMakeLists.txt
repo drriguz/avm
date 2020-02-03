@@ -66,16 +66,15 @@ add_executable(
 	test/src/format/constant/test_utf8.cpp
 	test/src/parser/test_base_info.cpp
 	test/src/parser/test_constant_pool.cpp
-	#[[
+
 	test/src/parser/test_interfaces.cpp
 	test/src/parser/test_fields.cpp
 	test/src/parser/test_methods.cpp
 	
 	test/src/helper/test_strings.cpp
 	
-	test/src/vm/test_classpath_class_loader.cpp
-	test/src/vm/test_method_area.cpp
-	]]#
+	# test/src/vm/test_classpath_class_loader.cpp
+	# test/src/vm/test_method_area.cpp
 )
 
 file(

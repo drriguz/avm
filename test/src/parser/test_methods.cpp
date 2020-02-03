@@ -8,7 +8,8 @@ using namespace avm;
 
 TEST(ClassParser, parseSimpleMethod) {
 	ClassFileParser parser1("res/com/test/SingleMethod.class");
-	const JavaClass javaClass1 = parser1.parse();
+	JavaClass javaClass1;
+	parser1.parse(javaClass1);
 	ASSERT_EQ(2, javaClass1.getMethodsCount());
 
 

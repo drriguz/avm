@@ -8,12 +8,14 @@ using namespace avm;
 
 TEST(ClassParser, parseSimpleFields) {
 	ClassFileParser parser("res/com/test/Simple.class");
-	const JavaClass javaClass = parser.parse();
+	JavaClass javaClass;
+	parser.parse(javaClass);
 
 	ASSERT_EQ(0, javaClass.getFieldsCount());
 
 	ClassFileParser parser1("res/com/test/SingleField.class");
-	const JavaClass javaClass1 = parser1.parse();
+	JavaClass javaClass1;
+	parser1.parse(javaClass1);
 
 	ASSERT_EQ(1, javaClass1.getFieldsCount());
 	const FieldInfo* field = javaClass1.getFieldAt(0);
@@ -28,7 +30,8 @@ TEST(ClassParser, parseSimpleFields) {
 
 TEST(ClassParser, parseFieldConstantValue) {
 	ClassFileParser parser1("res/com/test/SingleField.class");
-	const JavaClass javaClass1 = parser1.parse();
+	JavaClass javaClass1;
+	parser1.parse(javaClass1);
 	const FieldInfo* field = javaClass1.getFieldAt(0);
 
 	ASSERT_EQ(1, field->getAttributesCount());
