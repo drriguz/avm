@@ -64,12 +64,9 @@ add_executable(
 	unit_test
 	
 	test/src/format/constant/test_utf8.cpp
-	
-	#[[
-	test/src/format/constant/test_constant_info.cpp
-	
 	test/src/parser/test_base_info.cpp
 	test/src/parser/test_constant_pool.cpp
+	#[[
 	test/src/parser/test_interfaces.cpp
 	test/src/parser/test_fields.cpp
 	test/src/parser/test_methods.cpp

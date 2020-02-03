@@ -25,6 +25,7 @@ public:
 	inline const u2& getMinorVersion() const { return _minorVersion; }
 	inline const u2& getMajorVersion() const { return _majorVersion; }
 	inline const u2& getConstantPoolCount() const { return _constantPoolCount; }
+	const ConstantInfo* getConstantAt(const u2& index) const;
 	inline const u2& getAccessFlags() const { return _accessFlags; }
 	inline const u2& getThisClass() const { return _thisClass; }
 	inline const u2& getSuperClass() const { return _superClass; }

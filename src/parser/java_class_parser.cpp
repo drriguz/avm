@@ -27,17 +27,21 @@ void JavaClassParser::readHeader(JavaClass& out) {
 void JavaClassParser::readConstantPool(JavaClass& out) {
 	readU2(&out._constantPoolCount);
 	out._constantPool.clear();
-	out._constantPool.reserve(out._constantPoolCount);
+	out._constantPool.reserve(out._constantPoolCount + 1);
+	out._constantPool.push_back(std::unique_ptr<ConstantInfo>());
 	for (u2 i = 1; i < out._constantPoolCount; i++) {
 		u1 tag;
 		readU1(&tag);
 		const ConstantType type = static_cast<ConstantType>(tag);
-		out._constantPool[i] = std::unique_ptr<ConstantInfo>(readConstant(type));
+		ConstantInfo* info = readConstant(type);
+		out._constantPool.push_back(std::unique_ptr<ConstantInfo>(info));
 		/*
 		 * If a CONSTANT_Long_info or CONSTANT_Double_info structure is the item in the constant_pool table at index n, then the next usable item in the pool is located at index n+2. The constant_pool index n+1 must be valid but is considered unusable.
 		 */
-		if (type == Long || type == Double)
+		if (type == Long || type == Double){
+			out._constantPool.push_back(std::unique_ptr<ConstantInfo>());
 			i++;
+		}
 	}
 }
 
@@ -71,7 +75,6 @@ ConstantInfo* JavaClassParser::readConstant(const ConstantType & type){
 		buffer = new char[length + 1];
 		read(buffer, length);
 		buffer[length] = '\0';
-
 		return new ConstantUtf8(length, std::string(buffer));
 	}
 	case MethodHandle:
@@ -196,11 +199,11 @@ void JavaClassParser::parse(JavaClass& out) {
 	readHeader(out);
 	readU2(&out._minorVersion);
 	readU2(&out._majorVersion);
-	//readConstantPool(out);
+	readConstantPool(out);
 	readClassDescriptors(out);
-	readFields(out);
-	readMethods(out);
-	readAttributes(out);
+	//	readFields(out);
+	//	readMethods(out);
+	//	readAttributes(out);
 }
 
 void JavaClassParser::readClassDescriptors(JavaClass &out) {

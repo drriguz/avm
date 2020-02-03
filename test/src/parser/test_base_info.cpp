@@ -8,7 +8,8 @@ using namespace avm;
 
 TEST(ClassParser, getMetaInfo) {
 	ClassFileParser parser("res/com/test/Simple.class");
-	const JavaClass javaClass = parser.parse();
+	JavaClass javaClass;
+	parser.parse(javaClass);
 	ASSERT_EQ(0xCAFEBABE, javaClass.getMagic());
 	ASSERT_EQ(52, javaClass.getMajorVersion());
 	ASSERT_EQ(0, javaClass.getMinorVersion());
@@ -16,15 +17,17 @@ TEST(ClassParser, getMetaInfo) {
 
 TEST(ClassParser, parseClassMultipleTimes) {
 	ClassFileParser parser("res/com/test/Simple.class");
-	parser.parse();
-	parser.parse();
-	const JavaClass javaClass = parser.parse();
+	JavaClass javaClass;
+	parser.parse(javaClass);
+	parser.parse(javaClass);
+	parser.parse(javaClass);
 	ASSERT_EQ(0xCAFEBABE, javaClass.getMagic());
 }
 
 TEST(ClassParser, parseClassDescriptors) {
 	ClassFileParser parser("res/com/test/Simple.class");
-	const JavaClass javaClass = parser.parse();
+	JavaClass javaClass;
+	parser.parse(javaClass);
 	ASSERT_TRUE(javaClass.isPublic());
 	ASSERT_TRUE(javaClass.isSuper());
 	ASSERT_FALSE(javaClass.isFinal());

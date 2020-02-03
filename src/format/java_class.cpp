@@ -69,11 +69,11 @@ void JavaClass::initializeMethods() {
 		_methods = new MethodInfo[_methodsCount];
 }
 
-//const ConstantInfo* JavaClass::getConstantAt(const u2& index) const {
-//	if((index < 0) || (index >= _constantPoolCount))
-//		throw new RuntimeException("Index out of bound");
-//	return &_constantPool[index];
-//}
+const ConstantInfo* JavaClass::getConstantAt(const u2& index) const {
+	if((index < 0) || (index >= _constantPoolCount))
+		throw new RuntimeException("Index out of bound");
+	return _constantPool[index].get();
+}
 
 const u2& JavaClass::getInterfaceAt(const u2& index) const {
 	if((index < 0) || (index >= _interfacesCount))
