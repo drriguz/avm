@@ -84,7 +84,7 @@ ConstantInfo* JavaClassParser::readConstant(const ConstantType & type){
 	case InvokeDynamic:
 		return new ConstantInvokeDynamic(readU2(), readU2());
 	default:
-		throw ClassFormatException("Unknown constant type:" + std::to_string(type));
+		throw ClassFormatException("Unknown constant type:" + std::to_string((long long)type));
 	}
 }
 

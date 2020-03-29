@@ -3,6 +3,8 @@ cmake_minimum_required (VERSION 2.6)
 project (avm)
 
 set(CMAKE_CXX_STANDARD 11)
+set(GOOGLE_TEST_DIR lib/googletest-1.8.0)
+set(RUNTIME_LIBRARY_OPTION Mdd)
 
 include_directories(
 	include
@@ -11,13 +13,13 @@ include_directories(
 find_library(
     GOOGLE_TEST_MAIN
     gtest_main
-    lib/googletest
+    ${GOOGLE_TEST_DIR}/${RUNTIME_LIBRARY_OPTION}
 )
 
 find_library(
     GOOGLE_TEST
     gtest
-    lib/googletest
+    ${GOOGLE_TEST_DIR}/${RUNTIME_LIBRARY_OPTION}
 )
 
 find_library(
@@ -28,7 +30,7 @@ find_library(
 
 add_library(
 	java_class_parser
-	SHARED
+	STATIC
 	src/format/java_class.cpp
 	src/format/class_property.cpp
 	src/format/field_info.cpp
@@ -50,7 +52,7 @@ add_library(
 
 add_library(
     java_vm
-    SHARED
+    STATIC
     src/helper/strings.cpp
     src/vm/virtual_machine.cpp
     src/vm/method_area.cpp
@@ -107,8 +109,12 @@ add_custom_target(
 target_include_directories(
 	unit_test
 	PRIVATE
-	lib/googletest/include
+	${GOOGLE_TEST_DIR}/include
 )
+
+if(WIN32)
+	target_link_libraries(java_class_parser wsock32)
+endif()
 
 target_link_libraries(
 	java_vm

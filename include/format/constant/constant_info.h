@@ -22,9 +22,9 @@ protected:
 	 * allow copy & move only for children
 	 * https://stackoverflow.com/questions/8777724/store-derived-class-objects-in-base-class-variables
 	 */
-	ConstantInfo(ConstantInfo&&) = default;
-	ConstantInfo(const ConstantInfo&) = default;
-	ConstantInfo& operator=(const ConstantInfo&) = default;
+	ConstantInfo(ConstantInfo&&) {};
+	ConstantInfo(const ConstantInfo&) {};
+	ConstantInfo& operator=(const ConstantInfo&) {};
 };
 
 }

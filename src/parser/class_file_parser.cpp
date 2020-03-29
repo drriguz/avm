@@ -3,6 +3,10 @@
 
 #include <iostream>
 
+#ifdef _WIN32
+#include <winsock.h>
+#endif
+
 using namespace avm;
 
 ClassFileParser::ClassFileParser(const char* file){

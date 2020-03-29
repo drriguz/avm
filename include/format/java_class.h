@@ -56,9 +56,9 @@ protected:
 	 * allow copy & move only for children
 	 * https://stackoverflow.com/questions/8777724/store-derived-class-objects-in-base-class-variables
 	 */
-	JavaClass(JavaClass&&) = default;
-	JavaClass(const JavaClass&) = default;
-	JavaClass& operator=(const JavaClass&) = default;
+	JavaClass(JavaClass&&) {};
+	JavaClass(const JavaClass&) {};
+	JavaClass& operator=(const JavaClass&) {};
 private:
 	u4 _magic;
 	u2 _minorVersion;
