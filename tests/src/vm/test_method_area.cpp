@@ -16,6 +16,7 @@ TEST(MethodArea, throwExceptionIfClassNotFound) {
 			ClassNotFoundException);
 }
 
+/*
 TEST(MethodArea, getClassIfClassFound) {
 	MethodArea methodArea;
 	ClassFileParser parser("res/com/test/Simple.class");
@@ -34,3 +35,4 @@ TEST(MethodArea, getClassIfClassFound) {
 		FAIL() << err.what();
 	}
 }
+*/

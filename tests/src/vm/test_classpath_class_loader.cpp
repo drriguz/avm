@@ -10,7 +10,8 @@ using namespace avm;
 TEST(ClasspathClassLoader, parseClass) {
 	ClasspathClassLoader loader("res");
 	try{
-		JavaClass loaded = loader.loadClass("com.test.Simple");
+		JavaClass loaded;
+		loader.loadClass("com.test.Simple", loaded);
 	} catch (std::exception const & err) {
 		FAIL() << err.what();
 	}
@@ -18,7 +19,8 @@ TEST(ClasspathClassLoader, parseClass) {
 
 TEST(ClasspathClassLoader, throwExceptionIfClassNotFound) {
 	ClasspathClassLoader loader("res");
-	EXPECT_THROW(JavaClass loaded = loader.loadClass("com.test.NotExist"),
+	JavaClass loaded;
+	EXPECT_THROW(loader.loadClass("com.test.NotExist", loaded),
 			FileOpenFailedException);
 }
 

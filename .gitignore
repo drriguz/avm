@@ -4,3 +4,10 @@ build
 .cproject
 .idea
 cmake-build-debug
+Debug
+Release
+*.sdf
+*.opensdf
+ipch
+*.suo
+*.user
