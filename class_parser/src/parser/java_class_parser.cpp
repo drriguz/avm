@@ -49,24 +49,37 @@ ConstantInfo* JavaClassParser::readConstant(const ConstantType & type){
 	switch(type) {
 	case Class:
 		return new ConstantClass(readU2());
-	case Fieldref:
-		return new ConstantFieldref(readU2(), readU2());
-	case Methodref:
-		return new ConstantMethodref(readU2(), readU2());
+	case Fieldref: {
+			u2 classIndex = readU2(), nameAndTypeIndex = readU2();
+			return new ConstantFieldref(classIndex, nameAndTypeIndex);
+		}
+	case Methodref:{
+			u2 classIndex = readU2(), nameAndTypeIndex = readU2();
+			return new ConstantMethodref(classIndex, nameAndTypeIndex);
+		}
 	case InterfaceMethodref:
-		return new ConstantInterfaceMethodref(readU2(), readU2());
+		{
+			u2 classIndex = readU2(), nameAndTypeIndex = readU2();
+			return new ConstantInterfaceMethodref(classIndex, nameAndTypeIndex);
+		}
 	case String:
 		return new ConstantString(readU2());
 	case Integer:
 		return new ConstantInteger(readU4());
 	case Float:
 		return new ConstantFloat(readU4());
-	case Long:
-		return new ConstantLong(readU4(), readU4());
-	case Double:
-		return new ConstantDouble(readU4(), readU4());
-	case NameAndType:
-		return new ConstantNameAndType(readU2(), readU2());
+	case Long: {
+			u4 highBytes = readU4(), lowBytes = readU4();
+			return new ConstantLong(highBytes, lowBytes);
+		}
+	case Double: {
+			u4 highBytes = readU4(), lowBytes = readU4();
+			return new ConstantDouble(highBytes, lowBytes);
+		}
+	case NameAndType: {
+			u2 nameIndex = readU2(), descriptionIndex= readU2();
+			return new ConstantNameAndType(nameIndex, descriptionIndex);
+		}
 	case Utf8: {
 		u2 length;
 		char* buffer;
@@ -77,12 +90,17 @@ ConstantInfo* JavaClassParser::readConstant(const ConstantType & type){
 		buffer[length] = '\0';
 		return new ConstantUtf8(length, std::string(buffer));
 	}
-	case MethodHandle:
-		return new ConstantMethodHandle(readU1(), readU2());
+	case MethodHandle: {
+			u1 referenceKind = readU1();
+			u2 rererenceIndex = readU2();
+			return new ConstantMethodHandle(referenceKind, rererenceIndex);
+		}
 	case MethodType:
 		return new ConstantMethodType(readU2());
-	case InvokeDynamic:
-		return new ConstantInvokeDynamic(readU2(), readU2());
+	case InvokeDynamic: {
+			u2 bootstrapMethodAttrIndex = readU2(), nameAndTypeIndex= readU2();
+			return new ConstantInvokeDynamic(bootstrapMethodAttrIndex, nameAndTypeIndex);
+		}
 	default:
 		throw ClassFormatException("Unknown constant type:" + std::to_string((long long)type));
 	}

@@ -9,42 +9,31 @@
 
 using namespace avm;
 
-ClassFileParser::ClassFileParser(const char* file){
-	_fileStream.open(file, std::fstream::in | std::fstream::binary);
-
-	if(!_fileStream.is_open())
-		throw FileOpenFailedException("Could not open:" + std::string(file));
-
+ClassFileParser::ClassFileParser(const char* file)
+:_reader(file){
+	
 }
+
 ClassFileParser::~ClassFileParser(){
-	if(_fileStream.is_open())
-		_fileStream.close();
 }
 
 void ClassFileParser::reset() {
-	_fileStream.clear();
-	_fileStream.seekg(0, std::ios::beg);
+	_reader.reset();
 }
 
 void ClassFileParser::read(char* buffer, unsigned int length){
-	if (!_fileStream.read(buffer, length))
-			throw ReadFileException("Could not read from file");
+	_reader.read(buffer, length);
 }
 
 void ClassFileParser::readU1(u1* buffer) {
-	if (!_fileStream.read(reinterpret_cast<char *>(buffer), sizeof(u1)))
-		throw ReadFileException("Could not read u1");
+	_reader.readU1(buffer);
 }
 
 void ClassFileParser::readU2(u2* buffer) {
-	if (!_fileStream.read(reinterpret_cast<char *>(buffer), sizeof(u2)))
-		throw ReadFileException("Could not read u2");
-	*buffer = htons(*buffer);
+	_reader.readU2(buffer);
 }
 
 void ClassFileParser::readU4(u4* buffer) {
-	if (!_fileStream.read(reinterpret_cast<char *>(buffer), sizeof(u4)))
-		throw ReadFileException("Could not read u4");
-	*buffer = htonl(*buffer);
+	_reader.readU4(buffer);
 }
 

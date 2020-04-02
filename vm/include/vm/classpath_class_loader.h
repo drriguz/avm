@@ -16,7 +16,7 @@ public:
 private:
 	std::string getClassFilePath(const std::string& className) const;
 protected:
-	const std::string& _classpath;
+	const std::string _classpath;
 };
 }
 #endif

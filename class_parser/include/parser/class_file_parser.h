@@ -2,6 +2,7 @@
 #define _AVM_CLASS_FILE_PARSER_H_
 
 #include "format/java_class.h"
+#include "binary_reader.h"
 #include "java_class_parser.h"
 
 #include <fstream>
@@ -19,7 +20,7 @@ public:
 	virtual inline void readU2(u2* buffer);
 	virtual inline void readU4(u4* buffer);
 protected:
-	std::fstream _fileStream;
+	BinaryReader _reader;
 };
 }
 

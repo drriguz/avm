@@ -5,7 +5,7 @@
 using namespace avm;
 
 ClasspathClassLoader::ClasspathClassLoader(const std::string& classpath)
-:_classpath(classpath){
+	:_classpath(classpath){
 
 }
 
@@ -14,7 +14,10 @@ ClasspathClassLoader::~ClasspathClassLoader(){
 }
 
 std::string ClasspathClassLoader::getClassFilePath(const std::string& className) const {
-	return _classpath + "/" + Strings::replaceAll(className, ".", "/") + ".class";
+	std::string classFile = Strings::replaceAll(className, ".", "/") + ".class";
+	if(!_classpath.empty())
+		classFile = _classpath + "/" + classFile;
+	return classFile;
 }
 
 void ClasspathClassLoader::loadClass(const std::string& className, JavaClass& out) {

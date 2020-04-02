@@ -87,6 +87,7 @@
     <ClInclude Include="include\format\types.h" />
     <ClInclude Include="include\format\with_attributes.h" />
     <ClInclude Include="include\helper\strings.h" />
+    <ClInclude Include="include\parser\binary_reader.h" />
     <ClInclude Include="include\parser\class_file_parser.h" />
     <ClInclude Include="include\parser\java_class_parser.h" />
   </ItemGroup>
@@ -107,6 +108,7 @@
     <ClCompile Include="src\format\method_info.cpp" />
     <ClCompile Include="src\format\with_attributes.cpp" />
     <ClCompile Include="src\helper\strings.cpp" />
+    <ClCompile Include="src\parser\binary_reader.cpp" />
     <ClCompile Include="src\parser\class_file_parser.cpp" />
     <ClCompile Include="src\parser\java_class_parser.cpp" />
   </ItemGroup>
