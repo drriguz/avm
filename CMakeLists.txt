@@ -7,8 +7,8 @@ if(WIN32)
 	set(GOOGLE_TEST_DIR tests/lib/googletest-1.8.0)
 	set(GOOGLE_TEST_LIB_DIR tests/lib/googletest-1.8.0/mdd)
 else()
-	set(GOOGLE_TEST_DIR tests/lib/googletest)
-	set(GOOGLE_TEST_LIB_DIR tests/lib/googletest)
+	set(GOOGLE_TEST_DIR tests/lib/googletest-1.8.0)
+	set(GOOGLE_TEST_LIB_DIR tests/lib/googletest-1.8.0)
 endif()
 
 include_directories(
@@ -116,6 +116,17 @@ target_link_libraries(
     vm
 )
 
+
+if(UNIX)
+	target_link_libraries(
+		tests
+		LINK_PUBLIC
+		class_parser
+		vm
+		${GOOGLE_TEST}
+		${GOOGLE_TEST_MAIN}
+		pthread)
+else()
 target_link_libraries(
     tests
     LINK_PUBLIC
@@ -124,4 +135,4 @@ target_link_libraries(
     ${GOOGLE_TEST}
     ${GOOGLE_TEST_MAIN}
 )
-    
+endif()
