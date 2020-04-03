@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{FCADB87E-CD48-4094-BF28-8570B001D001}</ProjectGuid>
+    <RootNamespace>class_parser</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(ProjectDir)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>wsock32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="include\exceptions.h" />
+    <ClInclude Include="include\format\access_flags.h" />
+    <ClInclude Include="include\format\annotation.h" />
+    <ClInclude Include="include\format\attribute_info.h" />
+    <ClInclude Include="include\format\class_property.h" />
+    <ClInclude Include="include\format\constant\class.h" />
+    <ClInclude Include="include\format\constant\constant_info.h" />
+    <ClInclude Include="include\format\constant\constant_types.h" />
+    <ClInclude Include="include\format\constant\invoke_dynamic.h" />
+    <ClInclude Include="include\format\constant\method_handle.h" />
+    <ClInclude Include="include\format\constant\method_type.h" />
+    <ClInclude Include="include\format\constant\name_and_type.h" />
+    <ClInclude Include="include\format\constant\number.h" />
+    <ClInclude Include="include\format\constant\ref.h" />
+    <ClInclude Include="include\format\constant\string.h" />
+    <ClInclude Include="include\format\constant\utf8.h" />
+    <ClInclude Include="include\format\constant_pool.h" />
+    <ClInclude Include="include\format\exception_table.h" />
+    <ClInclude Include="include\format\field_info.h" />
+    <ClInclude Include="include\format\java_class.h" />
+    <ClInclude Include="include\format\method_info.h" />
+    <ClInclude Include="include\format\stack_map_frame.h" />
+    <ClInclude Include="include\format\types.h" />
+    <ClInclude Include="include\format\with_attributes.h" />
+    <ClInclude Include="include\helper\strings.h" />
+    <ClInclude Include="include\parser\binary_reader.h" />
+    <ClInclude Include="include\parser\class_file_parser.h" />
+    <ClInclude Include="include\parser\java_class_parser.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\format\class_property.cpp" />
+    <ClCompile Include="src\format\constant\class.cpp" />
+    <ClCompile Include="src\format\constant\constant_info.cpp" />
+    <ClCompile Include="src\format\constant\invoke_dynamic.cpp" />
+    <ClCompile Include="src\format\constant\method_handle.cpp" />
+    <ClCompile Include="src\format\constant\method_type.cpp" />
+    <ClCompile Include="src\format\constant\name_and_type.cpp" />
+    <ClCompile Include="src\format\constant\number.cpp" />
+    <ClCompile Include="src\format\constant\ref.cpp" />
+    <ClCompile Include="src\format\constant\string.cpp" />
+    <ClCompile Include="src\format\constant\utf8.cpp" />
+    <ClCompile Include="src\format\field_info.cpp" />
+    <ClCompile Include="src\format\java_class.cpp" />
+    <ClCompile Include="src\format\method_info.cpp" />
+    <ClCompile Include="src\format\with_attributes.cpp" />
+    <ClCompile Include="src\helper\strings.cpp" />
+    <ClCompile Include="src\parser\binary_reader.cpp" />
+    <ClCompile Include="src\parser\class_file_parser.cpp" />
+    <ClCompile Include="src\parser\java_class_parser.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -3,21 +3,69 @@ cmake_minimum_required (VERSION 2.6)
 project (avm)
 
 set(CMAKE_CXX_STANDARD 11)
+if(WIN32)
+	set(GOOGLE_TEST_DIR tests/lib/googletest-1.8.0)
+	set(GOOGLE_TEST_LIB_DIR tests/lib/googletest-1.8.0/mdd)
+else()
+	set(GOOGLE_TEST_DIR tests/lib/googletest)
+	set(GOOGLE_TEST_LIB_DIR tests/lib/googletest)
+endif()
 
 include_directories(
-	include
+	class_parser/include
+	vm/include
+)
+
+add_library(
+	class_parser
+	STATIC
+	class_parser/src/format/java_class.cpp
+	class_parser/src/format/class_property.cpp
+	class_parser/src/format/field_info.cpp
+	class_parser/src/format/method_info.cpp
+	class_parser/src/format/with_attributes.cpp
+	class_parser/src/format/constant/constant_info.cpp
+	class_parser/src/format/constant/utf8.cpp
+	class_parser/src/format/constant/class.cpp
+	class_parser/src/format/constant/ref.cpp
+	class_parser/src/format/constant/string.cpp
+	class_parser/src/format/constant/number.cpp
+	class_parser/src/format/constant/name_and_type.cpp
+	class_parser/src/format/constant/method_handle.cpp
+	class_parser/src/format/constant/method_type.cpp
+	class_parser/src/format/constant/invoke_dynamic.cpp
+	
+	class_parser/src/parser/binary_reader.cpp
+	class_parser/src/parser/java_class_parser.cpp
+	class_parser/src/parser/class_file_parser.cpp
+	
+	class_parser/src/helper/strings.cpp
+)
+
+add_library(
+    vm
+    STATIC
+    vm/src/virtual_machine.cpp
+    vm/src/method_area.cpp
+    vm/src/class_loader.cpp
+    vm/src/classpath_class_loader.cpp
+)
+
+add_executable(
+	avm_cli
+	avm_cli/main.cpp
 )
 
 find_library(
     GOOGLE_TEST_MAIN
     gtest_main
-    lib/googletest
+    ${GOOGLE_TEST_LIB_DIR}
 )
 
 find_library(
     GOOGLE_TEST
     gtest
-    lib/googletest
+    ${GOOGLE_TEST_LIB_DIR}
 )
 
 find_library(
@@ -26,108 +74,53 @@ find_library(
     lib/googletest
 )
 
-add_library(
-	java_class_parser
-	SHARED
-	src/format/java_class.cpp
-	src/format/class_property.cpp
-	src/format/field_info.cpp
-	src/format/method_info.cpp
-	src/format/with_attributes.cpp
-	src/format/constant/constant_info.cpp
-	src/format/constant/utf8.cpp
-	src/format/constant/class.cpp
-	src/format/constant/ref.cpp
-	src/format/constant/string.cpp
-	src/format/constant/number.cpp
-	src/format/constant/name_and_type.cpp
-	src/format/constant/method_handle.cpp
-	src/format/constant/method_type.cpp
-	src/format/constant/invoke_dynamic.cpp
-	src/parser/java_class_parser.cpp
-	src/parser/class_file_parser.cpp
-)
-
-add_library(
-    java_vm
-    SHARED
-    src/helper/strings.cpp
-    src/vm/virtual_machine.cpp
-    src/vm/method_area.cpp
-    src/vm/class_loader.cpp
-    src/vm/classpath_class_loader.cpp
-)
-
-add_executable(guava src/main.cpp)
-
 add_executable(
-	unit_test
+	tests
 	
-	test/src/format/constant/test_utf8.cpp
-	test/src/parser/test_base_info.cpp
-	test/src/parser/test_constant_pool.cpp
-
-	test/src/parser/test_interfaces.cpp
-	test/src/parser/test_fields.cpp
-	test/src/parser/test_methods.cpp
+	tests/src/format/constant/test_number.cpp
+	tests/src/format/constant/test_utf8.cpp
 	
-	test/src/helper/test_strings.cpp
+	tests/src/parser/test_binary_reader.cpp
+	tests/src/parser/test_base_info.cpp
+	tests/src/parser/test_constant_pool.cpp
+	tests/src/parser/test_interfaces.cpp
+	tests/src/parser/test_fields.cpp
+	tests/src/parser/test_methods.cpp
 	
-	# test/src/vm/test_classpath_class_loader.cpp
-	# test/src/vm/test_method_area.cpp
+	tests/src/helper/test_strings.cpp
+	
+	tests/src/vm/test_classpath_class_loader.cpp
+	tests/src/vm/test_method_area.cpp
 )
 
-file(
-	GLOB
-	TEST_RESOURCES
-	${CMAKE_CURRENT_SOURCE_DIR}/test/res
-)
-    
-file(
-    COPY
-    ${TEST_RESOURCES}
-    DESTINATION
-    ${CMAKE_CURRENT_BINARY_DIR}
-) 
-
-#[[
-    Tested env:
-    java version "1.8.0_231"
-    Java(TM) SE Runtime Environment (build 1.8.0_231-b11)
-    Java HotSpot(TM) 64-Bit Server VM (build 25.231-b11, mixed mode)
-]]#
-add_custom_target(
-    compiledTestClass
-    ALL
-    
-    COMMAND find ${CMAKE_CURRENT_BINARY_DIR}/res -name "*.java" -print | xargs javac
-    COMMENT "Compiling java files..."
-)
-    
 target_include_directories(
-	unit_test
+	tests
 	PRIVATE
-	lib/googletest/include
+	${GOOGLE_TEST_DIR}/include
 )
 
+if(WIN32)
+	target_link_libraries(class_parser wsock32)
+endif()
+
 target_link_libraries(
-	java_vm
+	vm
 	LINK_PUBLIC
-	java_class_parser
+	class_parser
 )
 
 target_link_libraries(
-    guava
+    avm_cli
     LINK_PUBLIC
-    java_class_parser
-    java_vm
+    class_parser
+    vm
 )
 
 target_link_libraries(
-    unit_test
+    tests
     LINK_PUBLIC
-    java_class_parser
-    java_vm
+    class_parser
+    vm
     ${GOOGLE_TEST}
     ${GOOGLE_TEST_MAIN}
 )
