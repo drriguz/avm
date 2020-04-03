@@ -4,7 +4,9 @@
 #include <iostream>
 
 #ifdef _WIN32
-#include <winsock.h>
+    #include <winsock.h>
+#elif  __linux__
+    #include <arpa/inet.h>
 #endif
 
 using namespace avm;
