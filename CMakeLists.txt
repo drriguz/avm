@@ -94,7 +94,7 @@ else()
 endif()
 
 if(UNIX)
-	target_link_libraries(tests LINK_PRIVATE class_parser vm pthread ${GOOGLE_TEST} ${GOOGLE_TEST_MAIN})
+	target_link_libraries(tests LINK_PRIVATE class_parser vm ${GOOGLE_TEST} ${GOOGLE_TEST_MAIN} pthread)
 elseif(MSVC)
 	target_link_libraries(tests LINK_PRIVATE class_parser vm
 		debug ${GOOGLE_TEST_DEBUG}      optimized ${GOOGLE_TEST_RELEASE}
