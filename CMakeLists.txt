@@ -75,6 +75,13 @@ add_executable(
 	tests/src/vm/test_method_area.cpp
 )
 
+add_custom_command(
+	TARGET tests POST_BUILD
+	COMMAND ${CMAKE_COMMAND} -E copy_directory 
+    ${CMAKE_CURRENT_SOURCE_DIR}/tests/res
+    ${CMAKE_CURRENT_BINARY_DIR}/res
+)
+
 target_include_directories(tests PRIVATE ${GOOGLE_TEST_DIR}/include)
 
 if(WIN32)
