@@ -44,6 +44,8 @@ public:
 	inline bool isSynthetic() const { return _accessFlags & ACC_SYNTHETIC; }
 	inline bool isAnnotation() const { return _accessFlags & ACC_ANNOTATION; }
 	inline bool isEnum() const { return _accessFlags & ACC_ENUM; }
+public:
+	const MethodInfo* getMethod(const std::string& name, const std::string& descriptor) const;
 private:
 	void clearInterfaces();
 	void clearFields();

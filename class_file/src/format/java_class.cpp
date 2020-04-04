@@ -99,3 +99,12 @@ const MethodInfo* JavaClass::getMethodAt(const u2& index) const {
 		throw new RuntimeException("Index out of bound");
 	return &_methods[index];
 }
+
+const MethodInfo* JavaClass::getMethod(const std::string& name, const std::string& descriptor) const {
+	for(int i = 0; i < _methodsCount; i++){
+		const MethodInfo& it = _methods[i];
+		if(it.getName() == name && it.getDescriptor() == descriptor)
+			return &it;
+	}
+	throw MethodNotFoundException(name + descriptor);
+}

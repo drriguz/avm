@@ -41,6 +41,11 @@ public:
 	}
 };
 
+class MethodNotFoundException : public RuntimeException {
+public:
+	MethodNotFoundException(const std::string &msg) : RuntimeException(msg) {
+	}
+};
 }
 
 #endif

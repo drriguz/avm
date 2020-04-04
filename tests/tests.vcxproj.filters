@@ -51,5 +51,8 @@
     <ClCompile Include="src\vm\test_virtual_machine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\format\test_java_class.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

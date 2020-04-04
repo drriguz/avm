@@ -71,6 +71,7 @@
   <ItemGroup>
     <ClCompile Include="src\format\constant\test_number.cpp" />
     <ClCompile Include="src\format\constant\test_utf8.cpp" />
+    <ClCompile Include="src\format\test_java_class.cpp" />
     <ClCompile Include="src\helper\test_strings.cpp" />
     <ClCompile Include="src\parser\test_base_info.cpp" />
     <ClCompile Include="src\parser\test_constant_pool.cpp" />

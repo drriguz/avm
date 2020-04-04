@@ -63,6 +63,7 @@ add_executable(
 	tests
 	tests/src/format/constant/test_number.cpp
 	tests/src/format/constant/test_utf8.cpp
+	tests/src/format/test_java_class.cpp
 	tests/src/parser/test_binary_reader.cpp
 	tests/src/parser/test_base_info.cpp
 	tests/src/parser/test_constant_pool.cpp
