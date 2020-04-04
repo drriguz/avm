@@ -1,5 +1,5 @@
-#include "parser/class_file_parser.h"
-#include "exceptions.h"
+#include "class_file/parser/class_file_parser.h"
+#include "class_file/exceptions.h"
 
 #include <iostream>
 

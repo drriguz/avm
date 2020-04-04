@@ -1,9 +1,9 @@
 #include "gtest/gtest.h"
 
 #include <iostream>
-#include "helper/strings.h"
+#include "class_file/helper/strings.h"
 
-#include "exceptions.h"
+#include "class_file/exceptions.h"
 
 using namespace avm;
 

@@ -1,7 +1,7 @@
 #ifndef _AVM_CLASS_FILE_PARSER_H_
 #define _AVM_CLASS_FILE_PARSER_H_
 
-#include "format/java_class.h"
+#include "class_file/format/java_class.h"
 #include "binary_reader.h"
 #include "java_class_parser.h"
 

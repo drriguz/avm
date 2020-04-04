@@ -1,6 +1,6 @@
 #include "vm/classpath_class_loader.h"
-#include "parser/class_file_parser.h"
-#include "helper/strings.h"
+#include "class_file/parser/class_file_parser.h"
+#include "class_file/helper/strings.h"
 
 using namespace avm;
 

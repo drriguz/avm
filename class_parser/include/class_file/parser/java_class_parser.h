@@ -1,11 +1,11 @@
 #ifndef _AVM_JAVA_CLASS_PARSER_H_
 #define _AVM_JAVA_CLASS_PARSER_H_
 
-#include "format/types.h"
-#include "format/java_class.h"
-#include "format/field_info.h"
-#include "format/method_info.h"
-#include "format/attribute_info.h"
+#include "class_file/format/types.h"
+#include "class_file/format/java_class.h"
+#include "class_file/format/field_info.h"
+#include "class_file/format/method_info.h"
+#include "class_file/format/attribute_info.h"
 
 namespace avm {
 

@@ -3,7 +3,7 @@
 #include <iostream>
 #include "vm/classpath_class_loader.h"
 
-#include "exceptions.h"
+#include "class_file/exceptions.h"
 
 using namespace avm;
 

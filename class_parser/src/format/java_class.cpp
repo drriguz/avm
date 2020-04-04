@@ -1,5 +1,5 @@
-#include "format/java_class.h"
-#include "exceptions.h"
+#include "class_file/format/java_class.h"
+#include "class_file/exceptions.h"
 
 #include <iostream>
 #include <algorithm>

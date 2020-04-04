@@ -2,7 +2,7 @@
 #define _AVM_BINARY_READER_H_
 
 #include <fstream>
-#include "format/types.h"
+#include "class_file/format/types.h"
 
 namespace avm {
 

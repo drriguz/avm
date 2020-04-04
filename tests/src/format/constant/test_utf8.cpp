@@ -1,9 +1,9 @@
 #include "gtest/gtest.h"
 
 #include <iostream>
-#include "format/constant/utf8.h"
+#include "class_file/format/constant/utf8.h"
 
-#include "exceptions.h"
+#include "class_file/exceptions.h"
 
 using namespace avm;
 

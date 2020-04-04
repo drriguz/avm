@@ -1,5 +1,5 @@
-#include "format/with_attributes.h"
-#include "exceptions.h"
+#include "class_file/format/with_attributes.h"
+#include "class_file/exceptions.h"
 
 using namespace avm;
 

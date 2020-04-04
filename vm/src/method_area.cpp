@@ -1,5 +1,5 @@
 #include "vm/method_area.h"
-#include "exceptions.h"
+#include "class_file/exceptions.h"
 
 using namespace avm;
 
@@ -11,14 +11,14 @@ MethodArea::~MethodArea() {
 
 }
 
-const JavaClass& MethodArea::getClass(const std::string& className) const{
+const JavaClass* MethodArea::getClass(const std::string& className) const{
 	try{
-		return _classes.at(className);
+		return _loadedClasses.at(className).get();
 	} catch(...) {
 		throw ClassNotFoundException(className);
 	}
 }
 
-void MethodArea::putClass(const std::string& className, const JavaClass& javaClass){
-	//_classes[className] = javaClass;
+void MethodArea::putClass(const std::string& className, JavaClass* javaClass){
+	_loadedClasses[className] = std::unique_ptr<JavaClass>(javaClass);
 }

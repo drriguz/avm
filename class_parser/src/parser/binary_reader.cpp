@@ -1,5 +1,5 @@
-#include "parser/binary_reader.h"
-#include "exceptions.h"
+#include "class_file/parser/binary_reader.h"
+#include "class_file/exceptions.h"
 
 #include <iostream>
 

@@ -1,5 +1,5 @@
-#include "format/class_property.h"
-#include "exceptions.h"
+#include "class_file/format/class_property.h"
+#include "class_file/exceptions.h"
 
 using namespace avm;
 

@@ -1,4 +1,4 @@
-#include "format/constant/constant_info.h"
+#include "class_file/format/constant/constant_info.h"
 
 using namespace avm;
 

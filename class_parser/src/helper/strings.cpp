@@ -1,4 +1,4 @@
-#include "helper/strings.h"
+#include "class_file/helper/strings.h"
 using namespace avm;
 
 Strings::Strings(){

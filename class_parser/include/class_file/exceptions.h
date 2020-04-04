@@ -1,5 +1,5 @@
-#ifndef _AVM_EXCEPTIONS_H_
-#define _AVM_EXCEPTIONS_H_
+#ifndef _AVM_CLASS_FILE_EXCEPTIONS_H_
+#define _AVM_CLASS_FILE_EXCEPTIONS_H_
 
 #include <exception>
 #include <string>

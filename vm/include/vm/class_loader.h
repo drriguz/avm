@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "format/java_class.h"
+#include "class_file/format/java_class.h"
 
 namespace avm {
 

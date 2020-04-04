@@ -1,5 +1,5 @@
-#include "parser/java_class_parser.h"
-#include "exceptions.h"
+#include "class_file/parser/java_class_parser.h"
+#include "class_file/exceptions.h"
 
 #include <iostream>
 

@@ -3,8 +3,9 @@
 
 #include <map>
 #include <string>
+#include <memory>
 
-#include "format/java_class.h"
+#include "class_file/format/java_class.h"
 
 namespace avm {
 
@@ -13,10 +14,10 @@ public:
 	MethodArea();
 	virtual ~MethodArea();
 public:
-	const JavaClass& getClass(const std::string& className) const;
-	void putClass(const std::string& className, const JavaClass& javaClass);
+	const JavaClass* getClass(const std::string& className) const;
+	void putClass(const std::string& className, JavaClass* javaClass);
 protected:
-	std::map<std::string, JavaClass> _classes;
+	std::map<std::string, std::unique_ptr<JavaClass>> _loadedClasses;
 };
 
 }

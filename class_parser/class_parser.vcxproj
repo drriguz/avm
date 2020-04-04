@@ -66,34 +66,34 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\exceptions.h" />
-    <ClInclude Include="include\format\access_flags.h" />
-    <ClInclude Include="include\format\annotation.h" />
-    <ClInclude Include="include\format\attribute_info.h" />
-    <ClInclude Include="include\format\class_property.h" />
-    <ClInclude Include="include\format\constant\class.h" />
-    <ClInclude Include="include\format\constant\constant_info.h" />
-    <ClInclude Include="include\format\constant\constant_types.h" />
-    <ClInclude Include="include\format\constant\invoke_dynamic.h" />
-    <ClInclude Include="include\format\constant\method_handle.h" />
-    <ClInclude Include="include\format\constant\method_type.h" />
-    <ClInclude Include="include\format\constant\name_and_type.h" />
-    <ClInclude Include="include\format\constant\number.h" />
-    <ClInclude Include="include\format\constant\ref.h" />
-    <ClInclude Include="include\format\constant\string.h" />
-    <ClInclude Include="include\format\constant\utf8.h" />
-    <ClInclude Include="include\format\constant_pool.h" />
-    <ClInclude Include="include\format\exception_table.h" />
-    <ClInclude Include="include\format\field_info.h" />
-    <ClInclude Include="include\format\java_class.h" />
-    <ClInclude Include="include\format\method_info.h" />
-    <ClInclude Include="include\format\stack_map_frame.h" />
-    <ClInclude Include="include\format\types.h" />
-    <ClInclude Include="include\format\with_attributes.h" />
-    <ClInclude Include="include\helper\strings.h" />
-    <ClInclude Include="include\parser\binary_reader.h" />
-    <ClInclude Include="include\parser\class_file_parser.h" />
-    <ClInclude Include="include\parser\java_class_parser.h" />
+    <ClInclude Include="include\class_file\exceptions.h" />
+    <ClInclude Include="include\class_file\format\access_flags.h" />
+    <ClInclude Include="include\class_file\format\annotation.h" />
+    <ClInclude Include="include\class_file\format\attribute_info.h" />
+    <ClInclude Include="include\class_file\format\class_property.h" />
+    <ClInclude Include="include\class_file\format\constant\class.h" />
+    <ClInclude Include="include\class_file\format\constant\constant_info.h" />
+    <ClInclude Include="include\class_file\format\constant\constant_types.h" />
+    <ClInclude Include="include\class_file\format\constant\invoke_dynamic.h" />
+    <ClInclude Include="include\class_file\format\constant\method_handle.h" />
+    <ClInclude Include="include\class_file\format\constant\method_type.h" />
+    <ClInclude Include="include\class_file\format\constant\name_and_type.h" />
+    <ClInclude Include="include\class_file\format\constant\number.h" />
+    <ClInclude Include="include\class_file\format\constant\ref.h" />
+    <ClInclude Include="include\class_file\format\constant\string.h" />
+    <ClInclude Include="include\class_file\format\constant\utf8.h" />
+    <ClInclude Include="include\class_file\format\constant_pool.h" />
+    <ClInclude Include="include\class_file\format\exception_table.h" />
+    <ClInclude Include="include\class_file\format\field_info.h" />
+    <ClInclude Include="include\class_file\format\java_class.h" />
+    <ClInclude Include="include\class_file\format\method_info.h" />
+    <ClInclude Include="include\class_file\format\stack_map_frame.h" />
+    <ClInclude Include="include\class_file\format\types.h" />
+    <ClInclude Include="include\class_file\format\with_attributes.h" />
+    <ClInclude Include="include\class_file\helper\strings.h" />
+    <ClInclude Include="include\class_file\parser\binary_reader.h" />
+    <ClInclude Include="include\class_file\parser\class_file_parser.h" />
+    <ClInclude Include="include\class_file\parser\java_class_parser.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\format\class_property.cpp" />
