@@ -17,6 +17,7 @@ VirtualMachine::~VirtualMachine() {
 
 void VirtualMachine::execute() {
 	const JavaClass* mainClass = getClass(_mainClass);
+	const MethodInfo* entry = mainClass->getMethod("main", "([Ljava/lang/String;)V");
 }
 
 const JavaClass* VirtualMachine::getClass(const std::string& className) const{
