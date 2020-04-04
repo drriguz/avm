@@ -66,6 +66,7 @@
   <ItemGroup>
     <ClInclude Include="include\vm\classpath_class_loader.h" />
     <ClInclude Include="include\vm\class_loader.h" />
+    <ClInclude Include="include\vm\exceptions.h" />
     <ClInclude Include="include\vm\heap.h" />
     <ClInclude Include="include\vm\method_area.h" />
     <ClInclude Include="include\vm\virtual_machine.h" />

@@ -6,7 +6,7 @@
 #include "class_file/parser/class_file_parser.h"
 #include "vm/method_area.h"
 
-#include "class_file/exceptions.h"
+#include "vm/exceptions.h"
 
 using namespace avm;
 
@@ -43,5 +43,5 @@ TEST(MethodArea, throwExceptionIfClassExists) {
 
 	methodArea.putClass("com.riguz.Simple", javaClass);
 	EXPECT_THROW(methodArea.putClass("com.riguz.Simple", javaClass),
-			ClassNotFoundException);
+			ClassAlreadyLoadedException);
 }

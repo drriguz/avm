@@ -1,5 +1,5 @@
 #include "vm/method_area.h"
-#include "class_file/exceptions.h"
+#include "vm/exceptions.h" 
 
 using namespace avm;
 
@@ -20,5 +20,7 @@ const JavaClass* MethodArea::getClass(const std::string& className) const{
 }
 
 void MethodArea::putClass(const std::string& className, JavaClass* javaClass){
+	if(_loadedClasses.count(className) > 0)
+		throw ClassAlreadyLoadedException(className);
 	_loadedClasses[className] = std::unique_ptr<JavaClass>(javaClass);
 }

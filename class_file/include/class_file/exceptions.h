@@ -41,11 +41,6 @@ public:
 	}
 };
 
-class ClassNotFoundException : public RuntimeException {
-public:
-	ClassNotFoundException(const std::string &msg) : RuntimeException(msg) {
-	}
-};
 }
 
 #endif
