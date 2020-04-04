@@ -24,3 +24,7 @@ void MethodArea::putClass(const std::string& className, JavaClass* javaClass){
 		throw ClassAlreadyLoadedException(className);
 	_loadedClasses[className] = std::unique_ptr<JavaClass>(javaClass);
 }
+
+bool MethodArea::loadedClass(const std::string& className) const{
+	return _loadedClasses.count(className) > 0;
+}

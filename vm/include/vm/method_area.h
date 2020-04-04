@@ -14,6 +14,7 @@ public:
 	MethodArea();
 	virtual ~MethodArea();
 public:
+	bool loadedClass(const std::string& className) const;
 	const JavaClass* getClass(const std::string& className) const;
 	void putClass(const std::string& className, JavaClass* javaClass);
 protected:

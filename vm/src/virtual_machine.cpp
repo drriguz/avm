@@ -16,5 +16,14 @@ VirtualMachine::~VirtualMachine() {
 }
 
 void VirtualMachine::execute() {
+	const JavaClass* mainClass = getClass(_mainClass);
+}
 
+const JavaClass* VirtualMachine::getClass(const std::string& className) const{
+	if(!_methodArea->loadedClass(className)) {
+		JavaClass* newClass = new JavaClass();
+		_classLoader->loadClass(className, *newClass);
+		_methodArea->putClass(className, newClass);
+	}
+	return _methodArea->getClass(className);
 }

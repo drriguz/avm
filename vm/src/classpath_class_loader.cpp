@@ -1,6 +1,8 @@
 #include "vm/classpath_class_loader.h"
 #include "class_file/parser/class_file_parser.h"
 #include "class_file/helper/strings.h"
+#include "class_file/exceptions.h"
+#include "vm/exceptions.h"
 
 using namespace avm;
 
@@ -22,6 +24,11 @@ std::string ClasspathClassLoader::getClassFilePath(const std::string& className)
 
 void ClasspathClassLoader::loadClass(const std::string& className, JavaClass& out) {
 	const std::string file = getClassFilePath(className);
-	ClassFileParser parser(file.c_str());
-	parser.parse(out);
+
+	try {
+		ClassFileParser parser(file.c_str());
+		parser.parse(out);
+	} catch(FileOpenFailedException ex) {
+		throw ClassNotFoundException(ex.what());
+	}
 }

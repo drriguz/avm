@@ -48,5 +48,8 @@
     <ClCompile Include="src\format\constant\test_number.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\vm\test_virtual_machine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

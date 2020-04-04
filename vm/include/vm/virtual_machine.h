@@ -16,6 +16,8 @@ public:
 public:
 	void execute();
 protected:
+	const JavaClass* getClass(const std::string& className) const;
+protected:
 	std::string _classPath;
 	std::string _mainClass;
 	ClassLoader* _classLoader;

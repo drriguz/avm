@@ -3,7 +3,7 @@
 #include <iostream>
 #include "vm/classpath_class_loader.h"
 
-#include "class_file/exceptions.h"
+#include "vm/exceptions.h"
 
 using namespace avm;
 
@@ -21,6 +21,6 @@ TEST(ClasspathClassLoader, throwExceptionIfClassNotFound) {
 	ClasspathClassLoader loader("res");
 	JavaClass loaded;
 	EXPECT_THROW(loader.loadClass("com.test.NotExist", loaded),
-			FileOpenFailedException);
+			ClassNotFoundException);
 }
 
