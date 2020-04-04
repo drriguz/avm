@@ -84,6 +84,7 @@
     <ClInclude Include="include\class_file\format\constant\string.h" />
     <ClInclude Include="include\class_file\format\constant\utf8.h" />
     <ClInclude Include="include\class_file\format\constant_pool.h" />
+    <ClInclude Include="include\class_file\format\constant_pool_visitor.h" />
     <ClInclude Include="include\class_file\format\exception_table.h" />
     <ClInclude Include="include\class_file\format\field_info.h" />
     <ClInclude Include="include\class_file\format\java_class.h" />
@@ -109,6 +110,7 @@
     <ClCompile Include="src\format\constant\string.cpp" />
     <ClCompile Include="src\format\constant\utf8.cpp" />
     <ClCompile Include="src\format\constant_pool.cpp" />
+    <ClCompile Include="src\format\constant_pool_visitor.cpp" />
     <ClCompile Include="src\format\field_info.cpp" />
     <ClCompile Include="src\format\java_class.cpp" />
     <ClCompile Include="src\format\method_info.cpp" />

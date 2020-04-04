@@ -27,6 +27,7 @@ add_library(
 	class_file/src/format/method_info.cpp
 	class_file/src/format/with_attributes.cpp
 	class_file/src/format/constant_pool.cpp
+	class_file/src/format/constant_pool_visitor.cpp
 	class_file/src/format/constant/constant_info.cpp
 	class_file/src/format/constant/utf8.cpp
 	class_file/src/format/constant/class.cpp

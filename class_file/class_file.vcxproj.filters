@@ -99,6 +99,9 @@
     <ClInclude Include="include\class_file\exceptions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\class_file\format\constant_pool_visitor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\format\constant\class.cpp">
@@ -159,6 +162,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\format\constant_pool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\format\constant_pool_visitor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

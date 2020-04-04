@@ -21,5 +21,6 @@ TEST(ClassParser, parseSimpleMethod) {
 
 	ASSERT_EQ(10, hello->getDescriptorIndex());
 	ASSERT_EQ(9, hello->getNameIndex());
-
+	ASSERT_STREQ("hello", hello->getName().c_str());
+	ASSERT_STREQ("()Ljava/lang/String;", hello->getDescriptor().c_str());
 }
