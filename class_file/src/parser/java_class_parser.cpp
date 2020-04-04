@@ -25,21 +25,21 @@ void JavaClassParser::readHeader(JavaClass& out) {
 }
 
 void JavaClassParser::readConstantPool(JavaClass& out) {
-	readU2(&out._constantPoolCount);
-	out._constantPool.clear();
-	out._constantPool.reserve(out._constantPoolCount + 1);
-	out._constantPool.push_back(std::unique_ptr<ConstantInfo>());
-	for (u2 i = 1; i < out._constantPoolCount; i++) {
+	u2 count = readU2();
+	out._constantPool = new ConstantPool(count);
+	ConstantPool* constantPool = out._constantPool;
+	constantPool->push_empty();
+	for (u2 i = 1; i < constantPool->_constantCount; i++) {
 		u1 tag;
 		readU1(&tag);
 		const ConstantType type = static_cast<ConstantType>(tag);
 		ConstantInfo* info = readConstant(type);
-		out._constantPool.push_back(std::unique_ptr<ConstantInfo>(info));
+		constantPool->push_back(info);
 		/*
 		 * If a CONSTANT_Long_info or CONSTANT_Double_info structure is the item in the constant_pool table at index n, then the next usable item in the pool is located at index n+2. The constant_pool index n+1 must be valid but is considered unusable.
 		 */
 		if (type == Long || type == Double){
-			out._constantPool.push_back(std::unique_ptr<ConstantInfo>());
+			constantPool->push_empty();
 			i++;
 		}
 	}
@@ -116,6 +116,8 @@ void JavaClassParser::parse(JavaClass& out) {
 	readFields(out);
 	readMethods(out);
 	readAttributes(out);
+
+	out.setConstantPoolReferences();
 }
 
 void JavaClassParser::readClassDescriptors(JavaClass &out) {

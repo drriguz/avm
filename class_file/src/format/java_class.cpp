@@ -11,7 +11,7 @@ JavaClass::JavaClass()
 :_magic(0),
  _minorVersion(0),
  _majorVersion(0),
- _constantPoolCount(0),
+ _constantPool(nullptr),
  _accessFlags(0),
  _thisClass(0),
  _superClass(0),
@@ -28,6 +28,10 @@ JavaClass::~JavaClass(){
 	clearInterfaces();
 	clearFields();
 	clearMethods();
+	if(_constantPool) {
+		delete _constantPool;
+		_constantPool = nullptr;
+	}
 }
 
 void JavaClass::clearInterfaces(){
@@ -69,10 +73,12 @@ void JavaClass::initializeMethods() {
 		_methods = new MethodInfo[_methodsCount];
 }
 
+void JavaClass::setConstantPoolReferences() {
+	// TODO:
+}
+
 const ConstantInfo* JavaClass::getConstantAt(const u2& index) const {
-	if((index < 0) || (index >= _constantPoolCount))
-		throw new RuntimeException("Index out of bound");
-	return _constantPool[index].get();
+	return _constantPool->at(index);
 }
 
 const u2& JavaClass::getInterfaceAt(const u2& index) const {

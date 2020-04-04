@@ -24,7 +24,7 @@ public:
 	inline const u4& getMagic() const {return _magic; }
 	inline const u2& getMinorVersion() const { return _minorVersion; }
 	inline const u2& getMajorVersion() const { return _majorVersion; }
-	inline const u2& getConstantPoolCount() const { return _constantPoolCount; }
+	inline const u2& getConstantPoolCount() const { return _constantPool->getConstantPoolCount(); }
 	const ConstantInfo* getConstantAt(const u2& index) const;
 	inline const u2& getAccessFlags() const { return _accessFlags; }
 	inline const u2& getThisClass() const { return _thisClass; }
@@ -51,6 +51,7 @@ private:
 	void initializeInterfaces();
 	void initializeFields();
 	void initializeMethods();
+	void setConstantPoolReferences();
 protected:
 	/*
 	 * allow copy & move only for children
@@ -63,8 +64,7 @@ private:
 	u4 _magic;
 	u2 _minorVersion;
 	u2 _majorVersion;
-	u2 _constantPoolCount;
-	std::vector<std::unique_ptr<ConstantInfo>> _constantPool;
+	ConstantPool* _constantPool;
 	u2 _accessFlags;
 	u2 _thisClass;
 	u2 _superClass;

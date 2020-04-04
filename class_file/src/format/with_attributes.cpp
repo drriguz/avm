@@ -4,8 +4,8 @@
 using namespace avm;
 
 WithAttributes::WithAttributes()
-:_attributesCount(0),
- _attributes(nullptr){
+	:_attributesCount(0),
+	_attributes(nullptr){
 
 }
 
