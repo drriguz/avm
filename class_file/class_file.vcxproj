@@ -12,7 +12,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{FCADB87E-CD48-4094-BF28-8570B001D001}</ProjectGuid>
-    <RootNamespace>class_parser</RootNamespace>
+    <RootNamespace>class_file</RootNamespace>
     <ProjectName>class_file</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

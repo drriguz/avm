@@ -8,7 +8,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tests", "tests\tests.vcxpro
 		{24A10B64-B0AA-4AB3-9C15-E5A88C5F9D19} = {24A10B64-B0AA-4AB3-9C15-E5A88C5F9D19}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "class_file", "class_parser\class_parser.vcxproj", "{FCADB87E-CD48-4094-BF28-8570B001D001}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "class_file", "class_file\class_file.vcxproj", "{FCADB87E-CD48-4094-BF28-8570B001D001}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vm", "vm\vm.vcxproj", "{66BC671C-F86C-43D0-A96A-0E38FB2BBF5F}"
 EndProject

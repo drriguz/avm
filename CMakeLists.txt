@@ -16,30 +16,30 @@ else()
 endif()
 
 include_directories(
-	class_parser/include
+	class_file/include
 	vm/include)
 
 add_library(
-	class_parser STATIC
-	class_parser/src/format/java_class.cpp
-	class_parser/src/format/class_property.cpp
-	class_parser/src/format/field_info.cpp
-	class_parser/src/format/method_info.cpp
-	class_parser/src/format/with_attributes.cpp
-	class_parser/src/format/constant/constant_info.cpp
-	class_parser/src/format/constant/utf8.cpp
-	class_parser/src/format/constant/class.cpp
-	class_parser/src/format/constant/ref.cpp
-	class_parser/src/format/constant/string.cpp
-	class_parser/src/format/constant/number.cpp
-	class_parser/src/format/constant/name_and_type.cpp
-	class_parser/src/format/constant/method_handle.cpp
-	class_parser/src/format/constant/method_type.cpp
-	class_parser/src/format/constant/invoke_dynamic.cpp
-	class_parser/src/parser/binary_reader.cpp
-	class_parser/src/parser/java_class_parser.cpp
-	class_parser/src/parser/class_file_parser.cpp
-	class_parser/src/helper/strings.cpp)
+	class_file STATIC
+	class_file/src/format/java_class.cpp
+	class_file/src/format/class_property.cpp
+	class_file/src/format/field_info.cpp
+	class_file/src/format/method_info.cpp
+	class_file/src/format/with_attributes.cpp
+	class_file/src/format/constant/constant_info.cpp
+	class_file/src/format/constant/utf8.cpp
+	class_file/src/format/constant/class.cpp
+	class_file/src/format/constant/ref.cpp
+	class_file/src/format/constant/string.cpp
+	class_file/src/format/constant/number.cpp
+	class_file/src/format/constant/name_and_type.cpp
+	class_file/src/format/constant/method_handle.cpp
+	class_file/src/format/constant/method_type.cpp
+	class_file/src/format/constant/invoke_dynamic.cpp
+	class_file/src/parser/binary_reader.cpp
+	class_file/src/parser/java_class_parser.cpp
+	class_file/src/parser/class_file_parser.cpp
+	class_file/src/helper/strings.cpp)
 
 add_library(
 	vm STATIC
@@ -51,11 +51,11 @@ add_library(
 add_executable(avm_cli avm_cli/main.cpp)
 
 if(WIN32)
-	target_link_libraries(class_parser LINK_PRIVATE wsock32)
+	target_link_libraries(class_file LINK_PRIVATE wsock32)
 endif()
 
-target_link_libraries(vm      LINK_PUBLIC  class_parser)
-target_link_libraries(avm_cli LINK_PRIVATE class_parser vm)
+target_link_libraries(vm      LINK_PUBLIC  class_file)
+target_link_libraries(avm_cli LINK_PRIVATE class_file vm)
 
 add_executable(
 	tests
@@ -94,11 +94,11 @@ else()
 endif()
 
 if(UNIX)
-	target_link_libraries(tests LINK_PRIVATE class_parser vm ${GOOGLE_TEST} ${GOOGLE_TEST_MAIN} pthread)
+	target_link_libraries(tests LINK_PRIVATE class_file vm ${GOOGLE_TEST} ${GOOGLE_TEST_MAIN} pthread)
 elseif(MSVC)
-	target_link_libraries(tests LINK_PRIVATE class_parser vm
+	target_link_libraries(tests LINK_PRIVATE class_file vm
 		debug ${GOOGLE_TEST_DEBUG}      optimized ${GOOGLE_TEST_RELEASE}
 		debug ${GOOGLE_TEST_MAIN_DEBUG} optimized ${GOOGLE_TEST_MAIN_RELEASE})
 else()
-	target_link_libraries(tests LINK_PRIVATE class_parser vm ${GOOGLE_TEST} ${GOOGLE_TEST_MAIN})
+	target_link_libraries(tests LINK_PRIVATE class_file vm ${GOOGLE_TEST} ${GOOGLE_TEST_MAIN})
 endif()
