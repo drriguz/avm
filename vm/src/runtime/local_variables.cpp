@@ -45,7 +45,7 @@ void LocalVariables::setDoubleByte(int i, int64_t value){
 
 int32_t LocalVariables::getSingleByte(int i){
 	checkRange(i, 1);
-	return _variables[i]->asLong();
+	return _variables[i]->asInt();
 }
 
 int64_t LocalVariables::getDoubleByte(int i){

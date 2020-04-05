@@ -14,7 +14,7 @@ namespace avm{
 		inline uint32_t getValue() const {
 			return _value;
 		}
-		inline int32_t asLong() const {
+		inline int32_t asInt() const {
 			uint32_t copy = _value;
 			return *reinterpret_cast<int32_t*>(&copy);
 		}

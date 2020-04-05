@@ -1,5 +1,6 @@
 #include "vm/runtime/operand_stack.h"
 #include "vm/exceptions.h"
+#include "vm/util/numbers.h"
 
 using namespace avm;
 
@@ -27,28 +28,24 @@ void OperandStack::pushSingleByte(int32_t value){
 
 void OperandStack::pushDoubleByte(int64_t value) {
 	checkStackSize(2);
-	uint64_t* uv = reinterpret_cast<uint64_t*>(&value);
-	Slot highBytes = Slot(*uv >> 32), 
-		 lowBytes = Slot(*uv & 0xFFFFFFFF);
-	_variables.push(highBytes);
-	_variables.push(lowBytes);
+	uint32_t highBytes, lowBytes;
+	std::tie(highBytes, lowBytes) = Numbers::splitLong(value);
+	_variables.push(Slot(highBytes));
+	_variables.push(Slot(lowBytes));
 }
 
 int32_t OperandStack::popSingleByte() {
 	Slot top = _variables.top();
 	_variables.pop();
-	uint32_t uv = top.getValue();
-	int32_t* sv = reinterpret_cast<int32_t*>(&uv);
-	return *sv;
+	return top.asInt();
 }
 
 int64_t OperandStack::popDoubleByte() {
-	uint64_t lowBytes = _variables.top().getValue();
+	uint32_t lowBytes = _variables.top().getValue();
 	_variables.pop();
-	uint64_t highBytes = _variables.top().getValue();
+	uint32_t highBytes = _variables.top().getValue();
 	_variables.pop();
-	uint64_t uv = (highBytes << 32) + lowBytes;
-	return *reinterpret_cast<int64_t*>(&uv);
+	return Numbers::asLong(highBytes, lowBytes);
 }
 
 void OperandStack::pushByte(int8_t value){
