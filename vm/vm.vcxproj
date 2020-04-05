@@ -74,12 +74,13 @@
     <ClInclude Include="include\vm\runtime\vm_thread.h" />
     <ClInclude Include="include\vm\runtime\program_counter_register.h" />
     <ClInclude Include="include\vm\runtime\slot.h" />
-    <ClInclude Include="include\vm\runtime\stack_frame.h" />
+    <ClInclude Include="include\vm\runtime\frame.h" />
     <ClInclude Include="include\vm\virtual_machine.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\classpath_class_loader.cpp" />
     <ClCompile Include="src\class_loader.cpp" />
+    <ClCompile Include="src\runtime\frame.cpp" />
     <ClCompile Include="src\runtime\method_area.cpp" />
     <ClCompile Include="src\runtime\slot.cpp" />
     <ClCompile Include="src\runtime\operand_stack.cpp" />

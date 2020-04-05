@@ -49,6 +49,7 @@ add_library(
     vm/src/runtime/method_area.cpp
 	vm/src/runtime/slot.cpp
 	vm/src/runtime/operand_stack.cpp
+	vm/src/runtime/frame.cpp
     vm/src/class_loader.cpp
     vm/src/classpath_class_loader.cpp)
 
