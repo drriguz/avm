@@ -84,6 +84,7 @@
     <ClCompile Include="src\vm\test_method_area.cpp" />
     <ClCompile Include="src\parser\test_binary_reader.cpp" />
     <ClCompile Include="src\vm\test_virtual_machine.cpp" />
+    <ClCompile Include="src\vm\util\test_numbers.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\class_file\class_file.vcxproj">
