@@ -68,6 +68,7 @@
     <ClInclude Include="include\vm\class_loader.h" />
     <ClInclude Include="include\vm\exceptions.h" />
     <ClInclude Include="include\vm\runtime\heap.h" />
+    <ClInclude Include="include\vm\runtime\local_variables.h" />
     <ClInclude Include="include\vm\runtime\operand_stack.h" />
     <ClInclude Include="include\vm\runtime\vm_stack.h" />
     <ClInclude Include="include\vm\runtime\method_area.h" />
@@ -75,16 +76,19 @@
     <ClInclude Include="include\vm\runtime\program_counter_register.h" />
     <ClInclude Include="include\vm\runtime\slot.h" />
     <ClInclude Include="include\vm\runtime\frame.h" />
+    <ClInclude Include="include\vm\util\numbers.h" />
     <ClInclude Include="include\vm\virtual_machine.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\classpath_class_loader.cpp" />
     <ClCompile Include="src\class_loader.cpp" />
     <ClCompile Include="src\runtime\frame.cpp" />
+    <ClCompile Include="src\runtime\local_variables.cpp" />
     <ClCompile Include="src\runtime\method_area.cpp" />
     <ClCompile Include="src\runtime\slot.cpp" />
     <ClCompile Include="src\runtime\operand_stack.cpp" />
     <ClCompile Include="src\runtime\virtual_machine.cpp" />
+    <ClCompile Include="src\util\numbers.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\class_file\class_file.vcxproj">

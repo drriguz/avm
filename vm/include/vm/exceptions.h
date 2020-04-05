@@ -26,6 +26,12 @@ public:
 	StackOutOfRangeException(const std::string &msg) : RuntimeException(msg) {
 	}
 };
+
+class LocalVariablesOutOfRangeException : public RuntimeException {
+public:
+	LocalVariablesOutOfRangeException(const std::string &msg) : RuntimeException(msg) {
+	}
+};
 }
 
 #endif

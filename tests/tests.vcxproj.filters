@@ -57,5 +57,8 @@
     <ClCompile Include="src\vm\runtime\test_operand_stack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\vm\runtime\test_local_variables.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

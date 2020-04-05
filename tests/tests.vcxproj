@@ -78,6 +78,7 @@
     <ClCompile Include="src\parser\test_fields.cpp" />
     <ClCompile Include="src\parser\test_interfaces.cpp" />
     <ClCompile Include="src\parser\test_methods.cpp" />
+    <ClCompile Include="src\vm\runtime\test_local_variables.cpp" />
     <ClCompile Include="src\vm\runtime\test_operand_stack.cpp" />
     <ClCompile Include="src\vm\test_classpath_class_loader.cpp" />
     <ClCompile Include="src\vm\test_method_area.cpp" />

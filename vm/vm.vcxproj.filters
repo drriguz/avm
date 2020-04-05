@@ -51,6 +51,12 @@
     <ClInclude Include="include\vm\runtime\frame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\vm\runtime\local_variables.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vm\util\numbers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\class_loader.cpp">
@@ -72,6 +78,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\runtime\frame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\runtime\local_variables.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\numbers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

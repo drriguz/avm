@@ -2,13 +2,12 @@
 
 using namespace avm;
 
-Frame::Frame()
-:_operandStack(nullptr){
+Frame::Frame(int locals, int stack, const ConstantPool* constantPool)
+	:_localVariables(locals),
+	_operandStack(stack),
+	_runtimeConstants(constantPool){
 }
 
 Frame::~Frame(){
-	if(_operandStack) {
-		delete _operandStack;
-		_operandStack = nullptr;
-	}
+
 }

@@ -49,7 +49,9 @@ add_library(
     vm/src/runtime/method_area.cpp
 	vm/src/runtime/slot.cpp
 	vm/src/runtime/operand_stack.cpp
+	vm/src/runtime/local_variables.cpp
 	vm/src/runtime/frame.cpp
+	vm/src/util/numbers.cpp
     vm/src/class_loader.cpp
     vm/src/classpath_class_loader.cpp)
 
@@ -75,6 +77,7 @@ add_executable(
 	tests/src/parser/test_methods.cpp
 	tests/src/helper/test_strings.cpp
 	tests/src/vm/runtime/test_operand_stack.cpp
+	tests/src/vm/runtime/test_local_variables.cpp
 	tests/src/vm/test_classpath_class_loader.cpp
 	tests/src/vm/test_method_area.cpp
 	tests/src/vm/test_virtual_machine.cpp)
