@@ -21,16 +21,34 @@
     <ClInclude Include="include\vm\classpath_class_loader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\vm\heap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\vm\method_area.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\vm\virtual_machine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\vm\exceptions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vm\runtime\stack_frame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vm\runtime\heap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vm\runtime\method_area.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vm\runtime\slot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vm\runtime\program_counter_register.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vm\runtime\vm_thread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vm\runtime\vm_stack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vm\runtime\operand_stack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -41,10 +59,16 @@
     <ClCompile Include="src\classpath_class_loader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\method_area.cpp">
+    <ClCompile Include="src\runtime\virtual_machine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\virtual_machine.cpp">
+    <ClCompile Include="src\runtime\method_area.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\runtime\slot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\runtime\operand_stack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

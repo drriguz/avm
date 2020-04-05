@@ -19,6 +19,13 @@ public:
 	ClassAlreadyLoadedException(const std::string &msg) : RuntimeException(msg) {
 	}
 };
+
+
+class StackOutOfRangeException : public RuntimeException {
+public:
+	StackOutOfRangeException(const std::string &msg) : RuntimeException(msg) {
+	}
+};
 }
 
 #endif

@@ -1,4 +1,4 @@
-#include "vm/method_area.h"
+#include "vm/runtime/method_area.h"
 #include "vm/exceptions.h" 
 
 using namespace avm;

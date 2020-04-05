@@ -4,7 +4,7 @@
 
 #include "class_file/parser/java_class_parser.h"
 #include "class_file/parser/class_file_parser.h"
-#include "vm/method_area.h"
+#include "vm/runtime/method_area.h"
 
 #include "vm/exceptions.h"
 

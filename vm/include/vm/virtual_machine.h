@@ -5,7 +5,7 @@
 
 #include "class_loader.h"
 #include "classpath_class_loader.h"
-#include "method_area.h"
+#include "runtime/method_area.h"
 
 namespace avm {
 

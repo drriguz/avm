@@ -54,5 +54,8 @@
     <ClCompile Include="src\format\test_java_class.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\vm\runtime\test_operand_stack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
