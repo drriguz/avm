@@ -18,7 +18,7 @@ VirtualMachine::~VirtualMachine() {
 
 void VirtualMachine::execute() {
 	const JavaClass* mainClass = getClass(_mainClass);
-	const MethodInfo* entry = mainClass->getMethod("main", "([Ljava/lang/String;)V");
+	const MethodInfo* entry = mainClass->getMethod("main", "([Ljava/lang/String;)V", 2, ACC_PUBLIC, ACC_STATIC);
 	if(!entry->isPublic())
 		throw MethodNotFoundException("No public main found");
 

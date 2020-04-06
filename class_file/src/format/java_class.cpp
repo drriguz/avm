@@ -110,11 +110,18 @@ const MethodInfo* JavaClass::getMethod(const std::string& name, const std::strin
 	throw MethodNotFoundException(name + descriptor);
 }
 
-const MethodInfo* JavaClass::getMethod(const std::string& name, const std::string& descriptor, u2 flags) const {
+const MethodInfo* JavaClass::getMethod(const std::string& name, const std::string& descriptor, int flagsCount, ...) const {
 	const MethodInfo* method = getMethod(name, descriptor);
 	u2 accessFlags = method->getAccessFlags();
 
-	if(!(flags & accessFlags))
-		throw MethodNotFoundException("No proper method found");
+	va_list flags;
+	va_start(flags, flagsCount);
+	for(int i = 0; i < flagsCount; i++){
+		u2 flag = va_arg(flags, u2);
+		if(!(flag & accessFlags))
+			throw MethodNotFoundException("No proper method found");
+	}
+	va_end(flags);
+
 	return method;
 }

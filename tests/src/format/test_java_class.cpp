@@ -20,13 +20,12 @@ TEST(JavaClass, getMethodIfFound) {
 }
 
 TEST(JavaClass, getMethodWithFlagsIfFound) {
-	ClassFileParser parser1("res/com/test/SingleMethod.class");
+	ClassFileParser parser1("res/com/vm/HelloWorld.class");
 	JavaClass javaClass1;
 	parser1.parse(javaClass1);
 
-	const MethodInfo* hello = javaClass1.getMethod("hello", "()Ljava/lang/String;", ACC_PUBLIC);
-	ASSERT_STREQ("hello", hello->getName().c_str());
-	ASSERT_STREQ("()Ljava/lang/String;", hello->getDescriptor().c_str());
+	const MethodInfo* hello = javaClass1.getMethod("main", "([Ljava/lang/String;)V", 2, ACC_PUBLIC, ACC_STATIC);
+	ASSERT_STREQ("main", hello->getName().c_str());
 }
 
 TEST(JavaClass, throwExceptionIfNotFound) {
@@ -36,7 +35,9 @@ TEST(JavaClass, throwExceptionIfNotFound) {
 
 	EXPECT_THROW(javaClass1.getMethod("hello", "()Ljava/lang/Number;"),
 			MethodNotFoundException);
-	EXPECT_THROW(javaClass1.getMethod("hello", "()Ljava/lang/String;", ACC_STATIC),
+	EXPECT_THROW(javaClass1.getMethod("hello", "()Ljava/lang/String;", 1, ACC_STATIC),
+			MethodNotFoundException);
+	EXPECT_THROW(javaClass1.getMethod("hello", "()Ljava/lang/String;", 2, ACC_PUBLIC, ACC_STATIC),
 			MethodNotFoundException);
 	EXPECT_THROW(javaClass1.getMethod("world", "()Ljava/lang/String;"),
 			MethodNotFoundException);
