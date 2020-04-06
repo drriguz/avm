@@ -99,6 +99,51 @@
     <ClInclude Include="include\class_file\format\attribute\attribute_info.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\class_file\format\attribute\constant_value.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\class_file\format\attribute\code.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\class_file\format\attribute\stack_map_table.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\class_file\format\attribute\exceptions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\class_file\format\attribute\inner_classes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\class_file\format\attribute\enclosing_method.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\class_file\format\attribute\synthetic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\class_file\format\attribute\signature.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\class_file\format\attribute\source_file.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\class_file\format\attribute\source_debug_extension.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\class_file\format\attribute\line_number_table.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\class_file\format\attribute\local_variable_table.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\class_file\format\attribute\local_variable_type_table.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\class_file\format\attribute\deprecated.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\class_file\format\attribute\attribute_types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\format\constant\class.cpp">

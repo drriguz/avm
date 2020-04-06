@@ -18,8 +18,6 @@ public:
 	inline const u2& getAttributesCount() const { return _attributesCount; }
 	const AttributeInfo* getAttributeAt(const u2& index) const;
 protected:
-	void initializeAttributes();
-protected:
 	u2 _attributesCount;
 	std::vector<std::unique_ptr<AttributeInfo>> _attributes;
 };

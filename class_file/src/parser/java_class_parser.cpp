@@ -153,9 +153,8 @@ void JavaClassParser::readField(FieldInfo& field) {
 	readU2(&field._descriptorIndex);
 	readU2(&field._attributesCount);
 
-	field.initializeAttributes();
 	for (u2 i = 0; i < field._attributesCount; i++) {
-		readAttribute();
+		readAttribute(AttributeTypes::ConstantValue);
 	}
 }
 
@@ -165,25 +164,25 @@ void JavaClassParser::readMethod(MethodInfo& method) {
 	readU2(&method._descriptorIndex);
 	readU2(&method._attributesCount);
 
-	method.initializeAttributes();
 	for (u2 i = 0; i < method._attributesCount; i++) {
-		readAttribute();
+		readAttribute(AttributeTypes::ConstantValue);
 	}
 }
 
-void JavaClassParser::readAttribute() {
+AttributeInfo* JavaClassParser::readAttribute(const AttributeTypes& type) {
 	u2 nameIndex = readU2();
 	u4 length = readU4();
 	
 	char* info = new char[length];
 
 	read(info, length);
+	return nullptr;
 }
 
 void JavaClassParser::readAttributes(JavaClass &out) {
 	readU2(&out._attributesCount);
-	out.initializeAttributes();
+
 	for (u2 i = 0; i < out._attributesCount; i++) {
-		readAttribute();
+		readAttribute(AttributeTypes::ConstantValue);
 	}
 }

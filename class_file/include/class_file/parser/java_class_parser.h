@@ -5,6 +5,7 @@
 #include "class_file/format/java_class.h"
 #include "class_file/format/field_info.h"
 #include "class_file/format/method_info.h"
+#include "class_file/format/attribute/attribute_types.h"
 #include "class_file/format/attribute/attribute_info.h"
 
 namespace avm {
@@ -22,7 +23,7 @@ private:
 	void readFields(JavaClass &out);
 	ConstantInfo* readConstant(const ConstantType & type);
 	void readField(FieldInfo &to);
-	void readAttribute();
+	AttributeInfo* readAttribute(const AttributeTypes& type);
 	void readMethods(JavaClass &out);
 	void readMethod(MethodInfo& to);
 	void readAttributes(JavaClass &out);
