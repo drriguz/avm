@@ -4,7 +4,7 @@
 #include <string>
 
 #include "types.h"
-#include "attribute_info.h"
+#include "attribute/attribute_info.h"
 #include "access_flags.h"
 #include "with_attributes.h"
 #include "constant_pool_visitor.h"

@@ -6,7 +6,7 @@
 
 #include "constant_pool.h"
 #include "types.h"
-#include "attribute_info.h"
+#include "attribute/attribute_info.h"
 #include "class_file/exceptions.h"
 
 namespace avm {

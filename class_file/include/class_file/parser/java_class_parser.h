@@ -5,7 +5,7 @@
 #include "class_file/format/java_class.h"
 #include "class_file/format/field_info.h"
 #include "class_file/format/method_info.h"
-#include "class_file/format/attribute_info.h"
+#include "class_file/format/attribute/attribute_info.h"
 
 namespace avm {
 

@@ -70,7 +70,7 @@
     <ClInclude Include="include\class_file\exceptions.h" />
     <ClInclude Include="include\class_file\format\access_flags.h" />
     <ClInclude Include="include\class_file\format\annotation.h" />
-    <ClInclude Include="include\class_file\format\attribute_info.h" />
+    <ClInclude Include="include\class_file\format\attribute\attribute_info.h" />
     <ClInclude Include="include\class_file\format\class_property.h" />
     <ClInclude Include="include\class_file\format\constant\class.h" />
     <ClInclude Include="include\class_file\format\constant\constant_info.h" />
