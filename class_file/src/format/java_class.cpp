@@ -4,23 +4,24 @@
 #include <iostream>
 #include <algorithm>
 #include <iterator>
+#include <cstdarg>
 
 using namespace avm;
 
 JavaClass::JavaClass()
-:_magic(0),
- _minorVersion(0),
- _majorVersion(0),
- _constantPool(nullptr),
- _accessFlags(0),
- _thisClass(0),
- _superClass(0),
- _interfacesCount(0),
- _interfaces(nullptr),
- _fieldsCount(0),
- _fields(nullptr),
- _methodsCount(0),
- _methods(nullptr){
+	:_magic(0),
+	_minorVersion(0),
+	_majorVersion(0),
+	_constantPool(nullptr),
+	_accessFlags(0),
+	_thisClass(0),
+	_superClass(0),
+	_interfacesCount(0),
+	_interfaces(nullptr),
+	_fieldsCount(0),
+	_fields(nullptr),
+	_methodsCount(0),
+	_methods(nullptr){
 
 }
 
@@ -107,4 +108,13 @@ const MethodInfo* JavaClass::getMethod(const std::string& name, const std::strin
 			return &it;
 	}
 	throw MethodNotFoundException(name + descriptor);
+}
+
+const MethodInfo* JavaClass::getMethod(const std::string& name, const std::string& descriptor, u2 flags) const {
+	const MethodInfo* method = getMethod(name, descriptor);
+	u2 accessFlags = method->getAccessFlags();
+
+	if(!(flags & accessFlags))
+		throw MethodNotFoundException("No proper method found");
+	return method;
 }

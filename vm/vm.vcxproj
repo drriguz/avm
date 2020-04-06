@@ -69,6 +69,7 @@
     <ClInclude Include="include\vm\exceptions.h" />
     <ClInclude Include="include\vm\runtime\heap.h" />
     <ClInclude Include="include\vm\runtime\local_variables.h" />
+    <ClInclude Include="include\vm\runtime\object.h" />
     <ClInclude Include="include\vm\runtime\operand_stack.h" />
     <ClInclude Include="include\vm\runtime\vm_stack.h" />
     <ClInclude Include="include\vm\runtime\method_area.h" />

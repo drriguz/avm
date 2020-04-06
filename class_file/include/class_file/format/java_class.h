@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <memory>
+#include <initializer_list>
 
 #include "types.h"
 #include "constant_pool.h"
@@ -46,6 +47,7 @@ public:
 	inline bool isEnum() const { return _accessFlags & ACC_ENUM; }
 public:
 	const MethodInfo* getMethod(const std::string& name, const std::string& descriptor) const;
+	const MethodInfo* getMethod(const std::string& name, const std::string& descriptor, u2 flags) const;
 private:
 	void clearInterfaces();
 	void clearFields();

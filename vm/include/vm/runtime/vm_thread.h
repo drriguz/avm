@@ -7,6 +7,9 @@
 namespace avm{
 
 	class VmThread {
+	public:
+		VmThread();
+		virtual ~VmThread();
 	protected:
 		ProgramCounterRegister _pcRegister;
 		VmStack _vmStack;

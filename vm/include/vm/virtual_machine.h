@@ -6,6 +6,7 @@
 #include "class_loader.h"
 #include "classpath_class_loader.h"
 #include "runtime/method_area.h"
+#include "runtime/vm_thread.h"
 
 namespace avm {
 
@@ -22,6 +23,7 @@ protected:
 	std::string _mainClass;
 	ClassLoader* _classLoader;
 	MethodArea* _methodArea;
+	VmThread* _mainThread;
 };
 }
 

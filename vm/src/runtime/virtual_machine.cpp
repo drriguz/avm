@@ -5,6 +5,7 @@ VirtualMachine::VirtualMachine(const std::string& classpath,
 		const std::string& mainClass)
 :_classPath(classpath),
  _mainClass(mainClass),
+ _mainThread(nullptr),
  _classLoader(new ClasspathClassLoader(classpath)),
  _methodArea(new MethodArea()){
 
@@ -18,6 +19,9 @@ VirtualMachine::~VirtualMachine() {
 void VirtualMachine::execute() {
 	const JavaClass* mainClass = getClass(_mainClass);
 	const MethodInfo* entry = mainClass->getMethod("main", "([Ljava/lang/String;)V");
+	if(!entry->isPublic())
+		throw MethodNotFoundException("No public main found");
+
 }
 
 const JavaClass* VirtualMachine::getClass(const std::string& className) const{

@@ -57,6 +57,9 @@
     <ClInclude Include="include\vm\util\numbers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\vm\runtime\object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\class_loader.cpp">
