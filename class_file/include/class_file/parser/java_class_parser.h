@@ -22,7 +22,7 @@ private:
 	void readFields(JavaClass &out);
 	ConstantInfo* readConstant(const ConstantType & type);
 	void readField(FieldInfo &to);
-	void readAttribute(AttributeInfo& to);
+	void readAttribute();
 	void readMethods(JavaClass &out);
 	void readMethod(MethodInfo& to);
 	void readAttributes(JavaClass &out);

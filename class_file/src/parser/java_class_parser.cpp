@@ -155,7 +155,7 @@ void JavaClassParser::readField(FieldInfo& field) {
 
 	field.initializeAttributes();
 	for (u2 i = 0; i < field._attributesCount; i++) {
-		readAttribute(field._attributes[i]);
+		readAttribute();
 	}
 }
 
@@ -167,24 +167,23 @@ void JavaClassParser::readMethod(MethodInfo& method) {
 
 	method.initializeAttributes();
 	for (u2 i = 0; i < method._attributesCount; i++) {
-		readAttribute(method._attributes[i]);
+		readAttribute();
 	}
 }
 
-void JavaClassParser::readAttribute(AttributeInfo &to) {
-	readU2(&to.attributeNameIndex);
-	readU4(&to.attributeLength);
+void JavaClassParser::readAttribute() {
+	u2 nameIndex = readU2();
+	u4 length = readU4();
+	
+	char* info = new char[length];
 
-	char* info = new char[to.attributeLength];
-
-	read(info, to.attributeLength);
-	to.info = (u1*)info;
+	read(info, length);
 }
 
 void JavaClassParser::readAttributes(JavaClass &out) {
 	readU2(&out._attributesCount);
 	out.initializeAttributes();
 	for (u2 i = 0; i < out._attributesCount; i++) {
-		readAttribute(out._attributes[i]);
+		readAttribute();
 	}
 }

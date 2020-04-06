@@ -1,57 +1,24 @@
 #ifndef _AVM_ATTRIBUTE_INFO_H_
 #define _AVM_ATTRIBUTE_INFO_H_
 
-#include "types.h"
-#include "exception_table.h"
+#include "class_file/format/types.h"
+#include "class_file/format/constant_pool.h"
 
 namespace avm {
 
-struct AttributeInfo {
-	u2 attributeNameIndex;
-	u4 attributeLength;
-	u1* info;
+class AttributeInfo {
+public:
+	AttributeInfo(u2 nameIndex);
+	virtual ~AttributeInfo();
+protected:
+	u2 _nameIndex;
+	ConstantPool* _constantPool;
+protected:
+	AttributeInfo(AttributeInfo&&) {};
+	AttributeInfo(const AttributeInfo&) {};
+	AttributeInfo& operator=(const AttributeInfo&) {};
 };
 
-struct ConstantValue {
-	u2 constantValueIndex;
-};
-
-struct Code {
-	u2 maxStack;
-	u2 maxLocals;
-	u4 codeLength;
-	u1* code;
-	u2 exceptionTableLength;
-	ExceptionTable* exceptionTable;
-	u2 attributesCount;
-	AttributeInfo* attributes;
-};
-
-struct StackMapTable {
-	u2 numberOfEntries;
-
-};
-
-struct Synthetic {
-
-};
-
-struct Deprecated {
-
-};
-
-struct Singuature {
-	u2 signatureIndex;
-};
-
-struct RuntimeVisibleAnnotations {
-	u2 numberOfAnnotations;
-
-};
-
-struct RuntimeInVisibleAnnotations {
-
-};
 }
 
 #endif

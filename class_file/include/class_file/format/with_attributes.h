@@ -21,7 +21,7 @@ protected:
 	void initializeAttributes();
 protected:
 	u2 _attributesCount;
-	AttributeInfo* _attributes;
+	std::vector<std::unique_ptr<AttributeInfo>> _attributes;
 };
 }
 
