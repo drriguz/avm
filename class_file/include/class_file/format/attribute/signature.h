@@ -7,8 +7,8 @@ namespace avm {
 
 class Signature: public AttributeInfo {
 public:
-	Signature();
-	virtual ~Signature();
+    Signature();
+    virtual ~Signature();
 };
 
 }

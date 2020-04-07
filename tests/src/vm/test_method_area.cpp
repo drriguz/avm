@@ -11,37 +11,36 @@
 using namespace avm;
 
 TEST(MethodArea, throwExceptionIfClassNotFound) {
-	MethodArea methodArea;
-	EXPECT_THROW(methodArea.getClass("com.riguz.Simple"),
-			ClassNotFoundException);
+    MethodArea methodArea;
+    EXPECT_THROW(methodArea.getClass("com.riguz.Simple"),
+            ClassNotFoundException);
 }
 
-
 TEST(MethodArea, getClassIfClassFound) {
-	MethodArea methodArea;
-	ClassFileParser parser("res/com/test/Simple.class");
-	JavaClass* javaClass = new JavaClass();
-	parser.parse(*javaClass);
+    MethodArea methodArea;
+    ClassFileParser parser("res/com/test/Simple.class");
+    JavaClass *javaClass = new JavaClass();
+    parser.parse(*javaClass);
 
-	methodArea.putClass("com.riguz.Simple", javaClass);
-	try{
-		const JavaClass* actual = methodArea.getClass("com.riguz.Simple");
+    methodArea.putClass("com.riguz.Simple", javaClass);
+    try {
+        const JavaClass *actual = methodArea.getClass("com.riguz.Simple");
 
-		ASSERT_EQ(0xCAFEBABE, actual->getMagic());
-		ASSERT_EQ(52, actual->getMajorVersion());
-		ASSERT_EQ(0, actual->getMinorVersion());
-	}  catch (std::exception const & err) {
-		FAIL() << err.what();
-	}
+        ASSERT_EQ(0xCAFEBABE, actual->getMagic());
+        ASSERT_EQ(52, actual->getMajorVersion());
+        ASSERT_EQ(0, actual->getMinorVersion());
+    } catch (std::exception const &err) {
+        FAIL() << err.what();
+    }
 }
 
 TEST(MethodArea, throwExceptionIfClassExists) {
-	MethodArea methodArea;
-	ClassFileParser parser("res/com/test/Simple.class");
-	JavaClass* javaClass = new JavaClass();
-	parser.parse(*javaClass);
+    MethodArea methodArea;
+    ClassFileParser parser("res/com/test/Simple.class");
+    JavaClass *javaClass = new JavaClass();
+    parser.parse(*javaClass);
 
-	methodArea.putClass("com.riguz.Simple", javaClass);
-	EXPECT_THROW(methodArea.putClass("com.riguz.Simple", javaClass),
-			ClassAlreadyLoadedException);
+    methodArea.putClass("com.riguz.Simple", javaClass);
+    EXPECT_THROW(methodArea.putClass("com.riguz.Simple", javaClass),
+            ClassAlreadyLoadedException);
 }

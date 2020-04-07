@@ -6,27 +6,25 @@
 namespace avm {
 
 struct EnumConstValue {
-	u2 typeNameIndex;
-	u2 constNameIndex;
+    u2 typeNameIndex;
+    u2 constNameIndex;
 };
 
-
-
 struct ElementValue {
-	u1 tag;
+    u1 tag;
 
 };
 
 struct ArrayValue {
-	u2 numberOfValues;
-	ElementValue* values;
+    u2 numberOfValues;
+    ElementValue *values;
 };
 struct ElementValuePair {
-	u2 elementNameIndex;
+    u2 elementNameIndex;
 
 };
 struct Annotation {
-	u2 typeIndex;
+    u2 typeIndex;
 };
 }
 

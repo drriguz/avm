@@ -5,16 +5,16 @@
 #include "operand_stack.h"
 #include "class_file/format/constant_pool.h"
 
-namespace avm{
+namespace avm {
 
-	class Frame {
-	public:
-		Frame(int locals, int stack, const ConstantPool* constantPool);
-		virtual ~Frame();
-	protected:
-		LocalVariables _localVariables;
-		OperandStack _operandStack;
-		const ConstantPool* _runtimeConstants;
-	};
+class Frame {
+public:
+    Frame(int locals, int stack, const ConstantPool *constantPool);
+    virtual ~Frame();
+protected:
+    LocalVariables _localVariables;
+    OperandStack _operandStack;
+    const ConstantPool *_runtimeConstants;
+};
 }
 #endif

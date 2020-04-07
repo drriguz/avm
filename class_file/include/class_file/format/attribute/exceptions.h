@@ -7,8 +7,8 @@ namespace avm {
 
 class Exceptions: public AttributeInfo {
 public:
-	Exceptions();
-	virtual ~Exceptions();
+    Exceptions();
+    virtual ~Exceptions();
 };
 
 }

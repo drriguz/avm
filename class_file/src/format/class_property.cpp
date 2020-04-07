@@ -3,21 +3,21 @@
 
 using namespace avm;
 
-ClassProperty::ClassProperty()
-	:_accessFlags(0),
-	_nameIndex(0),
-	_descriptorIndex(0),
-	WithAttributes(){
+ClassProperty::ClassProperty() :
+        _accessFlags(0),
+        _nameIndex(0),
+        _descriptorIndex(0),
+        WithAttributes() {
 
 }
 
-ClassProperty::~ClassProperty(){
+ClassProperty::~ClassProperty() {
 }
 
-std::string ClassProperty::getName() const{
-	return getUtf8(_nameIndex);
+std::string ClassProperty::getName() const {
+    return getUtf8(_nameIndex);
 }
 
-std::string ClassProperty::getDescriptor() const{
-	return getUtf8(_descriptorIndex);
+std::string ClassProperty::getDescriptor() const {
+    return getUtf8(_descriptorIndex);
 }

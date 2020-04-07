@@ -7,11 +7,11 @@ namespace avm {
 
 class Strings {
 private:
-	Strings();
+    Strings();
 public:
-	static std::string replaceAll(const std::string& source,
-			const std::string& match,
-			const std::string& replacement);
+    static std::string replaceAll(const std::string &source,
+                                  const std::string &match,
+                                  const std::string &replacement);
 };
 }
 

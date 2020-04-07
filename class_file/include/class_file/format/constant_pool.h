@@ -17,21 +17,23 @@
 #include <memory>
 
 namespace avm {
-	
-	class ConstantPool {
-		friend class JavaClassParser;
-	public:
-		ConstantPool(u2 count);
-		virtual ~ConstantPool();
-	public:
-		inline const u2& getConstantPoolCount() const { return _constantCount; }
-		void push_back(ConstantInfo* info);
-		void push_empty();
-		const ConstantInfo* at(u2 index) const;
-	protected:
-		u2 _constantCount;
-		std::vector<std::unique_ptr<ConstantInfo>> _constantPool;
-	};
+
+class ConstantPool {
+    friend class JavaClassParser;
+public:
+    ConstantPool(u2 count);
+    virtual ~ConstantPool();
+public:
+    inline const u2& getConstantPoolCount() const {
+        return _constantCount;
+    }
+    void push_back(ConstantInfo *info);
+    void push_empty();
+    const ConstantInfo* at(u2 index) const;
+protected:
+    u2 _constantCount;
+    std::vector<std::unique_ptr<ConstantInfo>> _constantPool;
+};
 }
 
 #endif

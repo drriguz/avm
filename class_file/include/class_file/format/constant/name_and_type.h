@@ -9,13 +9,17 @@ namespace avm {
 
 class ConstantNameAndType: public ConstantInfo {
 public:
-	ConstantNameAndType(const u2& nameIndex, const u2& descriptorIndex);
+    ConstantNameAndType(const u2 &nameIndex, const u2 &descriptorIndex);
 public:
-	inline const u2 getNameIndex() const { return _nameIndex; }
-	inline const u2 getDescriptorIndex() const { return _descriptorIndex; }
+    inline const u2 getNameIndex() const {
+        return _nameIndex;
+    }
+    inline const u2 getDescriptorIndex() const {
+        return _descriptorIndex;
+    }
 private:
     u2 _nameIndex;
-	u2 _descriptorIndex;
+    u2 _descriptorIndex;
 };
 
 }

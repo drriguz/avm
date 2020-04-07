@@ -7,8 +7,8 @@ namespace avm {
 
 class EnclosingMethod: public AttributeInfo {
 public:
-	EnclosingMethod();
-	virtual ~EnclosingMethod();
+    EnclosingMethod();
+    virtual ~EnclosingMethod();
 };
 
 }

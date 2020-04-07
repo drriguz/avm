@@ -7,8 +7,8 @@ namespace avm {
 
 class Deprecated: public AttributeInfo {
 public:
-	Deprecated();
-	virtual ~Deprecated();
+    Deprecated();
+    virtual ~Deprecated();
 };
 
 }

@@ -7,8 +7,8 @@ namespace avm {
 
 class SourceDebugExtension: public AttributeInfo {
 public:
-	SourceDebugExtension();
-	virtual ~SourceDebugExtension();
+    SourceDebugExtension();
+    virtual ~SourceDebugExtension();
 };
 
 }

@@ -4,15 +4,15 @@
 #include "program_counter_register.h"
 #include "vm_stack.h"
 
-namespace avm{
+namespace avm {
 
-	class VmThread {
-	public:
-		VmThread();
-		virtual ~VmThread();
-	protected:
-		ProgramCounterRegister _pcRegister;
-		VmStack _vmStack;
-	};
+class VmThread {
+public:
+    VmThread();
+    virtual ~VmThread();
+protected:
+    ProgramCounterRegister _pcRegister;
+    VmStack _vmStack;
+};
 }
 #endif

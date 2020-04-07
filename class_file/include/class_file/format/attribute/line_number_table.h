@@ -7,8 +7,8 @@ namespace avm {
 
 class LineNumberTable: public AttributeInfo {
 public:
-	LineNumberTable();
-	virtual ~LineNumberTable();
+    LineNumberTable();
+    virtual ~LineNumberTable();
 };
 
 }

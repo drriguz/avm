@@ -2,10 +2,10 @@
 
 using namespace avm;
 
-ClassLoader::ClassLoader(){
+ClassLoader::ClassLoader() {
 
 }
 
-ClassLoader::~ClassLoader(){
+ClassLoader::~ClassLoader() {
 
 }

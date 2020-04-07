@@ -7,8 +7,8 @@ namespace avm {
 
 class SourceFile: public AttributeInfo {
 public:
-	SourceFile();
-	virtual ~SourceFile();
+    SourceFile();
+    virtual ~SourceFile();
 };
 
 }

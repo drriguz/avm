@@ -11,42 +11,42 @@
 
 using namespace avm;
 
-BinaryReader::BinaryReader(const char* file){
-	_fileStream.open(file, std::fstream::in | std::fstream::binary);
+BinaryReader::BinaryReader(const char *file) {
+    _fileStream.open(file, std::fstream::in | std::fstream::binary);
 
-	if(!_fileStream.is_open())
-		throw FileOpenFailedException("Could not open:" + std::string(file));
+    if (!_fileStream.is_open())
+        throw FileOpenFailedException("Could not open:" + std::string(file));
 
 }
-BinaryReader::~BinaryReader(){
-	if(_fileStream.is_open())
-		_fileStream.close();
+BinaryReader::~BinaryReader() {
+    if (_fileStream.is_open())
+        _fileStream.close();
 }
 
 void BinaryReader::reset() {
-	_fileStream.clear();
-	_fileStream.seekg(0, std::ios::beg);
+    _fileStream.clear();
+    _fileStream.seekg(0, std::ios::beg);
 }
 
-void BinaryReader::read(char* buffer, unsigned int length){
-	if (!_fileStream.read(buffer, length))
-			throw ReadFileException("Could not read from file");
+void BinaryReader::read(char *buffer, unsigned int length) {
+    if (!_fileStream.read(buffer, length))
+        throw ReadFileException("Could not read from file");
 }
 
-void BinaryReader::readU1(u1* buffer) {
-	if (!_fileStream.read(reinterpret_cast<char *>(buffer), sizeof(u1)))
-		throw ReadFileException("Could not read u1");
+void BinaryReader::readU1(u1 *buffer) {
+    if (!_fileStream.read(reinterpret_cast<char*>(buffer), sizeof(u1)))
+        throw ReadFileException("Could not read u1");
 }
 
-void BinaryReader::readU2(u2* buffer) {
-	if (!_fileStream.read(reinterpret_cast<char *>(buffer), sizeof(u2)))
-		throw ReadFileException("Could not read u2");
-	*buffer = htons(*buffer);
+void BinaryReader::readU2(u2 *buffer) {
+    if (!_fileStream.read(reinterpret_cast<char*>(buffer), sizeof(u2)))
+        throw ReadFileException("Could not read u2");
+    *buffer = htons(*buffer);
 }
 
-void BinaryReader::readU4(u4* buffer) {
-	if (!_fileStream.read(reinterpret_cast<char *>(buffer), sizeof(u4)))
-		throw ReadFileException("Could not read u4");
-	*buffer = htonl(*buffer);
+void BinaryReader::readU4(u4 *buffer) {
+    if (!_fileStream.read(reinterpret_cast<char*>(buffer), sizeof(u4)))
+        throw ReadFileException("Could not read u4");
+    *buffer = htonl(*buffer);
 }
 

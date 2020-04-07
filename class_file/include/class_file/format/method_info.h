@@ -7,17 +7,29 @@
 namespace avm {
 
 class MethodInfo: public ClassProperty {
-	friend class JavaClassParser;
+    friend class JavaClassParser;
 public:
-	MethodInfo();
-	virtual ~MethodInfo();
+    MethodInfo();
+    virtual ~MethodInfo();
 public:
-	inline bool isSynchronized() const { return _accessFlags & ACC_SYNCHRONIZED; }
-	inline bool isBridge() const { return _accessFlags & ACC_BRIDGE; }
-	inline bool isVarages() const { return _accessFlags & ACC_VARARGS; }
-	inline bool isNative() const { return _accessFlags & ACC_NATIVE; }
-	inline bool isAbstract() const { return _accessFlags & ACC_ABSTRACT; }
-	inline bool isStrict() const { return _accessFlags & ACC_STRICT; }
+    inline bool isSynchronized() const {
+        return _accessFlags & ACC_SYNCHRONIZED;
+    }
+    inline bool isBridge() const {
+        return _accessFlags & ACC_BRIDGE;
+    }
+    inline bool isVarages() const {
+        return _accessFlags & ACC_VARARGS;
+    }
+    inline bool isNative() const {
+        return _accessFlags & ACC_NATIVE;
+    }
+    inline bool isAbstract() const {
+        return _accessFlags & ACC_ABSTRACT;
+    }
+    inline bool isStrict() const {
+        return _accessFlags & ACC_STRICT;
+    }
 };
 }
 

@@ -7,8 +7,8 @@ namespace avm {
 
 class Synthetic: public AttributeInfo {
 public:
-	Synthetic();
-	virtual ~Synthetic();
+    Synthetic();
+    virtual ~Synthetic();
 };
 
 }

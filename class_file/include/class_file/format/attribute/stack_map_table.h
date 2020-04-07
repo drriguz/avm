@@ -7,8 +7,8 @@ namespace avm {
 
 class StackMapTable: public AttributeInfo {
 public:
-	StackMapTable();
-	virtual ~StackMapTable();
+    StackMapTable();
+    virtual ~StackMapTable();
 };
 
 }

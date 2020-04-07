@@ -7,8 +7,8 @@ namespace avm {
 
 class InnerClasses: public AttributeInfo {
 public:
-	InnerClasses();
-	virtual ~InnerClasses();
+    InnerClasses();
+    virtual ~InnerClasses();
 };
 
 }

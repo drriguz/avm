@@ -7,8 +7,8 @@ namespace avm {
 
 class LocalVariableTypeTable: public AttributeInfo {
 public:
-	LocalVariableTypeTable();
-	virtual ~LocalVariableTypeTable();
+    LocalVariableTypeTable();
+    virtual ~LocalVariableTypeTable();
 };
 
 }

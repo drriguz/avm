@@ -9,10 +9,16 @@ namespace avm {
 
 class ConstantRef: public ConstantInfo {
 public:
-	ConstantRef(const ConstantType& type, const u2& classIndex, const u2& nameAndTypeIndex);
+    ConstantRef(const ConstantType &type,
+                const u2 &classIndex,
+                const u2 &nameAndTypeIndex);
 public:
-	inline const u2 getClassIndex() const { return _classIndex; }
-	inline const u2 getNameAndTypeIndex() const { return _nameAndTypeIndex; }
+    inline const u2 getClassIndex() const {
+        return _classIndex;
+    }
+    inline const u2 getNameAndTypeIndex() const {
+        return _nameAndTypeIndex;
+    }
 protected:
     u2 _classIndex;
     u2 _nameAndTypeIndex;
@@ -20,17 +26,18 @@ protected:
 
 class ConstantFieldref: public ConstantRef {
 public:
-	ConstantFieldref(const u2& classIndex, const u2& nameAndTypeIndex);
+    ConstantFieldref(const u2 &classIndex, const u2 &nameAndTypeIndex);
 };
 
 class ConstantMethodref: public ConstantRef {
 public:
-	ConstantMethodref(const u2& classIndex, const u2& nameAndTypeIndex);
+    ConstantMethodref(const u2 &classIndex, const u2 &nameAndTypeIndex);
 };
 
 class ConstantInterfaceMethodref: public ConstantRef {
 public:
-	ConstantInterfaceMethodref(const u2& classIndex, const u2& nameAndTypeIndex);
+    ConstantInterfaceMethodref(const u2 &classIndex,
+                               const u2 &nameAndTypeIndex);
 };
 }
 #endif

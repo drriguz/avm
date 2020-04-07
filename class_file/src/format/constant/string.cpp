@@ -4,9 +4,9 @@
 
 using namespace avm;
 
-ConstantString::ConstantString(const u2& stringIndex)
-:_stringIndex(stringIndex),
- ConstantInfo(ConstantType::String){
+ConstantString::ConstantString(const u2 &stringIndex) :
+        _stringIndex(stringIndex),
+        ConstantInfo(ConstantType::String) {
 
 }
 

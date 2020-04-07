@@ -8,15 +8,21 @@ namespace avm {
 
 class AttributeInfo {
 public:
-	AttributeInfo(u2 nameIndex);
-	virtual ~AttributeInfo();
+    AttributeInfo(u2 nameIndex);
+    virtual ~AttributeInfo();
 protected:
-	u2 _nameIndex;
-	ConstantPool* _constantPool;
+    u2 _nameIndex;
+    ConstantPool *_constantPool;
 protected:
-	AttributeInfo(AttributeInfo&&) {};
-	AttributeInfo(const AttributeInfo&) {};
-	AttributeInfo& operator=(const AttributeInfo&) {};
+    AttributeInfo(AttributeInfo&&) {
+    }
+    ;
+    AttributeInfo(const AttributeInfo&) {
+    }
+    ;
+    AttributeInfo& operator=(const AttributeInfo&) {
+    }
+    ;
 };
 
 }

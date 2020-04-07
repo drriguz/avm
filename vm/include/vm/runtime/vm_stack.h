@@ -5,14 +5,14 @@
 
 #include "frame.h"
 
-namespace avm{
+namespace avm {
 
-	class VmStack {
-	public:
-		VmStack();
-		virtual ~VmStack();
-	protected:
-		std::stack<Frame> _frames;
-	};
+class VmStack {
+public:
+    VmStack();
+    virtual ~VmStack();
+protected:
+    std::stack<Frame> _frames;
+};
 }
 #endif

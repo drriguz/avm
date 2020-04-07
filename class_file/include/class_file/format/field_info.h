@@ -7,14 +7,20 @@
 namespace avm {
 
 class FieldInfo: public ClassProperty {
-	friend class JavaClassParser;
+    friend class JavaClassParser;
 public:
-	FieldInfo();
-	virtual ~FieldInfo();
+    FieldInfo();
+    virtual ~FieldInfo();
 public:
-	inline bool isVolatile() const { return _accessFlags & ACC_VOLATILE; }
-	inline bool isTransient() const { return _accessFlags & ACC_TRANSIENT; }
-	inline bool isEnum() const { return _accessFlags & ACC_ENUM; }
+    inline bool isVolatile() const {
+        return _accessFlags & ACC_VOLATILE;
+    }
+    inline bool isTransient() const {
+        return _accessFlags & ACC_TRANSIENT;
+    }
+    inline bool isEnum() const {
+        return _accessFlags & ACC_ENUM;
+    }
 };
 }
 

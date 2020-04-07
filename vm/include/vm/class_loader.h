@@ -9,10 +9,10 @@ namespace avm {
 
 class ClassLoader {
 public:
-	ClassLoader();
-	virtual ~ClassLoader();
+    ClassLoader();
+    virtual ~ClassLoader();
 public:
-	virtual void loadClass(const std::string& className, JavaClass& out) = 0;
+    virtual void loadClass(const std::string &className, JavaClass &out) = 0;
 };
 }
 #endif

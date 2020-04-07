@@ -3,9 +3,9 @@
 
 using namespace avm;
 
-MethodInfo::MethodInfo(){
+MethodInfo::MethodInfo() {
 
 }
 
-MethodInfo::~MethodInfo(){
+MethodInfo::~MethodInfo() {
 }

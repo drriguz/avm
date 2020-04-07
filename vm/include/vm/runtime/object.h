@@ -11,8 +11,8 @@ namespace avm {
 
 class Object {
 protected:
-	JavaClass* _class;
-	std::map<std::string, uint32_t> _fieldReferences;
+    JavaClass *_class;
+    std::map<std::string, uint32_t> _fieldReferences;
 };
 }
 #endif

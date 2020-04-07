@@ -2,38 +2,38 @@
 #define _AVM_ATTRIBUTE_TYPES_H_
 
 namespace avm {
-	enum AttributeTypes {
-		// The ConstantValue, Code and Exceptions attributes must be recognized and correctly read by a class file reader for correct interpretation of the class file by a Java Virtual Machine implementation. 
-		ConstantValue,
-		Code,
-		Exceptions,
+enum AttributeTypes {
+    // The ConstantValue, Code and Exceptions attributes must be recognized and correctly read by a class file reader for correct interpretation of the class file by a Java Virtual Machine implementation. 
+    ConstantValue,
+    Code,
+    Exceptions,
 
-		// The InnerClasses, EnclosingMethod and Synthetic attributes must be recognized and correctly read by a class file reader in order to properly implement the Java SE platform class libraries
-		InnerClasses,
-		EnclosingMethod,
-		Synthetic,
+    // The InnerClasses, EnclosingMethod and Synthetic attributes must be recognized and correctly read by a class file reader in order to properly implement the Java SE platform class libraries
+    InnerClasses,
+    EnclosingMethod,
+    Synthetic,
 
-		// The RuntimeVisibleAnnotations, RuntimeInvisibleAnnotations, RuntimeVisibleParameterAnnotations, RuntimeInvisibleParameterAnnotations and AnnotationDefault attributes must be recognized and correctly read by a class file reader in order to properly implement the Java SE platform class libraries
-		RuntimeVisibleAnnotations,
-		RuntimeInvisibleAnnotations,
-		RuntimeVisibleParameterAnnotations,
-		RuntimeInvisibleParameterAnnotations,
-		AnnotationDefault,
+    // The RuntimeVisibleAnnotations, RuntimeInvisibleAnnotations, RuntimeVisibleParameterAnnotations, RuntimeInvisibleParameterAnnotations and AnnotationDefault attributes must be recognized and correctly read by a class file reader in order to properly implement the Java SE platform class libraries
+    RuntimeVisibleAnnotations,
+    RuntimeInvisibleAnnotations,
+    RuntimeVisibleParameterAnnotations,
+    RuntimeInvisibleParameterAnnotations,
+    AnnotationDefault,
 
-		Signature,
-		StackMapTable,
-		BootstrapMethod,
+    Signature,
+    StackMapTable,
+    BootstrapMethod,
 
-		/*
-		do not requreid:
+/*
+ do not requreid:
 
-		SourceFile,
-		SourceDebugExtension,
-		LineNumberTable,
-		LocalVariableTable,
-		LocalVariableTypeTable,
-		Deprecated,
-		*/
-	};
+ SourceFile,
+ SourceDebugExtension,
+ LineNumberTable,
+ LocalVariableTable,
+ LocalVariableTypeTable,
+ Deprecated,
+ */
+};
 }
 #endif

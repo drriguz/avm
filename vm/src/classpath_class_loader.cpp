@@ -6,29 +6,30 @@
 
 using namespace avm;
 
-ClasspathClassLoader::ClasspathClassLoader(const std::string& classpath)
-	:_classpath(classpath){
+ClasspathClassLoader::ClasspathClassLoader(const std::string &classpath) :
+        _classpath(classpath) {
 
 }
 
-ClasspathClassLoader::~ClasspathClassLoader(){
+ClasspathClassLoader::~ClasspathClassLoader() {
 
 }
 
-std::string ClasspathClassLoader::getClassFilePath(const std::string& className) const {
-	std::string classFile = Strings::replaceAll(className, ".", "/") + ".class";
-	if(!_classpath.empty())
-		classFile = _classpath + "/" + classFile;
-	return classFile;
+std::string ClasspathClassLoader::getClassFilePath(const std::string &className) const {
+    std::string classFile = Strings::replaceAll(className, ".", "/") + ".class";
+    if (!_classpath.empty())
+        classFile = _classpath + "/" + classFile;
+    return classFile;
 }
 
-void ClasspathClassLoader::loadClass(const std::string& className, JavaClass& out) {
-	const std::string file = getClassFilePath(className);
+void ClasspathClassLoader::loadClass(const std::string &className,
+                                     JavaClass &out) {
+    const std::string file = getClassFilePath(className);
 
-	try {
-		ClassFileParser parser(file.c_str());
-		parser.parse(out);
-	} catch(FileOpenFailedException ex) {
-		throw ClassNotFoundException(ex.what());
-	}
+    try {
+        ClassFileParser parser(file.c_str());
+        parser.parse(out);
+    } catch (FileOpenFailedException ex) {
+        throw ClassNotFoundException(ex.what());
+    }
 }

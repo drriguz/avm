@@ -5,46 +5,52 @@
 #include <string>
 
 namespace avm {
-class RuntimeException : public std::exception {
+class RuntimeException: public std::exception {
 public:
-	RuntimeException(const std::string &msg) : message(msg) {
-	}
-	const virtual char *what() const throw() {
-		return message.c_str();
-	}
+    RuntimeException(const std::string &msg) :
+            message(msg) {
+    }
+    const virtual char* what() const throw () {
+        return message.c_str();
+    }
 
 private:
-	std::string message;
+    std::string message;
 };
 
-class FileOpenFailedException : public RuntimeException {
+class FileOpenFailedException: public RuntimeException {
 public:
-	FileOpenFailedException(const std::string &msg) : RuntimeException(msg) {
-	}
+    FileOpenFailedException(const std::string &msg) :
+            RuntimeException(msg) {
+    }
 };
 
-class ReadFileException : public RuntimeException {
+class ReadFileException: public RuntimeException {
 public:
-	ReadFileException(const std::string &msg) : RuntimeException(msg) {
-	}
+    ReadFileException(const std::string &msg) :
+            RuntimeException(msg) {
+    }
 };
 
-class NotClassFileException : public RuntimeException {
+class NotClassFileException: public RuntimeException {
 public:
-	NotClassFileException(const std::string &msg) : RuntimeException(msg) {
-	}
+    NotClassFileException(const std::string &msg) :
+            RuntimeException(msg) {
+    }
 };
 
-class ClassFormatException : public RuntimeException {
+class ClassFormatException: public RuntimeException {
 public:
-	ClassFormatException(const std::string &msg) : RuntimeException(msg) {
-	}
+    ClassFormatException(const std::string &msg) :
+            RuntimeException(msg) {
+    }
 };
 
-class MethodNotFoundException : public RuntimeException {
+class MethodNotFoundException: public RuntimeException {
 public:
-	MethodNotFoundException(const std::string &msg) : RuntimeException(msg) {
-	}
+    MethodNotFoundException(const std::string &msg) :
+            RuntimeException(msg) {
+    }
 };
 }
 

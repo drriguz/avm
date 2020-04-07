@@ -9,14 +9,14 @@ namespace avm {
 
 class ClasspathClassLoader: public ClassLoader {
 public:
-	ClasspathClassLoader(const std::string& classpath);
-	virtual ~ClasspathClassLoader();
+    ClasspathClassLoader(const std::string &classpath);
+    virtual ~ClasspathClassLoader();
 public:
-	virtual void loadClass(const std::string& className, JavaClass& out);
+    virtual void loadClass(const std::string &className, JavaClass &out);
 private:
-	std::string getClassFilePath(const std::string& className) const;
+    std::string getClassFilePath(const std::string &className) const;
 protected:
-	const std::string _classpath;
+    const std::string _classpath;
 };
 }
 #endif

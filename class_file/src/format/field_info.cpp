@@ -3,9 +3,9 @@
 
 using namespace avm;
 
-FieldInfo::FieldInfo(){
+FieldInfo::FieldInfo() {
 
 }
 
-FieldInfo::~FieldInfo(){
+FieldInfo::~FieldInfo() {
 }

@@ -12,14 +12,16 @@
 namespace avm {
 class WithAttributes {
 public:
-	WithAttributes();
-	virtual ~WithAttributes();
+    WithAttributes();
+    virtual ~WithAttributes();
 public:
-	inline const u2& getAttributesCount() const { return _attributesCount; }
-	const AttributeInfo* getAttributeAt(const u2& index) const;
+    inline const u2& getAttributesCount() const {
+        return _attributesCount;
+    }
+    const AttributeInfo* getAttributeAt(const u2 &index) const;
 protected:
-	u2 _attributesCount;
-	std::vector<std::unique_ptr<AttributeInfo>> _attributes;
+    u2 _attributesCount;
+    std::vector<std::unique_ptr<AttributeInfo>> _attributes;
 };
 }
 

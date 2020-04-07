@@ -6,18 +6,18 @@
 
 namespace avm {
 
-class BinaryReader{
+class BinaryReader {
 public:
-	explicit BinaryReader(const char* file);
-	virtual ~BinaryReader();
+    explicit BinaryReader(const char *file);
+    virtual ~BinaryReader();
 public:
-	virtual void reset();
-	virtual inline void read(char* buffer, unsigned int length);
-	virtual inline void readU1(u1* buffer);
-	virtual inline void readU2(u2* buffer);
-	virtual inline void readU4(u4* buffer);
+    virtual void reset();
+    virtual inline void read(char *buffer, unsigned int length);
+    virtual inline void readU1(u1 *buffer);
+    virtual inline void readU2(u2 *buffer);
+    virtual inline void readU4(u4 *buffer);
 protected:
-	std::fstream _fileStream;
+    std::fstream _fileStream;
 };
 }
 

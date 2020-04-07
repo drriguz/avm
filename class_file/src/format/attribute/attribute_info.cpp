@@ -2,9 +2,9 @@
 
 using namespace avm;
 
-AttributeInfo::AttributeInfo(u2 nameIndex)
-:_nameIndex(nameIndex){
+AttributeInfo::AttributeInfo(u2 nameIndex) :
+        _nameIndex(nameIndex) {
 }
 
-AttributeInfo::~AttributeInfo(){
+AttributeInfo::~AttributeInfo() {
 }

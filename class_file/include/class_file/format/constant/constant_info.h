@@ -10,21 +10,29 @@ namespace avm {
 
 class ConstantInfo {
 public:
-	ConstantInfo(const ConstantType& type);
-	virtual ~ConstantInfo();
+    ConstantInfo(const ConstantType &type);
+    virtual ~ConstantInfo();
 public:
-	inline const ConstantType getType() const { return _type; }
+    inline const ConstantType getType() const {
+        return _type;
+    }
 protected:
-	ConstantType _type;
+    ConstantType _type;
 
 protected:
-	/*
-	 * allow copy & move only for children
-	 * https://stackoverflow.com/questions/8777724/store-derived-class-objects-in-base-class-variables
-	 */
-	ConstantInfo(ConstantInfo&&) {};
-	ConstantInfo(const ConstantInfo&) {};
-	ConstantInfo& operator=(const ConstantInfo&) {};
+    /*
+     * allow copy & move only for children
+     * https://stackoverflow.com/questions/8777724/store-derived-class-objects-in-base-class-variables
+     */
+    ConstantInfo(ConstantInfo&&) {
+    }
+    ;
+    ConstantInfo(const ConstantInfo&) {
+    }
+    ;
+    ConstantInfo& operator=(const ConstantInfo&) {
+    }
+    ;
 };
 
 }

@@ -9,18 +9,18 @@
 
 namespace avm {
 
-class ClassFileParser :public JavaClassParser{
+class ClassFileParser: public JavaClassParser {
 public:
-	explicit ClassFileParser(const char* file);
-	virtual ~ClassFileParser();
+    explicit ClassFileParser(const char *file);
+    virtual ~ClassFileParser();
 public:
-	virtual void reset();
-	virtual inline void read(char* buffer, unsigned int length);
-	virtual inline void readU1(u1* buffer);
-	virtual inline void readU2(u2* buffer);
-	virtual inline void readU4(u4* buffer);
+    virtual void reset();
+    virtual inline void read(char *buffer, unsigned int length);
+    virtual inline void readU1(u1 *buffer);
+    virtual inline void readU2(u2 *buffer);
+    virtual inline void readU4(u4 *buffer);
 protected:
-	BinaryReader _reader;
+    BinaryReader _reader;
 };
 }
 

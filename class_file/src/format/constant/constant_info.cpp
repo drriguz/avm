@@ -2,11 +2,11 @@
 
 using namespace avm;
 
-ConstantInfo::ConstantInfo(const ConstantType& type)
-:_type(type){
+ConstantInfo::ConstantInfo(const ConstantType &type) :
+        _type(type) {
 
 }
 
-ConstantInfo::~ConstantInfo(){
+ConstantInfo::~ConstantInfo() {
 
 }

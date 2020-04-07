@@ -9,11 +9,13 @@ namespace avm {
 
 class ConstantClass: public ConstantInfo {
 public:
-	ConstantClass(const u2& nameIndex);
+    ConstantClass(const u2 &nameIndex);
 public:
-	inline const u2 getNameIndex() const { return _nameIndex; }
+    inline const u2 getNameIndex() const {
+        return _nameIndex;
+    }
 private:
-	const u2 _nameIndex;
+    const u2 _nameIndex;
 };
 
 }

@@ -12,18 +12,18 @@ namespace avm {
 
 class VirtualMachine {
 public:
-	VirtualMachine(const std::string& classpath, const std::string& mainClass);
-	virtual ~VirtualMachine();
+    VirtualMachine(const std::string &classpath, const std::string &mainClass);
+    virtual ~VirtualMachine();
 public:
-	void execute();
+    void execute();
 protected:
-	const JavaClass* getClass(const std::string& className) const;
+    const JavaClass* getClass(const std::string &className) const;
 protected:
-	std::string _classPath;
-	std::string _mainClass;
-	ClassLoader* _classLoader;
-	MethodArea* _methodArea;
-	VmThread* _mainThread;
+    std::string _classPath;
+    std::string _mainClass;
+    ClassLoader *_classLoader;
+    MethodArea *_methodArea;
+    VmThread *_mainThread;
 };
 }
 
