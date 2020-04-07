@@ -117,7 +117,11 @@ const MethodInfo* JavaClass::getMethod(const std::string& name, const std::strin
 	va_list flags;
 	va_start(flags, flagsCount);
 	for(int i = 0; i < flagsCount; i++){
-		u2 flag = va_arg(flags, u2);
+		/*
+		 * must NOT use char/short/float
+		 * refer: C Traps and Pit falls
+		 */
+		u2 flag = va_arg(flags, u4);
 		if(!(flag & accessFlags))
 			throw MethodNotFoundException("No proper method found");
 	}
