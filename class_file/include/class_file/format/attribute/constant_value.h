@@ -10,10 +10,8 @@ public:
     ConstantValue(const u2 &valueIndex) :
             _valueIndex(valueIndex) {
     }
-    ;
     virtual ~ConstantValue() {
     }
-    ;
 protected:
     const u2 _valueIndex;
 };

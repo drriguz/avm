@@ -16,13 +16,10 @@ protected:
 protected:
     AttributeInfo(AttributeInfo&&) {
     }
-    ;
     AttributeInfo(const AttributeInfo&) {
     }
-    ;
     AttributeInfo& operator=(const AttributeInfo&) {
     }
-    ;
 };
 
 }
