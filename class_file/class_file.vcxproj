@@ -103,6 +103,8 @@
     <ClInclude Include="include\class_file\format\field_info.h" />
     <ClInclude Include="include\class_file\format\java_class.h" />
     <ClInclude Include="include\class_file\format\method_info.h" />
+    <ClInclude Include="include\class_file\format\opcode.h" />
+    <ClInclude Include="include\class_file\format\opcodes.h" />
     <ClInclude Include="include\class_file\format\stack_map_frame.h" />
     <ClInclude Include="include\class_file\format\types.h" />
     <ClInclude Include="include\class_file\format\with_attributes.h" />
@@ -113,6 +115,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\format\attribute\attribute_info.cpp" />
+    <ClCompile Include="src\format\attribute\code.cpp" />
+    <ClCompile Include="src\format\attribute\constant_value.cpp" />
     <ClCompile Include="src\format\class_property.cpp" />
     <ClCompile Include="src\format\constant\class.cpp" />
     <ClCompile Include="src\format\constant\constant_info.cpp" />
@@ -129,6 +133,7 @@
     <ClCompile Include="src\format\field_info.cpp" />
     <ClCompile Include="src\format\java_class.cpp" />
     <ClCompile Include="src\format\method_info.cpp" />
+    <ClCompile Include="src\format\opcode.cpp" />
     <ClCompile Include="src\format\with_attributes.cpp" />
     <ClCompile Include="src\helper\strings.cpp" />
     <ClCompile Include="src\parser\file_reader.cpp" />

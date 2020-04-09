@@ -144,6 +144,12 @@
     <ClInclude Include="include\class_file\parser\file_reader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\class_file\format\opcodes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\class_file\format\opcode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\format\constant\class.cpp">
@@ -207,6 +213,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\parser\file_reader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\format\attribute\constant_value.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\format\attribute\code.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\format\opcode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

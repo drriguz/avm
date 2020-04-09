@@ -1,6 +1,7 @@
 #include "class_file/parser/java_class_parser.h"
 #include "class_file/parser/file_reader.h"
 #include "class_file/exceptions.h"
+#include "class_file/format/attribute/attribute_types.h"
 
 #include <iostream>
 
@@ -170,22 +171,27 @@ void JavaClassParser::readMethod(const ConstantPool* constants, MethodInfo &meth
 }
 
 AttributeInfo* JavaClassParser::readAttribute(const ConstantPool* constants, const AttributeTypes &type) {
-   
+	switch(type) {
+	case CONSTANT_VALUE:
+		return new ConstantValue(_reader->readU2());
+	}
     return nullptr;
 }
 
 void JavaClassParser::readAttributes(const ConstantPool* constants, WithAttributes& out) {
-    _reader->readU2(&out._attributesCount);
+	_reader->readU2(&out._attributesCount);
 
 	u2 nameIndex;
 	u4 length;
 	for (u2 i = 0; i < out._attributesCount; i++) {
 		_reader->readU2(&nameIndex);
 		_reader->readU4(&length);
-		char *info = new char[length];
 
-		_reader-> read(info, length);
-		delete[] info;
-		readAttribute(constants, AttributeTypes::ConstantValue);
+		const std::string name = constants->getString(nameIndex);
+		if(name == "ConstantValue")
+			readAttribute(constants, AttributeTypes::CONSTANT_VALUE);
+		else{
+			_reader->skip(length);
+		}
 	}
 }

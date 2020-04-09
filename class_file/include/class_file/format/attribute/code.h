@@ -7,10 +7,8 @@ namespace avm {
 
 class Code: public AttributeInfo {
 public:
-    Code() {
-    }
-    virtual ~Code() {
-    }
+    Code();
+    virtual ~Code();
 protected:
     const u2 _maxStack;
     const u2 _maxLocals;
