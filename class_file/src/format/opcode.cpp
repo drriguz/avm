@@ -1,5 +1,5 @@
 #include "class_file/format/opcode.h"
-#include <iostream>
+#include <cstring>
 
 using namespace avm;
 
@@ -9,7 +9,7 @@ _oprandsCount(oprandsCount),
 _oprands(nullptr){
     if(_oprandsCount != 0) {
         _oprands = new u2[_oprandsCount];
-        memcpy(_oprands, oprands, oprandsCount * sizeof(u2));
+        std::memcpy(_oprands, oprands, oprandsCount * sizeof(u2));
     }
 }
 
