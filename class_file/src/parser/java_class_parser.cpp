@@ -155,32 +155,18 @@ void JavaClassParser::readField(const ConstantPool* constants, FieldInfo &field)
     readU2(&field._accessFlags);
     readU2(&field._nameIndex);
     readU2(&field._descriptorIndex);
-    readU2(&field._attributesCount);
-
-    for (u2 i = 0; i < field._attributesCount; i++) {
-        readAttribute(constants, AttributeTypes::ConstantValue);
-    }
+	readAttributes(constants, field);
 }
 
 void JavaClassParser::readMethod(const ConstantPool* constants, MethodInfo &method) {
     readU2(&method._accessFlags);
     readU2(&method._nameIndex);
     readU2(&method._descriptorIndex);
-    readU2(&method._attributesCount);
-
-    for (u2 i = 0; i < method._attributesCount; i++) {
-        readAttribute(constants, AttributeTypes::ConstantValue);
-    }
+    readAttributes(constants, method);
 }
 
 AttributeInfo* JavaClassParser::readAttribute(const ConstantPool* constants, const AttributeTypes &type) {
-    u2 nameIndex = readU2();
-    u4 length = readU4();
-
-    char *info = new char[length];
-
-    read(info, length);
-	delete[] info;
+   
     return nullptr;
 }
 
@@ -190,6 +176,12 @@ void JavaClassParser::readAttributes(const ConstantPool* constants, WithAttribut
 	u2 nameIndex;
 	u4 length;
 	for (u2 i = 0; i < out._attributesCount; i++) {
+		readU2(&nameIndex);
+		readU4(&length);
+		char *info = new char[length];
+
+		read(info, length);
+		delete[] info;
 		readAttribute(constants, AttributeTypes::ConstantValue);
 	}
 }
