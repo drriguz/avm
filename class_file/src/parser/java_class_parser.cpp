@@ -119,7 +119,7 @@ void JavaClassParser::parse(JavaClass &out) {
     readClassDescriptors(out);
     readFields(out);
     readMethods(out);
-    readAttributes(out);
+	readAttributes(out._constantPool, out);
 
     out.setConstantPoolReferences();
 }
@@ -180,13 +180,16 @@ AttributeInfo* JavaClassParser::readAttribute(const ConstantPool* constants, con
     char *info = new char[length];
 
     read(info, length);
+	delete[] info;
     return nullptr;
 }
 
-void JavaClassParser::readAttributes(JavaClass &out) {
+void JavaClassParser::readAttributes(const ConstantPool* constants, WithAttributes& out) {
     readU2(&out._attributesCount);
 
-    for (u2 i = 0; i < out._attributesCount; i++) {
-		readAttribute(out._constantPool, AttributeTypes::ConstantValue);
-    }
+	u2 nameIndex;
+	u4 length;
+	for (u2 i = 0; i < out._attributesCount; i++) {
+		readAttribute(constants, AttributeTypes::ConstantValue);
+	}
 }

@@ -25,7 +25,7 @@ private:
     void readField(const ConstantPool* constants, FieldInfo &to);
     void readMethods(JavaClass &out);
     void readMethod(const ConstantPool* constants, MethodInfo &to);
-    void readAttributes(JavaClass &out);
+    void readAttributes(const ConstantPool* constants, WithAttributes& out);
 	AttributeInfo* readAttribute(const ConstantPool* constants, const AttributeTypes &type);
 protected:
     virtual void reset()=0;
