@@ -2,18 +2,17 @@
 
 #include <iostream>
 #include "class_file/parser/java_class_parser.h"
-#include "class_file/parser/class_file_parser.h"
 
 using namespace avm;
 
 TEST(ClassParser, parseSimpleFields) {
-    ClassFileParser parser("res/com/test/Simple.class");
+    JavaClassParser parser("res/com/test/Simple.class");
     JavaClass javaClass;
     parser.parse(javaClass);
 
     ASSERT_EQ(0, javaClass.getFieldsCount());
 
-    ClassFileParser parser1("res/com/test/SingleField.class");
+    JavaClassParser parser1("res/com/test/SingleField.class");
     JavaClass javaClass1;
     parser1.parse(javaClass1);
 
@@ -28,7 +27,7 @@ TEST(ClassParser, parseSimpleFields) {
 }
 
 TEST(ClassParser, parseFieldConstantValue) {
-    ClassFileParser parser1("res/com/test/SingleField.class");
+    JavaClassParser parser1("res/com/test/SingleField.class");
     JavaClass javaClass1;
     parser1.parse(javaClass1);
     const FieldInfo *field = javaClass1.getFieldAt(0);

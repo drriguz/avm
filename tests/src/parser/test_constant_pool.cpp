@@ -2,12 +2,11 @@
 
 #include <iostream>
 #include "class_file/parser/java_class_parser.h"
-#include "class_file/parser/class_file_parser.h"
 
 using namespace avm;
 
 TEST(ClassParser, getConstants) {
-    ClassFileParser parser("res/com/test/Constants.class");
+    JavaClassParser parser("res/com/test/Constants.class");
     JavaClass javaClass;
     parser.parse(javaClass);
     ASSERT_EQ(93, javaClass.getConstantPoolCount());

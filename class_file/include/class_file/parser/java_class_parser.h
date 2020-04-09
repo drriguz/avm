@@ -1,6 +1,7 @@
 #ifndef _AVM_JAVA_CLASS_PARSER_H_
 #define _AVM_JAVA_CLASS_PARSER_H_
 
+#include "binary_reader.h"
 #include "class_file/format/types.h"
 #include "class_file/format/java_class.h"
 #include "class_file/format/field_info.h"
@@ -12,7 +13,7 @@ namespace avm {
 
 class JavaClassParser {
 public:
-    JavaClassParser();
+    JavaClassParser(const char *filePath);
     virtual ~JavaClassParser();
 public:
     virtual void parse(JavaClass &out);
@@ -28,27 +29,7 @@ private:
     void readAttributes(const ConstantPool* constants, WithAttributes& out);
 	AttributeInfo* readAttribute(const ConstantPool* constants, const AttributeTypes &type);
 protected:
-    virtual void reset()=0;
-    virtual void read(char *buffer, unsigned int length)=0;
-    virtual void readU1(u1 *buffer)=0;
-    virtual void readU2(u2 *buffer)=0;
-    virtual void readU4(u4 *buffer)=0;
-protected:
-    inline u1 readU1() {
-        u1 tmp;
-        readU1(&tmp);
-        return tmp;
-    }
-    inline u2 readU2() {
-        u2 tmp;
-        readU2(&tmp);
-        return tmp;
-    }
-    inline u4 readU4() {
-        u4 tmp;
-        readU4(&tmp);
-        return tmp;
-    }
+    BinaryReader* _reader;
 };
 }
 

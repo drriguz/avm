@@ -1,5 +1,5 @@
 #include "vm/classpath_class_loader.h"
-#include "class_file/parser/class_file_parser.h"
+#include "class_file/parser/java_class_parser.h"
 #include "class_file/helper/strings.h"
 #include "class_file/exceptions.h"
 #include "vm/exceptions.h"
@@ -27,7 +27,7 @@ void ClasspathClassLoader::loadClass(const std::string &className,
     const std::string file = getClassFilePath(className);
 
     try {
-        ClassFileParser parser(file.c_str());
+        JavaClassParser parser(file.c_str());
         parser.parse(out);
     } catch (FileOpenFailedException ex) {
         throw ClassNotFoundException(ex.what());

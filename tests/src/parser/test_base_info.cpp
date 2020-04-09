@@ -2,12 +2,11 @@
 
 #include <iostream>
 #include "class_file/parser/java_class_parser.h"
-#include "class_file/parser/class_file_parser.h"
 
 using namespace avm;
 
 TEST(ClassParser, getMetaInfo) {
-    ClassFileParser parser("res/com/test/Simple.class");
+    JavaClassParser parser("res/com/test/Simple.class");
     JavaClass javaClass;
     parser.parse(javaClass);
     ASSERT_EQ(0xCAFEBABE, javaClass.getMagic());
@@ -16,7 +15,7 @@ TEST(ClassParser, getMetaInfo) {
 }
 
 TEST(ClassParser, parseClassMultipleTimes) {
-    ClassFileParser parser("res/com/test/Simple.class");
+    JavaClassParser parser("res/com/test/Simple.class");
     JavaClass javaClass;
     parser.parse(javaClass);
     parser.parse(javaClass);
@@ -25,7 +24,7 @@ TEST(ClassParser, parseClassMultipleTimes) {
 }
 
 TEST(ClassParser, parseClassDescriptors) {
-    ClassFileParser parser("res/com/test/Simple.class");
+    JavaClassParser parser("res/com/test/Simple.class");
     JavaClass javaClass;
     parser.parse(javaClass);
     ASSERT_TRUE(javaClass.isPublic());

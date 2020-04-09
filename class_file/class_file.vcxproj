@@ -108,7 +108,7 @@
     <ClInclude Include="include\class_file\format\with_attributes.h" />
     <ClInclude Include="include\class_file\helper\strings.h" />
     <ClInclude Include="include\class_file\parser\binary_reader.h" />
-    <ClInclude Include="include\class_file\parser\class_file_parser.h" />
+    <ClInclude Include="include\class_file\parser\file_reader.h" />
     <ClInclude Include="include\class_file\parser\java_class_parser.h" />
   </ItemGroup>
   <ItemGroup>
@@ -131,8 +131,7 @@
     <ClCompile Include="src\format\method_info.cpp" />
     <ClCompile Include="src\format\with_attributes.cpp" />
     <ClCompile Include="src\helper\strings.cpp" />
-    <ClCompile Include="src\parser\binary_reader.cpp" />
-    <ClCompile Include="src\parser\class_file_parser.cpp" />
+    <ClCompile Include="src\parser\file_reader.cpp" />
     <ClCompile Include="src\parser\java_class_parser.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

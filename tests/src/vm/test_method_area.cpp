@@ -3,7 +3,6 @@
 #include <iostream>
 
 #include "class_file/parser/java_class_parser.h"
-#include "class_file/parser/class_file_parser.h"
 #include "vm/runtime/method_area.h"
 
 #include "vm/exceptions.h"
@@ -18,7 +17,7 @@ TEST(MethodArea, throwExceptionIfClassNotFound) {
 
 TEST(MethodArea, getClassIfClassFound) {
     MethodArea methodArea;
-    ClassFileParser parser("res/com/test/Simple.class");
+    JavaClassParser parser("res/com/test/Simple.class");
     JavaClass *javaClass = new JavaClass();
     parser.parse(*javaClass);
 
@@ -36,7 +35,7 @@ TEST(MethodArea, getClassIfClassFound) {
 
 TEST(MethodArea, throwExceptionIfClassExists) {
     MethodArea methodArea;
-    ClassFileParser parser("res/com/test/Simple.class");
+    JavaClassParser parser("res/com/test/Simple.class");
     JavaClass *javaClass = new JavaClass();
     parser.parse(*javaClass);
 

@@ -2,7 +2,6 @@
 
 #include <iostream>
 #include "class_file/parser/java_class_parser.h"
-#include "class_file/parser/class_file_parser.h"
 #include "class_file/format/java_class.h"
 
 #include "class_file/exceptions.h"
@@ -10,7 +9,7 @@
 using namespace avm;
 
 TEST(JavaClass, getMethodIfFound) {
-    ClassFileParser parser1("res/com/test/SingleMethod.class");
+    JavaClassParser parser1("res/com/test/SingleMethod.class");
     JavaClass javaClass1;
     parser1.parse(javaClass1);
 
@@ -21,7 +20,7 @@ TEST(JavaClass, getMethodIfFound) {
 }
 
 TEST(JavaClass, getMethodWithFlagsIfFound) {
-    ClassFileParser parser1("res/com/vm/HelloWorld.class");
+    JavaClassParser parser1("res/com/vm/HelloWorld.class");
     JavaClass javaClass1;
     parser1.parse(javaClass1);
 
@@ -31,7 +30,7 @@ TEST(JavaClass, getMethodWithFlagsIfFound) {
 }
 
 TEST(JavaClass, throwExceptionIfNotFound) {
-    ClassFileParser parser1("res/com/test/SingleMethod.class");
+    JavaClassParser parser1("res/com/test/SingleMethod.class");
     JavaClass javaClass1;
     parser1.parse(javaClass1);
 

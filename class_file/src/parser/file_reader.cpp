@@ -1,4 +1,4 @@
-#include "class_file/parser/binary_reader.h"
+#include "class_file/parser/file_reader.h"
 #include "class_file/exceptions.h"
 
 #include <iostream>
@@ -11,45 +11,45 @@
 
 using namespace avm;
 
-BinaryReader::BinaryReader(const char *file) {
+BinaryFileReader::BinaryFileReader(const char *file) {
     _fileStream.open(file, std::fstream::in | std::fstream::binary);
 
     if (!_fileStream.is_open())
         throw FileOpenFailedException("Could not open:" + std::string(file));
 
 }
-BinaryReader::~BinaryReader() {
+BinaryFileReader::~BinaryFileReader() {
     if (_fileStream.is_open())
         _fileStream.close();
 }
 
-void BinaryReader::reset() {
+void BinaryFileReader::reset() {
     _fileStream.clear();
     _fileStream.seekg(0, std::ios::beg);
 }
 
-void BinaryReader::skip(u2 length) {
+void BinaryFileReader::skip(u2 length) {
 	if (!_fileStream.ignore(length))
         throw ReadFileException("Could not read from file");
 }
 
-void BinaryReader::read(char *buffer, unsigned int length) {
+void BinaryFileReader::read(char *buffer, unsigned int length) {
     if (!_fileStream.read(buffer, length))
         throw ReadFileException("Could not read from file");
 }
 
-void BinaryReader::readU1(u1 *buffer) {
+void BinaryFileReader::readU1(u1 *buffer) {
     if (!_fileStream.read(reinterpret_cast<char*>(buffer), sizeof(u1)))
         throw ReadFileException("Could not read u1");
 }
 
-void BinaryReader::readU2(u2 *buffer) {
+void BinaryFileReader::readU2(u2 *buffer) {
     if (!_fileStream.read(reinterpret_cast<char*>(buffer), sizeof(u2)))
         throw ReadFileException("Could not read u2");
     *buffer = htons(*buffer);
 }
 
-void BinaryReader::readU4(u4 *buffer) {
+void BinaryFileReader::readU4(u4 *buffer) {
     if (!_fileStream.read(reinterpret_cast<char*>(buffer), sizeof(u4)))
         throw ReadFileException("Could not read u4");
     *buffer = htonl(*buffer);

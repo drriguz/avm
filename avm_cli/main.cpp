@@ -1,4 +1,4 @@
-#include "class_file/parser/class_file_parser.h"
+#include "class_file/parser/java_class_parser.h"
 
 #include <iostream>
 #include <string>

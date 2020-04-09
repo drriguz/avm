@@ -2,12 +2,11 @@
 
 #include <iostream>
 #include "class_file/parser/java_class_parser.h"
-#include "class_file/parser/class_file_parser.h"
 
 using namespace avm;
 
 TEST(ClassParser, parseSimpleMethod) {
-    ClassFileParser parser1("res/com/test/SingleMethod.class");
+    JavaClassParser parser1("res/com/test/SingleMethod.class");
     JavaClass javaClass1;
     parser1.parse(javaClass1);
     ASSERT_EQ(2, javaClass1.getMethodsCount());

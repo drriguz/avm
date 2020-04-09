@@ -84,9 +84,6 @@
     <ClInclude Include="include\class_file\parser\binary_reader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\class_file\parser\class_file_parser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\class_file\parser\java_class_parser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -144,6 +141,9 @@
     <ClInclude Include="include\class_file\format\attribute\attribute_types.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\class_file\parser\file_reader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\format\constant\class.cpp">
@@ -194,13 +194,7 @@
     <ClCompile Include="src\helper\strings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\parser\class_file_parser.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\parser\java_class_parser.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\parser\binary_reader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\format\constant_pool.cpp">
@@ -210,6 +204,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\format\attribute\attribute_info.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\parser\file_reader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

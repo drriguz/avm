@@ -39,9 +39,8 @@ add_library(
 	class_file/src/format/constant/method_handle.cpp
 	class_file/src/format/constant/method_type.cpp
 	class_file/src/format/constant/invoke_dynamic.cpp
-	class_file/src/parser/binary_reader.cpp
+	class_file/src/parser/file_reader.cpp
 	class_file/src/parser/java_class_parser.cpp
-	class_file/src/parser/class_file_parser.cpp
 	class_file/src/helper/strings.cpp)
 
 add_library(

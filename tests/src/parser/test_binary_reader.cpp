@@ -3,12 +3,12 @@
 #include <iostream>
 #include <fstream>
 
-#include "class_file/parser/binary_reader.h"
+#include "class_file/parser/file_reader.h"
 
 using namespace avm;
 
 TEST(BinaryReader, readBigEndian) {
-    BinaryReader reader("res/test-endian.bin");
+    BinaryFileReader reader("res/test-endian.bin");
     u4 magic;
     u2 minorVersion, majorVersion, constantCount;
     reader.readU4(&magic);
@@ -23,7 +23,7 @@ TEST(BinaryReader, readBigEndian) {
 }
 
 TEST(BinaryReader, skip) {
-	BinaryReader reader("res/test-endian.bin");
+	BinaryFileReader reader("res/test-endian.bin");
     u2 minorVersion, constantCount;
     reader.skip(4);
     reader.readU2(&minorVersion);
