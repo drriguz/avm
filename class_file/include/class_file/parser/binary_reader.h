@@ -12,6 +12,7 @@ public:
     virtual ~BinaryReader();
 public:
     virtual void reset();
+	virtual inline void skip(u2 length);
     virtual inline void read(char *buffer, unsigned int length);
     virtual inline void readU1(u1 *buffer);
     virtual inline void readU2(u2 *buffer);

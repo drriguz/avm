@@ -21,3 +21,15 @@ TEST(BinaryReader, readBigEndian) {
     ASSERT_EQ(0x34, majorVersion);
     ASSERT_EQ(0x12, constantCount);
 }
+
+TEST(BinaryReader, skip) {
+	BinaryReader reader("res/test-endian.bin");
+    u2 minorVersion, constantCount;
+    reader.skip(4);
+    reader.readU2(&minorVersion);
+    reader.skip(2);
+    reader.readU2(&constantCount);
+
+    ASSERT_EQ(0, minorVersion);
+    ASSERT_EQ(0x12, constantCount);
+}

@@ -28,6 +28,11 @@ void BinaryReader::reset() {
     _fileStream.seekg(0, std::ios::beg);
 }
 
+void BinaryReader::skip(u2 length) {
+	if (!_fileStream.ignore(length))
+        throw ReadFileException("Could not read from file");
+}
+
 void BinaryReader::read(char *buffer, unsigned int length) {
     if (!_fileStream.read(buffer, length))
         throw ReadFileException("Could not read from file");
