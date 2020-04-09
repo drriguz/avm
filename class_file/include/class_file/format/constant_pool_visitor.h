@@ -6,6 +6,7 @@
 #include "constant_pool.h"
 
 namespace avm {
+// Deprecated
 class ConstantPoolVisitor {
 public:
     ConstantPoolVisitor();

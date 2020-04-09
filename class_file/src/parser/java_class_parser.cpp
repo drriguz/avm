@@ -139,7 +139,7 @@ void JavaClassParser::readFields(JavaClass &out) {
     readU2(&out._fieldsCount);
     out.initializeFields();
     for (u2 i = 0; i < out._fieldsCount; i++) {
-        readField(out._fields[i]);
+		readField(out._constantPool, out._fields[i]);
     }
 }
 
@@ -147,33 +147,33 @@ void JavaClassParser::readMethods(JavaClass &out) {
     readU2(&out._methodsCount);
     out.initializeMethods();
     for (u2 i = 0; i < out._methodsCount; i++) {
-        readMethod(out._methods[i]);
+        readMethod(out._constantPool, out._methods[i]);
     }
 }
 
-void JavaClassParser::readField(FieldInfo &field) {
+void JavaClassParser::readField(const ConstantPool* constants, FieldInfo &field) {
     readU2(&field._accessFlags);
     readU2(&field._nameIndex);
     readU2(&field._descriptorIndex);
     readU2(&field._attributesCount);
 
     for (u2 i = 0; i < field._attributesCount; i++) {
-        readAttribute(AttributeTypes::ConstantValue);
+        readAttribute(constants, AttributeTypes::ConstantValue);
     }
 }
 
-void JavaClassParser::readMethod(MethodInfo &method) {
+void JavaClassParser::readMethod(const ConstantPool* constants, MethodInfo &method) {
     readU2(&method._accessFlags);
     readU2(&method._nameIndex);
     readU2(&method._descriptorIndex);
     readU2(&method._attributesCount);
 
     for (u2 i = 0; i < method._attributesCount; i++) {
-        readAttribute(AttributeTypes::ConstantValue);
+        readAttribute(constants, AttributeTypes::ConstantValue);
     }
 }
 
-AttributeInfo* JavaClassParser::readAttribute(const AttributeTypes &type) {
+AttributeInfo* JavaClassParser::readAttribute(const ConstantPool* constants, const AttributeTypes &type) {
     u2 nameIndex = readU2();
     u4 length = readU4();
 
@@ -187,6 +187,6 @@ void JavaClassParser::readAttributes(JavaClass &out) {
     readU2(&out._attributesCount);
 
     for (u2 i = 0; i < out._attributesCount; i++) {
-        readAttribute(AttributeTypes::ConstantValue);
+		readAttribute(out._constantPool, AttributeTypes::ConstantValue);
     }
 }

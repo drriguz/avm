@@ -25,3 +25,8 @@ const ConstantInfo* ConstantPool::at(u2 index) const {
         throw new RuntimeException("Index out of bound");
     return _constantPool.at(index).get();
 }
+
+std::string ConstantPool::getString(u2 index) const {
+    const ConstantUtf8 *info = (ConstantUtf8*) at(index);
+    return info->getValue();
+}

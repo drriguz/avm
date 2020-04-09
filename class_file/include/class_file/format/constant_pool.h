@@ -15,6 +15,7 @@
 
 #include <vector>
 #include <memory>
+#include <string>
 
 namespace avm {
 
@@ -30,6 +31,8 @@ public:
     void push_back(ConstantInfo *info);
     void push_empty();
     const ConstantInfo* at(u2 index) const;
+public:
+	std::string getString(u2 index) const;
 protected:
     u2 _constantCount;
     std::vector<std::unique_ptr<ConstantInfo>> _constantPool;

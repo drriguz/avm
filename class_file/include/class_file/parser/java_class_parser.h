@@ -19,14 +19,14 @@ public:
 private:
     void readHeader(JavaClass &out);
     void readConstantPool(JavaClass &out);
+	ConstantInfo* readConstant(const ConstantType &type);
     void readClassDescriptors(JavaClass &out);
     void readFields(JavaClass &out);
-    ConstantInfo* readConstant(const ConstantType &type);
-    void readField(FieldInfo &to);
-    AttributeInfo* readAttribute(const AttributeTypes &type);
+    void readField(const ConstantPool* constants, FieldInfo &to);
     void readMethods(JavaClass &out);
-    void readMethod(MethodInfo &to);
+    void readMethod(const ConstantPool* constants, MethodInfo &to);
     void readAttributes(JavaClass &out);
+	AttributeInfo* readAttribute(const ConstantPool* constants, const AttributeTypes &type);
 protected:
     virtual void reset()=0;
     virtual void read(char *buffer, unsigned int length)=0;
