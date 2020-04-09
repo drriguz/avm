@@ -16,7 +16,7 @@ public:
 private:
     void checkConstantPool();
 protected:
-    const ConstantPool *_constantPool;
+    const ConstantPool *_constantsReference;
 };
 }
 #endif

@@ -22,7 +22,6 @@ JavaClass::JavaClass() :
         _fields(nullptr),
         _methodsCount(0),
         _methods(nullptr) {
-
 }
 
 JavaClass::~JavaClass() {

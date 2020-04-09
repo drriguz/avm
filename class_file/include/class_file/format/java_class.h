@@ -102,13 +102,10 @@ protected:
      */
     JavaClass(JavaClass&&) {
     }
-    ;
     JavaClass(const JavaClass&) {
     }
-    ;
     JavaClass& operator=(const JavaClass&) {
     }
-    ;
 private:
     u4 _magic;
     u2 _minorVersion;

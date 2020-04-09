@@ -23,5 +23,5 @@ void ConstantPool::push_back(ConstantInfo *info) {
 const ConstantInfo* ConstantPool::at(u2 index) const {
     if ((index < 0) || (index >= _constantCount))
         throw new RuntimeException("Index out of bound");
-    return _constantPool[index].get();
+    return _constantPool.at(index).get();
 }
