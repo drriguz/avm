@@ -20,6 +20,10 @@ public:
 public:
     inline u2 getMaxStack() const { return _maxStack; }
     inline u2 getMaxLocals() const { return _maxLocals; }
+    inline u2 getInstructionsCount() const { return _opcodes.size(); }
+    inline const Instruction* getInstructionAt(u2 index) const {
+        return _opcodes.at(index).get();
+    }
 protected:
     u2 _maxStack;
     u2 _maxLocals;

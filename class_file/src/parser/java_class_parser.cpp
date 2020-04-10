@@ -225,8 +225,8 @@ void JavaClassParser::parseCode(u1* code, u2 codeLength, Code& out) {
         Instruction *instruction = new Instruction(mnemonic);
         if(opcode.oprandCount > 0) {
             instruction->_oprands =  new u1[opcode.oprandCount];
-            for(int j = 1; j <= opcode.oprandCount; j++)
-                instruction->_oprands[j] = code[i + j];
+            for(int j = 0; j < opcode.oprandCount; j++)
+                instruction->_oprands[j] = code[i + j + 1];
             i += opcode.oprandCount;
         }
         out._opcodes.push_back(std::unique_ptr<Instruction>(instruction));
