@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "class_property.h"
+#include "attributes.h"
 
 namespace avm {
 
@@ -30,6 +31,8 @@ public:
     inline bool isStrict() const {
         return _accessFlags & ACC_STRICT;
     }
+public:
+    const Code* getCode() const;
 };
 }
 

@@ -2,7 +2,8 @@
 
 using namespace avm;
 
-AttributeInfo::AttributeInfo(){
+AttributeInfo::AttributeInfo(const AttributeTypes& type):
+_type(type){
 }
 
 AttributeInfo::~AttributeInfo() {

@@ -17,6 +17,9 @@ friend class JavaClassParser;
 public:
     Code(const u2& maxStack, const u2& maxLocals);
     virtual ~Code();
+public:
+    inline u2 getMaxStack() const { return _maxStack; }
+    inline u2 getMaxLocals() const { return _maxLocals; }
 protected:
     u2 _maxStack;
     u2 _maxLocals;

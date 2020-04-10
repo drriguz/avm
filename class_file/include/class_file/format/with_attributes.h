@@ -3,11 +3,13 @@
 
 #include <vector>
 #include <memory>
+#include <string>
 
 #include "constant_pool.h"
 #include "types.h"
-#include "attribute/attribute_info.h"
 #include "class_file/exceptions.h"
+
+#include "attribute/attribute_info.h"
 
 namespace avm {
 class WithAttributes {
@@ -21,6 +23,7 @@ public:
         return _attributesCount;
     }
     const AttributeInfo* getAttributeAt(const u2 &index) const;
+    const AttributeInfo* getAttrinute(AttributeTypes type) const;
 protected:
     u2 _attributesCount;
     std::vector<std::unique_ptr<AttributeInfo>> _attributes;

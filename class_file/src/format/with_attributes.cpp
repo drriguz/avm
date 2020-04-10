@@ -21,3 +21,11 @@ const AttributeInfo* WithAttributes::getAttributeAt(const u2 &index) const {
         throw new RuntimeException("Index out of bound");
     return _attributes[index].get();
 }
+
+const AttributeInfo* WithAttributes::getAttrinute(AttributeTypes type) const {
+    for (auto it = _attributes.begin() ; it != _attributes.end(); ++it) {
+        if((*it).get()->getType() == type)
+            return (*it).get();
+    }
+    throw AttributeNotFoundException("No enum found with the type");
+}

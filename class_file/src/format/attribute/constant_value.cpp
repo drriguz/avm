@@ -3,7 +3,8 @@
 using namespace avm;
 
 ConstantValue::ConstantValue(const u2 &valueIndex) :
-	_valueIndex(valueIndex){
+	_valueIndex(valueIndex),
+	AttributeInfo(AttributeTypes::CONSTANT_VALUE){
 }
 
 ConstantValue:: ~ConstantValue() {

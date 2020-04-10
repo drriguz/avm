@@ -52,6 +52,13 @@ public:
             RuntimeException(msg) {
     }
 };
+
+class AttributeNotFoundException: public RuntimeException {
+public:
+    AttributeNotFoundException(const std::string &msg) :
+            RuntimeException(msg) {
+    }
+};
 }
 
 #endif

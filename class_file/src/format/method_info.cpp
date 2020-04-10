@@ -9,3 +9,7 @@ MethodInfo::MethodInfo() {
 
 MethodInfo::~MethodInfo() {
 }
+
+const Code* MethodInfo::getCode() const {
+    return (Code*) getAttrinute(AttributeTypes::CODE);
+}

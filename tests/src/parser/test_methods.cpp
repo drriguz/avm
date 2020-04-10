@@ -22,3 +22,17 @@ TEST(ClassParser, parseSimpleMethod) {
     ASSERT_STREQ("hello", hello->getName().c_str());
     ASSERT_STREQ("()Ljava/lang/String;", hello->getDescriptor().c_str());
 }
+
+TEST(ClassParser, methodCodeAttribute) {
+    JavaClassParser parser1("res/com/vm/HelloWorld.class");
+    JavaClass javaClass1;
+    parser1.parse(javaClass1);
+    ASSERT_EQ(2, javaClass1.getMethodsCount());
+
+    const MethodInfo *constructor = javaClass1.getMethodAt(0);
+    const MethodInfo *hello = javaClass1.getMethodAt(1);
+    ASSERT_EQ(1, constructor->getCode()->getMaxLocals());
+    ASSERT_EQ(1, constructor->getCode()->getMaxStack());
+    ASSERT_EQ(4, hello->getCode()->getMaxLocals());
+    ASSERT_EQ(3, hello->getCode()->getMaxStack());
+}
