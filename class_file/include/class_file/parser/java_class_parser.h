@@ -28,7 +28,8 @@ private:
     void readMethod(const ConstantPool* constants, MethodInfo &to);
     void readAttributes(const ConstantPool* constants, WithAttributes& out);
     Code* readCode(const ConstantPool* constants);
-    void parseCode(u1* code, u2 codeLength, Code& out);
+    void readInstructions(Code& out);
+    void readExceptionTable(Code& out);
 protected:
     BinaryReader* _reader;
 };

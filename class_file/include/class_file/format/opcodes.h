@@ -399,7 +399,7 @@ static const Opcode instructionSet[] = {
     { j_putstatic         , 2 }, /* (0xb3) 179 */ 
     { j_getfield          , 2 }, /* (0xb4) 180 */ 
     { j_putfield          , 2 }, /* (0xb5) 181 */ 
-    { j_invokevirtual     , 2}, /* (0xb6) 182 */ 
+    { j_invokevirtual     , 2},  /* (0xb6) 182 */ 
     { j_invokespecial     , 2 }, /* (0xb7) 183 */ 
     { j_invokestatic      , 2 }, /* (0xb8) 184 */ 
     { j_invokeinterface   , 4 }, /* (0xb9) 185 */ 

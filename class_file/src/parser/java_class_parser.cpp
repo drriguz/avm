@@ -200,35 +200,44 @@ Code* JavaClassParser::readCode(const ConstantPool* constants) {
     u2 maxStack = _reader->readU2();
     u2 maxLocals = _reader->readU2();
     Code* attribute = new Code(maxStack, maxLocals);
-    u4 codeLength = _reader->readU4();
-    u1* code = new u1[codeLength];
-    _reader->read(reinterpret_cast<char*>(code), sizeof(u1) * codeLength);
-    parseCode(code, codeLength, *attribute);
-    delete []code;
+    readInstructions(*attribute);
+    readExceptionTable(*attribute);
+    readAttributes(constants, *attribute);
+    return attribute;
+}
+
+void JavaClassParser::readExceptionTable(Code& attribute) {
     u2 exceptionTableLength = _reader->readU2();
     for(int i = 0; i < exceptionTableLength; i++) {
         u2 startPc = _reader->readU2();
         u2 endPc = _reader->readU2();
         u2 handlerPc = _reader->readU2();
         u2 catchType = _reader->readU2();
-        attribute->_exceptionTable.push_back(ExceptionTable(startPc, endPc, handlerPc, catchType));
+        attribute._exceptionTable.push_back(ExceptionTable(startPc, endPc, handlerPc, catchType));
     }
-    readAttributes(constants, *attribute);
-    return attribute;
 }
 
-void JavaClassParser::parseCode(u1* code, u2 codeLength, Code& out) {
-    for(int i = 0; i < codeLength; i++) {
-        u2 opcodeValue = code[i];
+void JavaClassParser::readInstructions(Code& out) {
+    /*
+        eg. codeLength = 5, code = 2a b7 0 1 b1
+        (0x2a)    aload_0
+        (0xb7)    invokespecial #0x0001
+        (0xb1)    return
+    */
+    u4 codeLength = _reader->readU4();
+    for(int i = 0; i < codeLength; ) {
+        u2 opcodeValue = _reader->readU1();
         Mnemonic mnemonic = static_cast<Mnemonic>(opcodeValue);
         Opcode opcode = instructionSet[opcodeValue];
         Instruction *instruction = new Instruction(mnemonic);
         if(opcode.oprandCount > 0) {
             instruction->_oprands =  new u1[opcode.oprandCount];
-            for(int j = 0; j < opcode.oprandCount; j++)
-                instruction->_oprands[j] = code[i + j + 1];
-            i += opcode.oprandCount;
+            for(int j = 0; j < opcode.oprandCount; j++) {
+                instruction->_oprands[j] = _reader->readU1();
+            }
+                
         }
+        i += (opcode.oprandCount + 1) * sizeof(u1);
         out._opcodes.push_back(std::unique_ptr<Instruction>(instruction));
     }
 }

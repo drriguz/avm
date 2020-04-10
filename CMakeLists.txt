@@ -79,6 +79,7 @@ add_executable(
 	tests/src/parser/test_interfaces.cpp
 	tests/src/parser/test_fields.cpp
 	tests/src/parser/test_methods.cpp
+	tests/src/parser/test_mnemonic_mapping.cpp
 	tests/src/helper/test_strings.cpp
 	tests/src/vm/util/test_numbers.cpp
 	tests/src/vm/runtime/test_operand_stack.cpp
