@@ -27,7 +27,7 @@ private:
     void readMethods(JavaClass &out);
     void readMethod(const ConstantPool* constants, MethodInfo &to);
     void readAttributes(const ConstantPool* constants, WithAttributes& out);
-	AttributeInfo* readAttribute(const ConstantPool* constants, const AttributeTypes &type);
+    Code* readCode(const ConstantPool* constants);
 protected:
     BinaryReader* _reader;
 };

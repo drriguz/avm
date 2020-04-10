@@ -2,10 +2,9 @@
 
 using namespace avm;
 
-Code::Code():
-_maxStack(0),
-_maxLocals(0),
-_codeLength(0) {
+Code::Code(const u2& maxStack, const u2& maxLocals):
+_maxStack(maxStack),
+_maxLocals(maxLocals) {
 }
 
 Code:: ~Code() {

@@ -170,14 +170,6 @@ void JavaClassParser::readMethod(const ConstantPool* constants, MethodInfo &meth
     readAttributes(constants, method);
 }
 
-AttributeInfo* JavaClassParser::readAttribute(const ConstantPool* constants, const AttributeTypes &type) {
-	switch(type) {
-	case CONSTANT_VALUE:
-		return new ConstantValue(_reader->readU2());
-	}
-    return nullptr;
-}
-
 void JavaClassParser::readAttributes(const ConstantPool* constants, WithAttributes& out) {
 	_reader->readU2(&out._attributesCount);
 
@@ -188,10 +180,35 @@ void JavaClassParser::readAttributes(const ConstantPool* constants, WithAttribut
 		_reader->readU4(&length);
 
 		const std::string name = constants->getString(nameIndex);
+        AttributeInfo* attribute = nullptr;
 		if(name == "ConstantValue")
-			readAttribute(constants, AttributeTypes::CONSTANT_VALUE);
-		else{
+			attribute = new ConstantValue(_reader->readU2());
+        else if(name == "Code")
+            attribute = readCode(constants);
+		else
 			_reader->skip(length);
-		}
+        
+        if(attribute)
+            out.addAttribute(attribute);
 	}
+}
+
+Code* JavaClassParser::readCode(const ConstantPool* constants) {
+    u2 maxStack = _reader->readU2();
+    u2 maxLocals = _reader->readU2();
+    Code* attribute = new Code(maxStack, maxLocals);
+    u4 codeLength = _reader->readU4();
+    u1* code = new u1[codeLength];
+    _reader->read(reinterpret_cast<char*>(code), sizeof(u1) * codeLength);
+    delete []code;
+    u2 exceptionTableLength = _reader->readU2();
+    for(int i = 0; i < exceptionTableLength; i++) {
+        u2 startPc = _reader->readU2();
+        u2 endPc = _reader->readU2();
+        u2 handlerPc = _reader->readU2();
+        u2 catchType = _reader->readU2();
+        attribute->_exceptionTable.push_back(ExceptionTable(startPc, endPc, handlerPc, catchType));
+    }
+    readAttributes(constants, *attribute);
+    return attribute;
 }

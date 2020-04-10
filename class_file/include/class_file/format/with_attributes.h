@@ -16,6 +16,7 @@ public:
     WithAttributes();
     virtual ~WithAttributes();
 public:
+    void addAttribute(AttributeInfo* attribute);
     inline const u2& getAttributesCount() const {
         return _attributesCount;
     }

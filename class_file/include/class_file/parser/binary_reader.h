@@ -7,6 +7,8 @@ namespace avm {
 
 class BinaryReader {
 public:
+    virtual ~ BinaryReader() {}
+public:
 	virtual void reset()=0;
 	virtual inline void skip(u2 length)=0;
 	virtual inline void read(char *buffer, unsigned int length)=0;

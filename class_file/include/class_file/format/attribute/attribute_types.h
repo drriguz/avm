@@ -2,12 +2,13 @@
 #define _AVM_ATTRIBUTE_TYPES_H_
 
 #include "constant_value.h"
+#include "code.h"
 
 namespace avm {
 enum AttributeTypes {
     // The ConstantValue, Code and Exceptions attributes must be recognized and correctly read by a class file reader for correct interpretation of the class file by a Java Virtual Machine implementation. 
     CONSTANT_VALUE,
-    Code,
+    CODE,
     Exceptions,
 
     // The InnerClasses, EnclosingMethod and Synthetic attributes must be recognized and correctly read by a class file reader in order to properly implement the Java SE platform class libraries

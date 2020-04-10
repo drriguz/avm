@@ -30,6 +30,7 @@ add_library(
 	class_file/src/format/attribute/attribute_info.cpp
 	class_file/src/format/attribute/constant_value.cpp
 	class_file/src/format/attribute/code.cpp
+	class_file/src/format/attribute/exception_table.cpp
 	class_file/src/format/constant_pool.cpp
 	class_file/src/format/constant_pool_visitor.cpp
 	class_file/src/format/constant/constant_info.cpp
