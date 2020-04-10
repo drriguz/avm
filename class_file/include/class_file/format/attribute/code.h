@@ -7,7 +7,7 @@
 #include "class_file/format/attribute/attribute_info.h"
 #include "class_file/format/with_attributes.h"
 #include "exception_table.h"
-#include "class_file/format/opcode.h"
+#include "class_file/format/instruction.h"
 
 namespace avm {
 
@@ -23,7 +23,7 @@ public:
 protected:
     u2 _maxStack;
     u2 _maxLocals;
-    std::vector<std::unique_ptr<Opcode>> _opcodes;
+    std::vector<std::unique_ptr<Instruction>> _opcodes;
     std::vector<ExceptionTable> _exceptionTable;
 };
 

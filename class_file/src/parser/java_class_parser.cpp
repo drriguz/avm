@@ -2,8 +2,11 @@
 #include "class_file/parser/file_reader.h"
 #include "class_file/exceptions.h"
 #include "class_file/format/attribute/attribute_types.h"
+#include "class_file/format/opcodes.h"
+#include "class_file/format/instruction.h"
 
 #include <iostream>
+#include <memory>
 
 using namespace avm;
 
@@ -200,6 +203,7 @@ Code* JavaClassParser::readCode(const ConstantPool* constants) {
     u4 codeLength = _reader->readU4();
     u1* code = new u1[codeLength];
     _reader->read(reinterpret_cast<char*>(code), sizeof(u1) * codeLength);
+    parseCode(code, codeLength, *attribute);
     delete []code;
     u2 exceptionTableLength = _reader->readU2();
     for(int i = 0; i < exceptionTableLength; i++) {
@@ -211,4 +215,20 @@ Code* JavaClassParser::readCode(const ConstantPool* constants) {
     }
     readAttributes(constants, *attribute);
     return attribute;
+}
+
+void JavaClassParser::parseCode(u1* code, u2 codeLength, Code& out) {
+    for(int i = 0; i < codeLength; i++) {
+        u2 opcodeValue = code[i];
+        Mnemonic mnemonic = static_cast<Mnemonic>(opcodeValue);
+        Opcode opcode = instructionSet[opcodeValue];
+        Instruction *instruction = new Instruction(mnemonic);
+        if(opcode.oprandCount > 0) {
+            instruction->_oprands =  new u1[opcode.oprandCount];
+            for(int j = 1; j <= opcode.oprandCount; j++)
+                instruction->_oprands[j] = code[i + j];
+            i += opcode.oprandCount;
+        }
+        out._opcodes.push_back(std::unique_ptr<Instruction>(instruction));
+    }
 }

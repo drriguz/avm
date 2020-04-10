@@ -3,12 +3,7 @@
 
 #include "class_file/format/types.h"
 
-struct MNEMONIC {
-    Opcode opcode,
-    u2 oprandCount
-};
-
-enum Opcode {
+enum Mnemonic {
     j_nop                = 0x00  , /*  00 */   
     j_aconst_null        = 0x01  , /*  01 */   
     j_iconst_m1          = 0x02  , /*  02 */   
@@ -216,7 +211,12 @@ enum Opcode {
     j_impdep2            = 0xff  , /* 255 */  
 };
 
-static const MNEMONIC instructionSet[] = {
+struct Opcode {
+    Mnemonic opcode;
+    u2 oprandCount;
+};
+
+static const Opcode instructionSet[] = {
     { j_nop               , 0 }, /* (0x00)  00 */ 
     { j_aconst_null       , 0 }, /* (0x01)  01 */ 
     { j_iconst_m1         , 0 }, /* (0x02)  02 */ 
