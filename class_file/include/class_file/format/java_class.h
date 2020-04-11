@@ -30,6 +30,9 @@ public:
     inline const u2& getMajorVersion() const {
         return _majorVersion;
     }
+    inline const ConstantPool* getConstantPool() const {
+        return _constantPool;
+    }
     inline const u2& getConstantPoolCount() const {
         return _constantPool->getConstantPoolCount();
     }

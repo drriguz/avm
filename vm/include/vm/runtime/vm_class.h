@@ -13,6 +13,8 @@ class VmClass {
 public:
     VmClass(const JavaClass* javaClass);
     virtual ~VmClass();
+public:
+    const ConstantPool* getRuntimeConstantPool() const;
 protected:
     const JavaClass* _javaClass;
 };
