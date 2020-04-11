@@ -9,6 +9,10 @@ class ConstantValue: public AttributeInfo {
 public:
     ConstantValue(const u2 &valueIndex);
     virtual ~ConstantValue();
+public:
+    inline const u2 getValueIndex() const {
+        return _valueIndex;
+    }
 protected:
     const u2 _valueIndex;
 };
