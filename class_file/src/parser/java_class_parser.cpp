@@ -188,12 +188,23 @@ void JavaClassParser::readAttributes(const ConstantPool* constants, WithAttribut
 			attribute = new ConstantValue(_reader->readU2());
         else if(name == "Code")
             attribute = readCode(constants);
+        else if(name == "Exceptions")
+            attribute=  readExceptions(constants);
 		else
 			_reader->skip(length);
         
         if(attribute)
             out.addAttribute(attribute);
 	}
+}
+Exceptions* JavaClassParser::readExceptions(const ConstantPool* constants) {
+    Exceptions* attribute = new Exceptions();
+    u2 count = _reader->readU2();
+    for(int i = 0; i < count; i ++) {
+        u2 index = _reader->readU2();
+        attribute->_exceptionClasses.push_back(constants->getClassName(index));
+    }
+    return attribute;
 }
 
 Code* JavaClassParser::readCode(const ConstantPool* constants) {

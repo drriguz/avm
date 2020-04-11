@@ -5,5 +5,6 @@
 #include "attribute/attribute_types.h"
 #include "attribute/constant_value.h"
 #include "attribute/code.h"
+#include "attribute/exceptions.h"
 
 #endif

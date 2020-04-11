@@ -1,7 +1,12 @@
 package com.test;
+
+import java.io.IOException;
+
 public class ComplexMethod {
-    public float pi() {
-        float pi = 3.14f;
-        return pi;
+    public static class CustomException extends Exception {
+
+    }
+    public int sum(int a, int b) throws IOException, CustomException {
+        return a + b;
     }
 }

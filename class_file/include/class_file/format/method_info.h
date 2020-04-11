@@ -33,6 +33,7 @@ public:
     }
 public:
     const Code* getCode() const;
+    const Exceptions* getExceptions() const;
 };
 }
 

@@ -28,6 +28,7 @@ private:
     void readMethod(const ConstantPool* constants, MethodInfo &to);
     void readAttributes(const ConstantPool* constants, WithAttributes& out);
     Code* readCode(const ConstantPool* constants);
+    Exceptions* readExceptions(const ConstantPool* constants);
     void readInstructions(Code& out);
     void readExceptionTable(Code& out);
 protected:

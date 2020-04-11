@@ -13,3 +13,7 @@ MethodInfo::~MethodInfo() {
 const Code* MethodInfo::getCode() const {
     return (Code*) getAttrinute(AttributeType::CODE);
 }
+
+const Exceptions* MethodInfo::getExceptions() const {
+    return (Exceptions*) getAttrinute(AttributeType::EXCEPTIONS);
+}

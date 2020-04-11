@@ -30,3 +30,7 @@ std::string ConstantPool::getString(u2 index) const {
     const ConstantUtf8 *info = (ConstantUtf8*) at(index);
     return info->getValue();
 }
+std::string ConstantPool::getClassName(u2 classInfoIndex) const {
+    const ConstantClass *info = (ConstantClass*) at(classInfoIndex);
+    return getString(info->getNameIndex());
+}

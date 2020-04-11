@@ -1,6 +1,9 @@
 #ifndef _AVM_EXCEPTIONS_ATTRIBUTE_H_
 #define _AVM_EXCEPTIONS_ATTRIBUTE_H_
 
+#include <string>
+#include <vector>
+
 #include "class_file/format/attribute/attribute_info.h"
 #include "class_file/exceptions.h"
 
@@ -13,16 +16,13 @@ public:
     virtual ~Exceptions();
 public:
     inline u2 getExceptionsCount() const {
-        return _exceptionsCount;
+        return _exceptionClasses.size();
     }
-    inline u2 getIndex(u2 i) const  {
-        if(i < 0 || i > _exceptionsCount)
-            throw AttributeNotFoundException("Exception index out of range");
-        return _indexes[i];
+    inline std::string getExceptionClass(u2 index) const {
+        return _exceptionClasses.at(index);
     }
 protected:
-    u2 _exceptionsCount;
-    u2* _indexes; 
+    std::vector<std::string> _exceptionClasses;
 };
 
 }

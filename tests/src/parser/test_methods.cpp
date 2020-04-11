@@ -42,3 +42,14 @@ TEST(ClassParser, methodCodeAttribute) {
     ASSERT_EQ(1, constructor->getCode()->getInstructionAt(1)->getOprand(1));
     ASSERT_EQ(j_return, constructor->getCode()->getInstructionAt(2)->getOpcode());
 }
+
+TEST(ClassParser, methodExceptions) {
+    JavaClassParser parser1("res/com/test/ComplexMethod.class");
+    JavaClass javaClass1;
+    parser1.parse(javaClass1);
+    ASSERT_EQ(2, javaClass1.getMethodsCount());
+    const MethodInfo *method = javaClass1.getMethod("sum", "(II)I");
+    const Exceptions* exceptions = method->getExceptions();
+    ASSERT_EQ(2, exceptions->getExceptionsCount());
+    ASSERT_EQ("java/io/IOException", exceptions->getExceptionClass(0));
+}
