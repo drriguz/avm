@@ -2,7 +2,7 @@
 #define _AVM_ATTRIBUTE_TYPES_H_
 
 namespace avm {
-enum AttributeTypes {
+enum AttributeType {
     // The ConstantValue, Code and Exceptions attributes must be recognized and correctly read by a class file reader for correct interpretation of the class file by a Java Virtual Machine implementation. 
     CONSTANT_VALUE,
     CODE,

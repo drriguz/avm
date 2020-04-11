@@ -9,10 +9,10 @@ namespace avm {
 
 class AttributeInfo {
 public:
-    AttributeInfo(const AttributeTypes& type);
+    AttributeInfo(const AttributeType& type);
     virtual ~AttributeInfo();
 public:
-    inline const AttributeTypes getType() const {
+    inline const AttributeType getType() const {
         return _type;
     }
 protected:
@@ -23,7 +23,7 @@ protected:
     AttributeInfo& operator=(const AttributeInfo&) {
     }
 protected:
-    AttributeTypes _type;
+    AttributeType _type;
 };
 
 }

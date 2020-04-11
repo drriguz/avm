@@ -22,7 +22,7 @@ const AttributeInfo* WithAttributes::getAttributeAt(const u2 &index) const {
     return _attributes[index].get();
 }
 
-const AttributeInfo* WithAttributes::getAttrinute(AttributeTypes type) const {
+const AttributeInfo* WithAttributes::getAttrinute(AttributeType type) const {
     for (auto it = _attributes.begin() ; it != _attributes.end(); ++it) {
         if((*it).get()->getType() == type)
             return (*it).get();
