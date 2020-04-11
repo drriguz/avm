@@ -34,7 +34,7 @@ TEST(ClassParser, methodCodeAttribute) {
     ASSERT_EQ(1, constructor->getCode()->getMaxLocals());
     ASSERT_EQ(1, constructor->getCode()->getMaxStack());
     ASSERT_EQ(4, hello->getCode()->getMaxLocals());
-    ASSERT_EQ(3, hello->getCode()->getMaxStack());
+    ASSERT_EQ(2, hello->getCode()->getMaxStack());
     ASSERT_EQ(3, constructor->getCode()->getInstructionsCount());
     ASSERT_EQ(j_aload_0, constructor->getCode()->getInstructionAt(0)->getOpcode());
     ASSERT_EQ(j_invokespecial, constructor->getCode()->getInstructionAt(1)->getOpcode());

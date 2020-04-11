@@ -21,3 +21,7 @@ u2 VmMethod::getMaxStack() const {
 const Instruction* VmMethod::getInstruction(u2 index) const {
     return _javaMethod->getCode()->getInstructionAt(index);
 }
+
+u2 VmMethod:: getInstructionsCount() const {
+    return _javaMethod->getCode()->getInstructionsCount();
+}

@@ -12,6 +12,7 @@ public:
 public:
     u2 getMaxLocals() const;
     u2 getMaxStack() const;
+    u2 getInstructionsCount() const;
     const Instruction* getInstruction(u2 index) const;
 protected:
     const MethodInfo* _javaMethod;

@@ -11,6 +11,13 @@ class Frame {
 public:
     Frame(int locals, int stack, const ConstantPool *constantPool);
     virtual ~Frame();
+public:
+    inline OperandStack* getOperandStack() {
+        return &_operandStack;
+    }
+    inline LocalVariables* getLocalVariables() {
+        return &_localVariables;
+    }
 protected:
     LocalVariables _localVariables;
     OperandStack _operandStack;

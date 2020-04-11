@@ -1,5 +1,6 @@
 #include "vm/virtual_machine.h"
 #include "vm/runtime/vm_method.h"
+#include "vm/interpreter.h"
 
 using namespace avm;
 
@@ -31,7 +32,8 @@ void VirtualMachine::execute() {
 }
 
 void VirtualMachine::execute(VmThread* thread) {
-    
+    Interpreter interpreter;
+    interpreter.execute(thread);
 }
 
 const JavaClass* VirtualMachine::getClass(const std::string &className) const {
