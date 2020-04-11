@@ -150,6 +150,15 @@
     <ClInclude Include="include\class_file\format\opcode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\class_file\format\attribute\exception_table.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\class_file\format\attributes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\class_file\format\instruction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\format\constant\class.cpp">
@@ -221,7 +230,10 @@
     <ClCompile Include="src\format\attribute\code.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\format\opcode.cpp">
+    <ClCompile Include="src\format\attribute\exception_table.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\format\instruction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

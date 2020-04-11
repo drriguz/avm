@@ -70,6 +70,7 @@
     <ClInclude Include="include\class_file\exceptions.h" />
     <ClInclude Include="include\class_file\format\access_flags.h" />
     <ClInclude Include="include\class_file\format\annotation.h" />
+    <ClInclude Include="include\class_file\format\attributes.h" />
     <ClInclude Include="include\class_file\format\attribute\attribute_info.h" />
     <ClInclude Include="include\class_file\format\attribute\attribute_types.h" />
     <ClInclude Include="include\class_file\format\attribute\code.h" />
@@ -77,6 +78,7 @@
     <ClInclude Include="include\class_file\format\attribute\deprecated.h" />
     <ClInclude Include="include\class_file\format\attribute\enclosing_method.h" />
     <ClInclude Include="include\class_file\format\attribute\exceptions.h" />
+    <ClInclude Include="include\class_file\format\attribute\exception_table.h" />
     <ClInclude Include="include\class_file\format\attribute\inner_classes.h" />
     <ClInclude Include="include\class_file\format\attribute\line_number_table.h" />
     <ClInclude Include="include\class_file\format\attribute\local_variable_table.h" />
@@ -101,6 +103,7 @@
     <ClInclude Include="include\class_file\format\constant_pool.h" />
     <ClInclude Include="include\class_file\format\constant_pool_visitor.h" />
     <ClInclude Include="include\class_file\format\field_info.h" />
+    <ClInclude Include="include\class_file\format\instruction.h" />
     <ClInclude Include="include\class_file\format\java_class.h" />
     <ClInclude Include="include\class_file\format\method_info.h" />
     <ClInclude Include="include\class_file\format\opcode.h" />
@@ -117,6 +120,7 @@
     <ClCompile Include="src\format\attribute\attribute_info.cpp" />
     <ClCompile Include="src\format\attribute\code.cpp" />
     <ClCompile Include="src\format\attribute\constant_value.cpp" />
+    <ClCompile Include="src\format\attribute\exception_table.cpp" />
     <ClCompile Include="src\format\class_property.cpp" />
     <ClCompile Include="src\format\constant\class.cpp" />
     <ClCompile Include="src\format\constant\constant_info.cpp" />
@@ -131,9 +135,9 @@
     <ClCompile Include="src\format\constant_pool.cpp" />
     <ClCompile Include="src\format\constant_pool_visitor.cpp" />
     <ClCompile Include="src\format\field_info.cpp" />
+    <ClCompile Include="src\format\instruction.cpp" />
     <ClCompile Include="src\format\java_class.cpp" />
     <ClCompile Include="src\format\method_info.cpp" />
-    <ClCompile Include="src\format\opcode.cpp" />
     <ClCompile Include="src\format\with_attributes.cpp" />
     <ClCompile Include="src\helper\strings.cpp" />
     <ClCompile Include="src\parser\file_reader.cpp" />
