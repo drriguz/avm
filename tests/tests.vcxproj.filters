@@ -63,5 +63,8 @@
     <ClCompile Include="src\vm\util\test_numbers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\parser\test_mnemonic_mapping.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
