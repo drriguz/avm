@@ -10,6 +10,8 @@ class VmThread {
 public:
     VmThread();
     virtual ~VmThread();
+public:
+    void pushFrame();
 protected:
     ProgramCounterRegister _pcRegister;
     VmStack _vmStack;

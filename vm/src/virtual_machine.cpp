@@ -14,15 +14,20 @@ VirtualMachine::VirtualMachine(const std::string &classpath,
 VirtualMachine::~VirtualMachine() {
     delete _classLoader;
     delete _methodArea;
+    if(_mainThread)
+        delete _mainThread;
 }
 
 void VirtualMachine::execute() {
     const JavaClass *mainClass = getClass(_mainClass);
     const MethodInfo *entry = mainClass->getMethod("main",
             "([Ljava/lang/String;)V", 2, ACC_PUBLIC, ACC_STATIC);
-    if (!entry->isPublic())
-        throw MethodNotFoundException("No public main found");
+    _mainThread = new VmThread();
+    execute(_mainThread);
+}
 
+void VirtualMachine::execute(VmThread* thread) {
+    
 }
 
 const JavaClass* VirtualMachine::getClass(const std::string &className) const {

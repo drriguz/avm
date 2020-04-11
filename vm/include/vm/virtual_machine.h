@@ -16,6 +16,7 @@ public:
     virtual ~VirtualMachine();
 public:
     void execute();
+    void execute(VmThread* thread);
 protected:
     const JavaClass* getClass(const std::string &className) const;
 protected:

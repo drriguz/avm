@@ -50,12 +50,14 @@ add_library(
 
 add_library(
 	vm STATIC
-    vm/src/runtime/virtual_machine.cpp
+    vm/src/virtual_machine.cpp
     vm/src/runtime/method_area.cpp
 	vm/src/runtime/slot.cpp
 	vm/src/runtime/operand_stack.cpp
 	vm/src/runtime/local_variables.cpp
 	vm/src/runtime/frame.cpp
+	vm/src/runtime/vm_thread.cpp
+	vm/src/runtime/vm_stack.cpp
 	vm/src/util/numbers.cpp
     vm/src/class_loader.cpp
     vm/src/classpath_class_loader.cpp)
