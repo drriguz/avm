@@ -1,4 +1,6 @@
 #include "vm/virtual_machine.h"
+#include "vm/runtime/vm_method.h"
+
 using namespace avm;
 
 VirtualMachine::VirtualMachine(const std::string &classpath,
@@ -22,7 +24,9 @@ void VirtualMachine::execute() {
     const JavaClass *mainClass = getClass(_mainClass);
     const MethodInfo *entry = mainClass->getMethod("main",
             "([Ljava/lang/String;)V", 2, ACC_PUBLIC, ACC_STATIC);
-    _mainThread = new VmThread();
+    VmClass entryClass(mainClass);
+    VmMethod entryMethod(entry);
+    _mainThread = new VmThread(&entryClass, &entryMethod);
     execute(_mainThread);
 }
 

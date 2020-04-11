@@ -2,7 +2,9 @@
 
 using namespace avm;
 
-VmThread::VmThread() {
+VmThread::VmThread(const VmClass* entryClass, const VmMethod* entryMethod):
+_entryClass(entryClass),
+_entryMethod(entryMethod){
 
 }
 

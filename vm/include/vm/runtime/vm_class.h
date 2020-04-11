@@ -11,9 +11,7 @@ namespace avm {
 
 class VmClass {
 public:
-    VmClass(const JavaClass* javaClass) : _javaClass(javaClass) {
-
-    }
+    VmClass(const JavaClass* javaClass);
     virtual ~VmClass();
 protected:
     const JavaClass* _javaClass;
