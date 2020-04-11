@@ -6,7 +6,7 @@ enum AttributeType {
     // The ConstantValue, Code and Exceptions attributes must be recognized and correctly read by a class file reader for correct interpretation of the class file by a Java Virtual Machine implementation. 
     CONSTANT_VALUE,
     CODE,
-    Exceptions,
+    EXCEPTIONS,
 
     // The InnerClasses, EnclosingMethod and Synthetic attributes must be recognized and correctly read by a class file reader in order to properly implement the Java SE platform class libraries
     InnerClasses,

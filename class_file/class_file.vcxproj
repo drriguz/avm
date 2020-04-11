@@ -120,6 +120,7 @@
     <ClCompile Include="src\format\attribute\attribute_info.cpp" />
     <ClCompile Include="src\format\attribute\code.cpp" />
     <ClCompile Include="src\format\attribute\constant_value.cpp" />
+    <ClCompile Include="src\format\attribute\exceptions.cpp" />
     <ClCompile Include="src\format\attribute\exception_table.cpp" />
     <ClCompile Include="src\format\class_property.cpp" />
     <ClCompile Include="src\format\constant\class.cpp" />
