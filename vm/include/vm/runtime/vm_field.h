@@ -11,10 +11,14 @@ namespace avm {
     public:
         VmField(const std::string& name, const std::string& descriptor);
         virtual ~VmField();
+    public:
+        void setValue(int value) { _value = value; }
+        inline int getValue() const { return _value; }
     protected:
         const FieldInfo* _fieldInfo;
         std::string _name;
         std::string _descriptor;
+        int _value; // FIXME:
     };
 }
 

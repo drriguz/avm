@@ -19,6 +19,9 @@ public:
     const ConstantPool* getRuntimeConstantPool() const;
     const VmMethod getClassInitializationMethod() const;
     void prepare();
+    VmField* getField(const std::string& name) {
+        return _fields[name].get();
+    }
 protected:
     const JavaClass* _javaClass;
     std::map<std::string, std::unique_ptr<VmField>>  _fields;

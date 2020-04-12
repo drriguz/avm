@@ -33,7 +33,8 @@ void VirtualMachine::execute() {
 
 void VirtualMachine::execute(VmThread* thread) {
     Interpreter interpreter;
-    interpreter.execute(thread);
+    Context context(this, thread);
+    interpreter.execute(context);
 }
 
 const JavaClass* VirtualMachine::getClass(const std::string &className) const {

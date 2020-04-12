@@ -1,11 +1,12 @@
 #include "vm/interpreter.h"
 #include "vm/exceptions.h"
+#include "class_file/format/constant_pool.h"
 
 #include <iostream>
 #include <string>
 
 using namespace avm;
-using invoke_fn = void(const ConstantPool*, const Instruction*, Frame*);
+using invoke_fn = void(Context&, const Instruction*);
 invoke_fn* invoke_mapping[] = {
 invoke_nop             ,
 invoke_aconst_null     ,
@@ -223,267 +224,271 @@ Interpreter::~Interpreter(){
 
 }
 
-void Interpreter::execute(VmThread* thread){
+void Interpreter::execute(Context& context){
     while(true) {
-        const Instruction* instruction = thread->nextInstruction();
+        const Instruction* instruction = context.thread()->nextInstruction();
         if(instruction == nullptr)
             break;
-        invoke(thread->currentClass()->getRuntimeConstantPool(), instruction, thread->currentFrame());
+        invoke(context, instruction);
         std::cout << "=>" << instruction->getOpcode() << std::endl;
     }
 }
 
-void Interpreter::invoke(const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame) {
+void Interpreter::invoke(Context& context, const Instruction* instruction) {
     invoke_fn* invoker = invoke_mapping[instruction->getOpcode()];
-    invoker(runtimeConstantPool, instruction, frame);
+    invoker(context, instruction);
 }
 
 /* ------------------- */
 
-void avm::invoke_nop             (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_aconst_null     (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_iconst_m1       (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_iconst_0        (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){
-    frame->getOperandStack()->pushInt(0);
+void avm::invoke_nop             (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_aconst_null     (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_iconst_m1       (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_iconst_0        (Context& context, const Instruction* instruction){
+    context.frame()->getOperandStack()->pushInt(0);
 } 
-void avm::invoke_iconst_1        (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){
-    frame->getOperandStack()->pushInt(1);
+void avm::invoke_iconst_1        (Context& context, const Instruction* instruction){
+    context.frame()->getOperandStack()->pushInt(1);
 } 
-void avm::invoke_iconst_2        (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){
-    frame->getOperandStack()->pushInt(2);
+void avm::invoke_iconst_2        (Context& context, const Instruction* instruction){
+    context.frame()->getOperandStack()->pushInt(2);
 } 
-void avm::invoke_iconst_3        (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){
-    frame->getOperandStack()->pushInt(3);
+void avm::invoke_iconst_3        (Context& context, const Instruction* instruction){
+    context.frame()->getOperandStack()->pushInt(3);
 } 
-void avm::invoke_iconst_4        (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){
-    frame->getOperandStack()->pushInt(4);
+void avm::invoke_iconst_4        (Context& context, const Instruction* instruction){
+    context.frame()->getOperandStack()->pushInt(4);
 } 
-void avm::invoke_iconst_5        (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){
-    frame->getOperandStack()->pushInt(5);
+void avm::invoke_iconst_5        (Context& context, const Instruction* instruction){
+    context.frame()->getOperandStack()->pushInt(5);
 } 
-void avm::invoke_lconst_0        (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_lconst_1        (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_fconst_0        (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_fconst_1        (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_fconst_2        (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_dconst_0        (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_dconst_1        (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_bipush          (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_sipush          (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_ldc             (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_ldc_w           (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_ldc2_w          (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_iload           (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_lload           (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_fload           (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_dload           (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_aload           (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_iload_0         (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame) {
-    frame->getOperandStack()->pushInt(frame->getLocalVariables()->getInt(0));
+void avm::invoke_lconst_0        (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_lconst_1        (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_fconst_0        (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_fconst_1        (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_fconst_2        (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_dconst_0        (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_dconst_1        (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_bipush          (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_sipush          (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_ldc             (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_ldc_w           (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_ldc2_w          (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_iload           (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_lload           (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_fload           (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_dload           (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_aload           (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_iload_0         (Context& context, const Instruction* instruction) {
+    context.frame()->getOperandStack()->pushInt(context.frame()->getLocalVariables()->getInt(0));
 }
-void avm::invoke_iload_1         (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){
-    frame->getOperandStack()->pushInt(frame->getLocalVariables()->getInt(1));
+void avm::invoke_iload_1         (Context& context, const Instruction* instruction){
+    context.frame()->getOperandStack()->pushInt(context.frame()->getLocalVariables()->getInt(1));
 }
-void avm::invoke_iload_2         (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){
-    frame->getOperandStack()->pushInt(frame->getLocalVariables()->getInt(2));
+void avm::invoke_iload_2         (Context& context, const Instruction* instruction){
+    context.frame()->getOperandStack()->pushInt(context.frame()->getLocalVariables()->getInt(2));
 }
-void avm::invoke_iload_3         (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){
-    frame->getOperandStack()->pushInt(frame->getLocalVariables()->getInt(3));
+void avm::invoke_iload_3         (Context& context, const Instruction* instruction){
+    context.frame()->getOperandStack()->pushInt(context.frame()->getLocalVariables()->getInt(3));
 }
-void avm::invoke_lload_0         (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_lload_1         (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_lload_2         (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_lload_3         (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_fload_0         (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_fload_1         (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_fload_2         (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_fload_3         (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_dload_0         (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_dload_1         (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_dload_2         (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_dload_3         (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_aload_0         (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_aload_1         (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_aload_2         (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_aload_3         (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_iaload          (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_laload          (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_faload          (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_daload          (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_aaload          (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_baload          (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_caload          (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_saload          (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_istore          (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_lstore          (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_fstore          (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_dstore          (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_astore          (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_istore_0        (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ 
-    frame->getLocalVariables()->setInt(0, frame->getOperandStack()->popInt());
+void avm::invoke_lload_0         (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_lload_1         (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_lload_2         (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_lload_3         (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_fload_0         (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_fload_1         (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_fload_2         (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_fload_3         (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_dload_0         (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_dload_1         (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_dload_2         (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_dload_3         (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_aload_0         (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_aload_1         (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_aload_2         (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_aload_3         (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_iaload          (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_laload          (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_faload          (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_daload          (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_aaload          (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_baload          (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_caload          (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_saload          (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_istore          (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_lstore          (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_fstore          (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_dstore          (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_astore          (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_istore_0        (Context& context, const Instruction* instruction){ 
+    context.frame()->getLocalVariables()->setInt(0, context.frame()->getOperandStack()->popInt());
  } 
-void avm::invoke_istore_1        (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ 
-    frame->getLocalVariables()->setInt(1, frame->getOperandStack()->popInt());
+void avm::invoke_istore_1        (Context& context, const Instruction* instruction){ 
+    context.frame()->getLocalVariables()->setInt(1, context.frame()->getOperandStack()->popInt());
  } 
-void avm::invoke_istore_2        (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ 
-    frame->getLocalVariables()->setInt(2, frame->getOperandStack()->popInt());
+void avm::invoke_istore_2        (Context& context, const Instruction* instruction){ 
+    context.frame()->getLocalVariables()->setInt(2, context.frame()->getOperandStack()->popInt());
  } 
-void avm::invoke_istore_3        (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ 
-    frame->getLocalVariables()->setInt(3, frame->getOperandStack()->popInt());
+void avm::invoke_istore_3        (Context& context, const Instruction* instruction){ 
+    context.frame()->getLocalVariables()->setInt(3, context.frame()->getOperandStack()->popInt());
  } 
-void avm::invoke_lstore_0        (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_lstore_1        (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_lstore_2        (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_lstore_3        (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_fstore_0        (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_fstore_1        (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_fstore_2        (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_fstore_3        (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_dstore_0        (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_dstore_1        (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_dstore_2        (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_dstore_3        (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_astore_0        (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_astore_1        (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_astore_2        (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_astore_3        (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_iastore         (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_lastore         (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_fastore         (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_dastore         (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_aastore         (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_bastore         (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_castore         (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_sastore         (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_pop             (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_pop2            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_dup             (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_dup_x1          (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_dup_x2          (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_dup2            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_dup2_x1         (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_dup2_x2         (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_swap            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_iadd            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame) {
-    int32_t i1 = frame->getOperandStack()->popInt();
-    int32_t i2 = frame->getOperandStack()->popInt();
-    frame->getOperandStack()->pushInt(i1 + i2);
+void avm::invoke_lstore_0        (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_lstore_1        (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_lstore_2        (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_lstore_3        (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_fstore_0        (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_fstore_1        (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_fstore_2        (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_fstore_3        (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_dstore_0        (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_dstore_1        (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_dstore_2        (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_dstore_3        (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_astore_0        (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_astore_1        (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_astore_2        (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_astore_3        (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_iastore         (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_lastore         (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_fastore         (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_dastore         (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_aastore         (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_bastore         (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_castore         (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_sastore         (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_pop             (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_pop2            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_dup             (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_dup_x1          (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_dup_x2          (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_dup2            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_dup2_x1         (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_dup2_x2         (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_swap            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_iadd            (Context& context, const Instruction* instruction) {
+    int32_t i1 = context.frame()->getOperandStack()->popInt();
+    int32_t i2 = context.frame()->getOperandStack()->popInt();
+    context.frame()->getOperandStack()->pushInt(i1 + i2);
 }
-void avm::invoke_ladd            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_fadd            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_dadd            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_isub            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_lsub            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_fsub            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_dsub            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_imul            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_lmul            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_fmul            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_dmul            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_idiv            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_ldiv            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_fdiv            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_ddiv            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_irem            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_lrem            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_frem            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_drem            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_ineg            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_lneg            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_fneg            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_dneg            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_ishl            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_lshl            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_ishr            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_lshr            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_iushr           (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_lushr           (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_iand            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_land            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_ior             (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_lor             (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_ixor            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_lxor            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_iinc            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_i2l             (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_i2f             (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_i2d             (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_l2i             (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_l2f             (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_l2d             (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_f2i             (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_f2l             (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_f2d             (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_d2i             (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_d2l             (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_d2f             (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_i2b             (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_i2c             (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_i2s             (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_lcmp            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_fcmpl           (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_fcmpg           (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_dcmpl           (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_dcmpg           (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_ifeq            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_ifne            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_iflt            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_ifge            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_ifgt            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_ifle            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_if_icmpeq       (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_if_icmpne       (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_if_icmplt       (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_if_icmpge       (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_if_icmpgt       (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_if_icmple       (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_if_acmpeq       (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_if_acmpne       (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_goto            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_jsr             (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_ret             (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_tableswitch     (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_lookupswitch    (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_ireturn         (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_lreturn         (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_freturn         (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_dreturn         (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_areturn         (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_return          (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame) {
-    frame->returnVoid();
+void avm::invoke_ladd            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_fadd            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_dadd            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_isub            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_lsub            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_fsub            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_dsub            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_imul            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_lmul            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_fmul            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_dmul            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_idiv            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_ldiv            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_fdiv            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_ddiv            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_irem            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_lrem            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_frem            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_drem            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_ineg            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_lneg            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_fneg            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_dneg            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_ishl            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_lshl            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_ishr            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_lshr            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_iushr           (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_lushr           (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_iand            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_land            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_ior             (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_lor             (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_ixor            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_lxor            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_iinc            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_i2l             (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_i2f             (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_i2d             (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_l2i             (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_l2f             (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_l2d             (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_f2i             (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_f2l             (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_f2d             (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_d2i             (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_d2l             (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_d2f             (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_i2b             (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_i2c             (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_i2s             (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_lcmp            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_fcmpl           (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_fcmpg           (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_dcmpl           (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_dcmpg           (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_ifeq            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_ifne            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_iflt            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_ifge            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_ifgt            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_ifle            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_if_icmpeq       (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_if_icmpne       (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_if_icmplt       (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_if_icmpge       (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_if_icmpgt       (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_if_icmple       (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_if_acmpeq       (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_if_acmpne       (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_goto            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_jsr             (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_ret             (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_tableswitch     (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_lookupswitch    (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_ireturn         (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_lreturn         (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_freturn         (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_dreturn         (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_areturn         (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_return          (Context& context, const Instruction* instruction) {
+    context.frame()->returnVoid();
 } 
-void avm::invoke_getstatic       (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){
+void avm::invoke_getstatic       (Context& context, const Instruction* instruction){
     // FIXME:
-    u2 index = instruction->getOprandAsU2();
-    std::cout << "get_static #" << index << std::endl;
-    frame->getOperandStack()->pushInt(-1);
+    u2 fieldRefIndex = instruction->getOprandAsU2();
+    
+    const ConstantFieldref* fieldRef = (const ConstantFieldref*)context.constantPool()->at(fieldRefIndex);
+    const ConstantClass* classRef = (const ConstantClass*)context.constantPool()->at(fieldRef->getClassIndex());
+    const ConstantNameAndType* nameAndType = (const ConstantNameAndType*)context.constantPool()->at(fieldRef->getNameAndTypeIndex());
+    std::cout << "get_static #" <<context.constantPool()->getString(classRef->getNameIndex()) <<  context.constantPool()->getString(nameAndType->getNameIndex()) << std::endl;
+    context.frame()->getOperandStack()->pushInt(-1);
 }
-void avm::invoke_putstatic       (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_getfield        (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_putfield        (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_invokevirtual   (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame) {
+void avm::invoke_putstatic       (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_getfield        (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_putfield        (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_invokevirtual   (Context& context, const Instruction* instruction) {
     u2 index = instruction->getOprandAsU2();
     std::cout << "invoke_virtual #" << index << std::endl;
 }
-void avm::invoke_invokespecial   (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_invokestatic    (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_invokeinterface (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_invokedynamic   (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_new             (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_newarray        (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_anewarray       (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_arraylength     (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_athrow          (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_checkcast       (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_instanceof      (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_monitorenter    (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_monitorexit     (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_wide            (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_multianewarray  (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_ifnull          (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_ifnonnull       (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_goto_w          (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_jsr_w           (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_breakpoint      (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_impdep1         (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
-void avm::invoke_impdep2         (const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_invokespecial   (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_invokestatic    (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_invokeinterface (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_invokedynamic   (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_new             (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_newarray        (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_anewarray       (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_arraylength     (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_athrow          (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_checkcast       (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_instanceof      (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_monitorenter    (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_monitorexit     (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_wide            (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_multianewarray  (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_ifnull          (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_ifnonnull       (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_goto_w          (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_jsr_w           (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_breakpoint      (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_impdep1         (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
+void avm::invoke_impdep2         (Context& context, const Instruction* instruction){ throw UnsupportedInstructionException(std::to_string(instruction->getOpcode())); } 
