@@ -23,9 +23,16 @@ const AttributeInfo* WithAttributes::getAttributeAt(const u2 &index) const {
 }
 
 const AttributeInfo* WithAttributes::getAttrinute(AttributeType type) const {
+    const AttributeInfo* attribute = getAttrinuteIfPresent(type);
+    if(attribute == nullptr)
+        throw AttributeNotFoundException("No enum found with the type");
+    return attribute;
+}
+
+const AttributeInfo* WithAttributes::getAttrinuteIfPresent(AttributeType type) const {
     for (auto it = _attributes.begin() ; it != _attributes.end(); ++it) {
         if((*it).get()->getType() == type)
             return (*it).get();
     }
-    throw AttributeNotFoundException("No enum found with the type");
+    return nullptr;
 }

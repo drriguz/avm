@@ -61,6 +61,7 @@ add_library(
 	vm/src/runtime/vm_stack.cpp
 	vm/src/runtime/vm_method.cpp
 	vm/src/runtime/vm_class.cpp
+	vm/src/runtime/vm_field.cpp
 	vm/src/util/numbers.cpp
     vm/src/class_loader.cpp
     vm/src/classpath_class_loader.cpp)

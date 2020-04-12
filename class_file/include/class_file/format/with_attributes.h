@@ -24,6 +24,7 @@ public:
     }
     const AttributeInfo* getAttributeAt(const u2 &index) const;
     const AttributeInfo* getAttrinute(AttributeType type) const;
+    const AttributeInfo* getAttrinuteIfPresent(AttributeType type) const;
 protected:
     u2 _attributesCount;
     std::vector<std::unique_ptr<AttributeInfo>> _attributes;

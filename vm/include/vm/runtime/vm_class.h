@@ -3,9 +3,11 @@
 
 #include <map>
 #include <string>
+#include <memory>
 
 #include "class_file/format/java_class.h"
 #include "vm_method.h"
+#include "vm_field.h"
 
 namespace avm {
 
@@ -15,8 +17,11 @@ public:
     virtual ~VmClass();
 public:
     const ConstantPool* getRuntimeConstantPool() const;
+    const VmMethod getClassInitializationMethod() const;
+    void prepare();
 protected:
     const JavaClass* _javaClass;
+    std::map<std::string, std::unique_ptr<VmField>>  _fields;
 };
 }
 

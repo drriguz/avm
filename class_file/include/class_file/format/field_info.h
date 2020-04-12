@@ -4,6 +4,8 @@
 #include "types.h"
 #include "class_property.h"
 
+#include <string>
+
 namespace avm {
 
 class FieldInfo: public ClassProperty {
