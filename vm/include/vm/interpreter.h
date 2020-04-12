@@ -10,7 +10,7 @@ namespace avm {
         virtual ~Interpreter();
     public:
         void execute(VmThread* thread);
-        void invoke(const Instruction* instruction, Frame* frame);
+        void invoke(const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame);
     };
 }
 #endif

@@ -16,12 +16,12 @@ void Interpreter::execute(VmThread* thread){
         const Instruction* instruction = thread->nextInstruction();
         if(instruction == nullptr)
             break;
-        invoke(instruction, thread->currentFrame());
+        invoke(thread->currentClass()->getRuntimeConstantPool(), instruction, thread->currentFrame());
         std::cout << "=>" << instruction->getOpcode() << std::endl;
     }
 }
 
-void Interpreter::invoke(const Instruction* instruction, Frame* frame) {
+void Interpreter::invoke(const ConstantPool* runtimeConstantPool, const Instruction* instruction, Frame* frame) {
     OperandStack* oprandStack = frame->getOperandStack();
     LocalVariables* localVariables = frame->getLocalVariables();
     switch(instruction->getOpcode()) {
@@ -53,16 +53,32 @@ void Interpreter::invoke(const Instruction* instruction, Frame* frame) {
             oprandStack->pushInt(localVariables->getInt(2));
             break;
         }
+        case j_iload_3:{
+            oprandStack->pushInt(localVariables->getInt(3));
+            break;
+        }
         case j_iadd:{
             int32_t i1 = oprandStack->popInt();
             int32_t i2 = oprandStack->popInt();
             oprandStack->pushInt(i1 + i2);
             break;
         }
-        case j_getstatic:
-        case j_iload_3:
-        case j_invokevirtual:
-        case j_return:
+        case j_getstatic:{
+            // FIXME:
+            u2 index = instruction->getOprandAsU2();
+            std::cout << "get_static #" << index << std::endl;
+            oprandStack->pushInt(-1);
+            break;
+        }
+        case j_invokevirtual: {
+            u2 index = instruction->getOprandAsU2();
+            std::cout << "invoke_virtual #" << index << std::endl;
+            break;
+        }
+        case j_return: {
+            frame->returnVoid();
+            break;
+        }
         default:
             break;
     }

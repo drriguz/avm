@@ -21,6 +21,10 @@ namespace avm {
                 throw "error";
             return _oprands[i];
         }
+        inline const u2 getOprandAsU2() const {
+            u2 indexByte1 = _oprands[0], indexByte2 = _oprands[1];
+            return indexByte1 << 8 | indexByte2;
+        }
     protected:
         Mnemonic _mnemonic;
         u1* _oprands;

@@ -17,6 +17,12 @@ VmThread::~VmThread() {
 Frame* VmThread::currentFrame() {
     return _vmStack.currentFrame();
 }
+const VmClass* VmThread::currentClass() {
+    return _entryClass;
+}
+const VmMethod* VmThread::currentMethod() {
+    return _entryMethod;
+}
 
 const Instruction* VmThread::nextInstruction() {
     if(_pcRegister < _entryMethod->getInstructionsCount())

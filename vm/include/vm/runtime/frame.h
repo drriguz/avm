@@ -18,7 +18,12 @@ public:
     inline LocalVariables* getLocalVariables() {
         return &_localVariables;
     }
+    inline bool isReturned() const {
+        return _returned;
+    }
+    void returnVoid();
 protected:
+    bool _returned;
     LocalVariables _localVariables;
     OperandStack _operandStack;
     const ConstantPool *_runtimeConstants;

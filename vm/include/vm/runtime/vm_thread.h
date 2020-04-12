@@ -14,6 +14,8 @@ public:
 public:
     Frame* currentFrame();
     const Instruction* nextInstruction();
+    const VmClass* currentClass();
+    const VmMethod* currentMethod();
 protected:
     int _pcRegister;
     VmStack _vmStack;
