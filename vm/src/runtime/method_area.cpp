@@ -11,7 +11,7 @@ MethodArea::~MethodArea() {
 
 }
 
-const JavaClass* MethodArea::getClass(const std::string &className) const {
+VmClass* MethodArea::getClass(const std::string &className) const {
     try {
         return _loadedClasses.at(className).get();
     } catch (...) {
@@ -19,10 +19,10 @@ const JavaClass* MethodArea::getClass(const std::string &className) const {
     }
 }
 
-void MethodArea::putClass(const std::string &className, JavaClass *javaClass) {
+void MethodArea::putClass(const std::string &className, VmClass *javaClass) {
     if (_loadedClasses.count(className) > 0)
         throw ClassAlreadyLoadedException(className);
-    _loadedClasses[className] = std::unique_ptr<JavaClass>(javaClass);
+    _loadedClasses[className] = std::unique_ptr<VmClass>(javaClass);
 }
 
 bool MethodArea::loadedClass(const std::string &className) const {

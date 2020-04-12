@@ -2,7 +2,7 @@
 
 using namespace avm;
 
-VmClass::VmClass(const JavaClass* javaClass) : _javaClass(javaClass) {
+VmClass::VmClass(JavaClass* javaClass) : _javaClass(javaClass) {
     prepare();
 }
 

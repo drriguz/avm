@@ -20,10 +20,11 @@ TEST(MethodArea, getClassIfClassFound) {
     JavaClassParser parser("res/com/test/Simple.class");
     JavaClass *javaClass = new JavaClass();
     parser.parse(*javaClass);
+    VmClass* vmClass= new VmClass(javaClass);
 
-    methodArea.putClass("com.riguz.Simple", javaClass);
+    methodArea.putClass("com.riguz.Simple", vmClass);
     try {
-        const JavaClass *actual = methodArea.getClass("com.riguz.Simple");
+        const JavaClass *actual = methodArea.getClass("com.riguz.Simple")->getClass();
 
         ASSERT_EQ(0xCAFEBABE, actual->getMagic());
         ASSERT_EQ(52, actual->getMajorVersion());
@@ -38,8 +39,8 @@ TEST(MethodArea, throwExceptionIfClassExists) {
     JavaClassParser parser("res/com/test/Simple.class");
     JavaClass *javaClass = new JavaClass();
     parser.parse(*javaClass);
-
-    methodArea.putClass("com.riguz.Simple", javaClass);
-    EXPECT_THROW(methodArea.putClass("com.riguz.Simple", javaClass),
+    VmClass* vmClass= new VmClass(javaClass);
+    methodArea.putClass("com.riguz.Simple", vmClass);
+    EXPECT_THROW(methodArea.putClass("com.riguz.Simple", vmClass),
             ClassAlreadyLoadedException);
 }

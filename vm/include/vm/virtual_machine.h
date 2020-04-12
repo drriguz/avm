@@ -18,7 +18,7 @@ public:
     void execute();
     void execute(VmThread* thread);
 protected:
-    const JavaClass* getClass(const std::string &className) const;
+    VmClass* getClass(const std::string &className) const;
 protected:
     std::string _classPath;
     std::string _mainClass;

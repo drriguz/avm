@@ -22,12 +22,11 @@ VirtualMachine::~VirtualMachine() {
 }
 
 void VirtualMachine::execute() {
-    const JavaClass *mainClass = getClass(_mainClass);
-    const MethodInfo *entry = mainClass->getMethod("main",
+    VmClass *mainClass = getClass(_mainClass);
+    const MethodInfo* entry = mainClass->getClass()->getMethod("main",
             "([Ljava/lang/String;)V", 2, ACC_PUBLIC, ACC_STATIC);
-    VmClass entryClass(mainClass);
-    VmMethod entryMethod(entry);
-    _mainThread = new VmThread(&entryClass, &entryMethod);
+    VmMethod method(entry);
+    _mainThread = new VmThread(mainClass, &method);
     execute(_mainThread);
 }
 
@@ -37,11 +36,12 @@ void VirtualMachine::execute(VmThread* thread) {
     interpreter.execute(context);
 }
 
-const JavaClass* VirtualMachine::getClass(const std::string &className) const {
+VmClass* VirtualMachine::getClass(const std::string &className) const {
     if (!_methodArea->loadedClass(className)) {
         JavaClass *newClass = new JavaClass();
         _classLoader->loadClass(className, *newClass);
-        _methodArea->putClass(className, newClass);
+        VmClass *vmClass = new VmClass(newClass);
+        _methodArea->putClass(className, vmClass);
     }
     return _methodArea->getClass(className);
 }
