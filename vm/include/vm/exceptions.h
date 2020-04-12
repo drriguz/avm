@@ -35,6 +35,13 @@ public:
             RuntimeException(msg) {
     }
 };
+
+class UnsupportedInstructionException: public RuntimeException {
+public:
+    UnsupportedInstructionException(const std::string &msg) :
+            RuntimeException(msg) {
+    }
+};
 }
 
 #endif
