@@ -28,10 +28,6 @@ JavaClass::~JavaClass() {
     clearInterfaces();
     clearFields();
     clearMethods();
-    if (_constantPool) {
-        delete _constantPool;
-        _constantPool = nullptr;
-    }
 }
 
 void JavaClass::clearInterfaces() {
@@ -75,7 +71,7 @@ void JavaClass::initializeMethods() {
 
 void JavaClass::setConstantPoolReferences() {
     for (int i = 0; i < _methodsCount; i++)
-        _methods[i].setConstantPool(_constantPool);
+        _methods[i].setConstantPool(_constantPool.get());
 }
 
 const ConstantInfo* JavaClass::getConstantAt(const u2 index) const {

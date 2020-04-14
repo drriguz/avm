@@ -36,8 +36,8 @@ void JavaClassParser::readHeader(JavaClass &out) {
 
 void JavaClassParser::readConstantPool(JavaClass &out) {
     u2 count = _reader->readU2();
-    out._constantPool = new ConstantPool(count);
-    ConstantPool *constantPool = out._constantPool;
+    out._constantPool = std::unique_ptr<ConstantPool>(new ConstantPool(count));
+    ConstantPool *constantPool = out._constantPool.get();
     constantPool->push_empty();
     for (u2 i = 1; i < constantPool->_constantCount; i++) {
         u1 tag;
@@ -127,7 +127,7 @@ void JavaClassParser::parse(JavaClass &out) {
     readClassDescriptors(out);
     readFields(out);
     readMethods(out);
-    readAttributes(out._constantPool, out);
+    readAttributes(out._constantPool.get(), out);
 
     out.setConstantPoolReferences();
 }
@@ -147,7 +147,7 @@ void JavaClassParser::readFields(JavaClass &out) {
     _reader->readU2(&out._fieldsCount);
     out.initializeFields();
     for (u2 i = 0; i < out._fieldsCount; i++) {
-        readField(out._constantPool, out._fields[i]);
+        readField(out._constantPool.get(), out._fields[i]);
     }
 }
 
@@ -155,7 +155,7 @@ void JavaClassParser::readMethods(JavaClass &out) {
     _reader->readU2(&out._methodsCount);
     out.initializeMethods();
     for (u2 i = 0; i < out._methodsCount; i++) {
-        readMethod(out._constantPool, out._methods[i]);
+        readMethod(out._constantPool.get(), out._methods[i]);
     }
 }
 

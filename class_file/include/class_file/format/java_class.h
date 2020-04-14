@@ -31,7 +31,7 @@ public:
         return _majorVersion;
     }
     inline const ConstantPool* getConstantPool() const {
-        return _constantPool;
+        return _constantPool.get();
     }
     inline u2 getConstantPoolCount() const {
         return _constantPool->getConstantPoolCount();
@@ -113,7 +113,7 @@ private:
     u4 _magic;
     u2 _minorVersion;
     u2 _majorVersion;
-    ConstantPool *_constantPool;
+    std::unique_ptr<ConstantPool> _constantPool;
     u2 _accessFlags;
     u2 _thisClass;
     u2 _superClass;
