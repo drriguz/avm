@@ -16,7 +16,7 @@ public:
     inline u2 getLength() const {
         return _length;
     }
-    inline u1* const getBytes() const {
+    inline const u1* getBytes() const {
         return (u1*) _value.c_str();
     }
     inline std::string getValue() const {

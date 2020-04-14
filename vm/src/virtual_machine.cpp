@@ -9,16 +9,12 @@ VirtualMachine::VirtualMachine(const std::string &classpath,
     _classPath(classpath),
     _mainClass(mainClass),
     _mainThread(nullptr),
-    _classLoader(new ClasspathClassLoader(classpath)),
-    _methodArea(new MethodArea()) {
+    _classLoader(std::unique_ptr<ClassLoader>(new ClasspathClassLoader(classpath))),
+    _methodArea(std::unique_ptr<MethodArea>(new MethodArea())) {
 
 }
 
 VirtualMachine::~VirtualMachine() {
-    delete _classLoader;
-    delete _methodArea;
-    if(_mainThread)
-        delete _mainThread;
 }
 
 void VirtualMachine::execute() {
@@ -26,8 +22,8 @@ void VirtualMachine::execute() {
     const MethodInfo* entry = mainClass->getClass()->getMethod("main",
                               "([Ljava/lang/String;)V", 2, ACC_PUBLIC, ACC_STATIC);
     VmMethod method(entry);
-    _mainThread = new VmThread(mainClass, &method);
-    execute(_mainThread);
+    _mainThread = std::unique_ptr<VmThread>(new VmThread(mainClass, &method));
+    execute(_mainThread.get());
 }
 
 void VirtualMachine::execute(VmThread* thread) {

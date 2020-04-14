@@ -2,6 +2,7 @@
 #define _AVM_JAVA_VM_H_
 
 #include <string>
+#include <memory>
 
 #include "class_loader.h"
 #include "classpath_class_loader.h"
@@ -22,9 +23,9 @@ protected:
 protected:
     std::string _classPath;
     std::string _mainClass;
-    ClassLoader *_classLoader;
-    MethodArea *_methodArea;
-    VmThread *_mainThread;
+    std::unique_ptr<ClassLoader> _classLoader;
+    std::unique_ptr<MethodArea> _methodArea;
+    std::unique_ptr<VmThread> _mainThread;
 };
 }
 
