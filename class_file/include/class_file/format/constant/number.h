@@ -22,7 +22,7 @@ class ConstantFloat: public ConstantInfo {
 public:
     ConstantFloat(const u4 bytes);
 public:
-    inline const float getValue() const {
+    inline float getValue() const {
         return *reinterpret_cast<float*>(&_bytes);
     }
 private:
@@ -33,7 +33,7 @@ class ConstantLong: public ConstantInfo {
 public:
     ConstantLong(const u4 highBytes, const u4 lowBytes);
 public:
-    inline const uint64_t getValue() const {
+    inline uint64_t getValue() const {
         return ((uint64_t) _highBytes << 32) + _lowBytes;
     }
 private:
@@ -55,7 +55,7 @@ public:
      */
     ConstantDouble(const u4 highBytes, const u4 lowBytes);
 public:
-    inline const double getValue() const {
+    inline double getValue() const {
         uint64_t value = ((uint64_t) _highBytes << 32) + _lowBytes;
         return *reinterpret_cast<double*>(&value);
     }

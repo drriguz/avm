@@ -19,7 +19,7 @@ public:
     inline u1* const getBytes() const {
         return (u1*) _value.c_str();
     }
-    inline const std::string getValue() const {
+    inline std::string getValue() const {
         return _value;
     }
 private:
