@@ -12,10 +12,10 @@ public:
     ConstantInvokeDynamic(const u2 bootstrapMethodAttrIndex,
                           const u2 nameAndTypeIndex);
 public:
-    inline const u2 getNameAndTypeIndex() const {
+    inline u2 getNameAndTypeIndex() const {
         return _nameAndTypeIndex;
     }
-    inline const u2 getBootstrapMethodAttrIndex() const {
+    inline u2 getBootstrapMethodAttrIndex() const {
         return _bootstrapMethodAttrIndex;
     }
 private:

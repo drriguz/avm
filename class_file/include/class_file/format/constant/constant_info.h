@@ -26,13 +26,10 @@ protected:
      */
     ConstantInfo(ConstantInfo&&) {
     }
-    ;
     ConstantInfo(const ConstantInfo&) {
     }
-    ;
     ConstantInfo& operator=(const ConstantInfo&) {
     }
-    ;
 };
 
 }

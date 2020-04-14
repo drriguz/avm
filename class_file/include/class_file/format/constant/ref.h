@@ -13,10 +13,10 @@ public:
                 const u2 classIndex,
                 const u2 nameAndTypeIndex);
 public:
-    inline const u2 getClassIndex() const {
+    inline u2 getClassIndex() const {
         return _classIndex;
     }
-    inline const u2 getNameAndTypeIndex() const {
+    inline u2 getNameAndTypeIndex() const {
         return _nameAndTypeIndex;
     }
 protected:

@@ -11,7 +11,7 @@ class ConstantMethodType: public ConstantInfo {
 public:
     ConstantMethodType(const u2 descriptorIndex);
 public:
-    inline const u2 getDescriptorIndex() const {
+    inline u2 getDescriptorIndex() const {
         return _descriptorIndex;
     }
 private:

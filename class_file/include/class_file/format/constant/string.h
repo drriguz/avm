@@ -11,7 +11,7 @@ class ConstantString: public ConstantInfo {
 public:
     ConstantString(const u2 stringIndex);
 public:
-    inline const u2 getStringIndex() const {
+    inline u2 getStringIndex() const {
         return _stringIndex;
     }
 private:

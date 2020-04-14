@@ -10,7 +10,7 @@ public:
     ConstantValue(const u2 valueIndex);
     virtual ~ConstantValue();
 public:
-    inline const u2 getValueIndex() const {
+    inline u2 getValueIndex() const {
         return _valueIndex;
     }
 protected:

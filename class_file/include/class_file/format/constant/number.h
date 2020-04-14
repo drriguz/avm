@@ -11,7 +11,7 @@ class ConstantInteger: public ConstantInfo {
 public:
     ConstantInteger(const u4 bytes);
 public:
-    inline const u4 getValue() const {
+    inline u4 getValue() const {
         return _bytes;
     }
 private:

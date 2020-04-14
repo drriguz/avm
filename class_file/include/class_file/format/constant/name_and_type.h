@@ -11,10 +11,10 @@ class ConstantNameAndType: public ConstantInfo {
 public:
     ConstantNameAndType(const u2 nameIndex, const u2 descriptorIndex);
 public:
-    inline const u2 getNameIndex() const {
+    inline u2 getNameIndex() const {
         return _nameIndex;
     }
-    inline const u2 getDescriptorIndex() const {
+    inline u2 getDescriptorIndex() const {
         return _descriptorIndex;
     }
 private:

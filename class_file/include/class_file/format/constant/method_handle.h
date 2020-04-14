@@ -11,10 +11,10 @@ class ConstantMethodHandle: public ConstantInfo {
 public:
     ConstantMethodHandle(const u1 referenceKind, const u2 referenceIndex);
 public:
-    inline const u1 getReferenceKind() const {
+    inline u1 getReferenceKind() const {
         return _referenceKind;
     }
-    inline const u2 getReferenceIndex() const {
+    inline u2 getReferenceIndex() const {
         return _referenceIndex;
     }
 private:

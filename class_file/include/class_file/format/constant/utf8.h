@@ -13,10 +13,10 @@ public:
     ConstantUtf8(const u2 length, const std::string &value);
     ConstantUtf8(const ConstantUtf8 &p);
 public:
-    inline const u2 getLength() const {
+    inline u2 getLength() const {
         return _length;
     }
-    inline const u1* const getBytes() const {
+    inline u1* const getBytes() const {
         return (u1*) _value.c_str();
     }
     inline const std::string getValue() const {
