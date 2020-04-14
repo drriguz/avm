@@ -16,7 +16,9 @@ public:
     VmClass(JavaClass* _javaClass);
     virtual ~VmClass();
 public:
-    const JavaClass* getClass() const { return _javaClass.get(); }
+    const JavaClass* getClass() const {
+        return _javaClass.get();
+    }
     const ConstantPool* getRuntimeConstantPool() const;
     const VmMethod getClassInitializationMethod() const;
     void prepare();

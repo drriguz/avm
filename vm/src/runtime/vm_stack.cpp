@@ -10,12 +10,12 @@ VmStack::~VmStack() {
 
 }
 
-void VmStack::push(Frame* frame){
+void VmStack::push(Frame* frame) {
     _frames.push(std::unique_ptr<Frame>(frame));
 }
-void VmStack::pop(){
+void VmStack::pop() {
     _frames.pop();
 }
-Frame* VmStack::currentFrame(){
+Frame* VmStack::currentFrame() {
     return _frames.top().get();
 }

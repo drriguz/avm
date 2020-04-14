@@ -9,14 +9,14 @@ class BinaryReader {
 public:
     virtual ~ BinaryReader() {}
 public:
-	virtual void reset()=0;
-	virtual inline void skip(u2 length)=0;
-	virtual inline void read(char *buffer, unsigned int length)=0;
-	virtual inline void readU1(u1 *buffer)=0;
-	virtual inline void readU2(u2 *buffer)=0;
-	virtual inline void readU4(u4 *buffer)=0;
+    virtual void reset()=0;
+    virtual inline void skip(u2 length)=0;
+    virtual inline void read(char *buffer, unsigned int length)=0;
+    virtual inline void readU1(u1 *buffer)=0;
+    virtual inline void readU2(u2 *buffer)=0;
+    virtual inline void readU4(u4 *buffer)=0;
 public:
-	inline u1 readU1() {
+    inline u1 readU1() {
         u1 tmp;
         readU1(&tmp);
         return tmp;

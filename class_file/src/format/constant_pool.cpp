@@ -4,7 +4,7 @@
 using namespace avm;
 
 ConstantPool::ConstantPool(u2 count) :
-        _constantCount(count) {
+    _constantCount(count) {
     _constantPool.reserve(_constantCount + 1);
 }
 

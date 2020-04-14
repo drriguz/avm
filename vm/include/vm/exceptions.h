@@ -11,35 +11,35 @@ namespace avm {
 class ClassNotFoundException: public RuntimeException {
 public:
     ClassNotFoundException(const std::string &msg) :
-            RuntimeException(msg) {
+        RuntimeException(msg) {
     }
 };
 
 class ClassAlreadyLoadedException: public RuntimeException {
 public:
     ClassAlreadyLoadedException(const std::string &msg) :
-            RuntimeException(msg) {
+        RuntimeException(msg) {
     }
 };
 
 class StackOutOfRangeException: public RuntimeException {
 public:
     StackOutOfRangeException(const std::string &msg) :
-            RuntimeException(msg) {
+        RuntimeException(msg) {
     }
 };
 
 class LocalVariablesOutOfRangeException: public RuntimeException {
 public:
     LocalVariablesOutOfRangeException(const std::string &msg) :
-            RuntimeException(msg) {
+        RuntimeException(msg) {
     }
 };
 
 class UnsupportedInstructionException: public RuntimeException {
 public:
     UnsupportedInstructionException(const std::string &msg) :
-            RuntimeException(msg) {
+        RuntimeException(msg) {
     }
 };
 }

@@ -5,7 +5,7 @@
 using namespace avm;
 
 OperandStack::OperandStack(int maxSize) :
-        _maxSize(maxSize) {
+    _maxSize(maxSize) {
 
 }
 

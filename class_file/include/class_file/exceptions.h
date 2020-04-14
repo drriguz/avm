@@ -8,7 +8,7 @@ namespace avm {
 class RuntimeException: public std::exception {
 public:
     RuntimeException(const std::string &msg) :
-            message(msg) {
+        message(msg) {
     }
     const virtual char* what() const throw () {
         return message.c_str();
@@ -21,42 +21,42 @@ private:
 class FileOpenFailedException: public RuntimeException {
 public:
     FileOpenFailedException(const std::string &msg) :
-            RuntimeException(msg) {
+        RuntimeException(msg) {
     }
 };
 
 class ReadFileException: public RuntimeException {
 public:
     ReadFileException(const std::string &msg) :
-            RuntimeException(msg) {
+        RuntimeException(msg) {
     }
 };
 
 class NotClassFileException: public RuntimeException {
 public:
     NotClassFileException(const std::string &msg) :
-            RuntimeException(msg) {
+        RuntimeException(msg) {
     }
 };
 
 class ClassFormatException: public RuntimeException {
 public:
     ClassFormatException(const std::string &msg) :
-            RuntimeException(msg) {
+        RuntimeException(msg) {
     }
 };
 
 class MethodNotFoundException: public RuntimeException {
 public:
     MethodNotFoundException(const std::string &msg) :
-            RuntimeException(msg) {
+        RuntimeException(msg) {
     }
 };
 
 class AttributeNotFoundException: public RuntimeException {
 public:
     AttributeNotFoundException(const std::string &msg) :
-            RuntimeException(msg) {
+        RuntimeException(msg) {
     }
 };
 }

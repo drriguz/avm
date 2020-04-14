@@ -3,7 +3,7 @@
 using namespace avm;
 
 ConstantInfo::ConstantInfo(const ConstantType &type) :
-        _type(type) {
+    _type(type) {
 
 }
 

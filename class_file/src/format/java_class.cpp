@@ -9,19 +9,19 @@
 using namespace avm;
 
 JavaClass::JavaClass() :
-        _magic(0),
-        _minorVersion(0),
-        _majorVersion(0),
-        _constantPool(nullptr),
-        _accessFlags(0),
-        _thisClass(0),
-        _superClass(0),
-        _interfacesCount(0),
-        _interfaces(nullptr),
-        _fieldsCount(0),
-        _fields(nullptr),
-        _methodsCount(0),
-        _methods(nullptr) {
+    _magic(0),
+    _minorVersion(0),
+    _majorVersion(0),
+    _constantPool(nullptr),
+    _accessFlags(0),
+    _thisClass(0),
+    _superClass(0),
+    _interfacesCount(0),
+    _interfaces(nullptr),
+    _fieldsCount(0),
+    _fields(nullptr),
+    _methodsCount(0),
+    _methods(nullptr) {
 }
 
 JavaClass::~JavaClass() {

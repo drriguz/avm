@@ -13,7 +13,7 @@
 
 namespace avm {
 class WithAttributes {
-	friend class JavaClassParser;
+    friend class JavaClassParser;
 public:
     WithAttributes();
     virtual ~WithAttributes();

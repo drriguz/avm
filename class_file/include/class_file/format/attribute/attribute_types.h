@@ -3,7 +3,7 @@
 
 namespace avm {
 enum AttributeType {
-    // The ConstantValue, Code and Exceptions attributes must be recognized and correctly read by a class file reader for correct interpretation of the class file by a Java Virtual Machine implementation. 
+    // The ConstantValue, Code and Exceptions attributes must be recognized and correctly read by a class file reader for correct interpretation of the class file by a Java Virtual Machine implementation.
     CONSTANT_VALUE,
     CODE,
     EXCEPTIONS,
@@ -24,16 +24,16 @@ enum AttributeType {
     StackMapTable,
     BootstrapMethod,
 
-/*
- do not requreid:
+    /*
+     do not requreid:
 
- SourceFile,
- SourceDebugExtension,
- LineNumberTable,
- LocalVariableTable,
- LocalVariableTypeTable,
- Deprecated,
- */
+     SourceFile,
+     SourceDebugExtension,
+     LineNumberTable,
+     LocalVariableTable,
+     LocalVariableTypeTable,
+     Deprecated,
+     */
 };
 }
 #endif

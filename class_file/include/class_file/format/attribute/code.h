@@ -12,15 +12,21 @@
 namespace avm {
 
 class Code: public AttributeInfo,
-            public WithAttributes {
-friend class JavaClassParser;
+    public WithAttributes {
+    friend class JavaClassParser;
 public:
     Code(const u2& maxStack, const u2& maxLocals);
     virtual ~Code();
 public:
-    inline u2 getMaxStack() const { return _maxStack; }
-    inline u2 getMaxLocals() const { return _maxLocals; }
-    inline u2 getInstructionsCount() const { return _opcodes.size(); }
+    inline u2 getMaxStack() const {
+        return _maxStack;
+    }
+    inline u2 getMaxLocals() const {
+        return _maxLocals;
+    }
+    inline u2 getInstructionsCount() const {
+        return _opcodes.size();
+    }
     inline const Instruction* getInstructionAt(u2 index) const {
         return _opcodes.at(index).get();
     }

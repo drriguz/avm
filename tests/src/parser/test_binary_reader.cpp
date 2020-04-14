@@ -23,7 +23,7 @@ TEST(BinaryReader, readBigEndian) {
 }
 
 TEST(BinaryReader, skip) {
-	BinaryFileReader reader("res/test-endian.bin");
+    BinaryFileReader reader("res/test-endian.bin");
     u2 minorVersion, constantCount;
     reader.skip(4);
     reader.readU2(&minorVersion);

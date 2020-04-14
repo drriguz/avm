@@ -4,9 +4,9 @@
 #include <iostream>
 
 #ifdef _WIN32
-    #include <winsock.h>
+#include <winsock.h>
 #elif  __linux__
-    #include <arpa/inet.h>
+#include <arpa/inet.h>
 #endif
 
 using namespace avm;
@@ -29,7 +29,7 @@ void BinaryFileReader::reset() {
 }
 
 void BinaryFileReader::skip(u2 length) {
-	if (!_fileStream.ignore(length))
+    if (!_fileStream.ignore(length))
         throw ReadFileException("Could not read from file");
 }
 

@@ -10,7 +10,7 @@
 namespace avm {
 
 class Exceptions: public AttributeInfo {
-friend class JavaClassParser;
+    friend class JavaClassParser;
 public:
     Exceptions();
     virtual ~Exceptions();

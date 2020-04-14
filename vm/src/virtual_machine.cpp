@@ -6,11 +6,11 @@ using namespace avm;
 
 VirtualMachine::VirtualMachine(const std::string &classpath,
                                const std::string &mainClass) :
-        _classPath(classpath),
-        _mainClass(mainClass),
-        _mainThread(nullptr),
-        _classLoader(new ClasspathClassLoader(classpath)),
-        _methodArea(new MethodArea()) {
+    _classPath(classpath),
+    _mainClass(mainClass),
+    _mainThread(nullptr),
+    _classLoader(new ClasspathClassLoader(classpath)),
+    _methodArea(new MethodArea()) {
 
 }
 
@@ -24,7 +24,7 @@ VirtualMachine::~VirtualMachine() {
 void VirtualMachine::execute() {
     VmClass *mainClass = getClass(_mainClass);
     const MethodInfo* entry = mainClass->getClass()->getMethod("main",
-            "([Ljava/lang/String;)V", 2, ACC_PUBLIC, ACC_STATIC);
+                              "([Ljava/lang/String;)V", 2, ACC_PUBLIC, ACC_STATIC);
     VmMethod method(entry);
     _mainThread = new VmThread(mainClass, &method);
     execute(_mainThread);

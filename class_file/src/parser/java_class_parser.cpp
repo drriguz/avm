@@ -11,13 +11,13 @@
 using namespace avm;
 
 JavaClassParser::JavaClassParser(const char *filePath)
-:_reader(new BinaryFileReader(filePath)) {
+    :_reader(new BinaryFileReader(filePath)) {
 
 }
 
 JavaClassParser::~JavaClassParser() {
-	if(_reader)
-		delete _reader;
+    if(_reader)
+        delete _reader;
 }
 
 void JavaClassParser::readHeader(JavaClass &out) {
@@ -26,11 +26,11 @@ void JavaClassParser::readHeader(JavaClass &out) {
         if (out._magic != 0xCAFEBABE) {
             std::cerr << "Unknown file type:" << out._magic << std::endl;
             throw NotClassFileException(
-                    "Not a class file format: magic not valid");
+                "Not a class file format: magic not valid");
         }
     } catch (const ReadFileException &ex) {
         throw NotClassFileException(
-                "Not a class file format:failed to read magic");
+            "Not a class file format:failed to read magic");
     }
 }
 
@@ -57,64 +57,64 @@ void JavaClassParser::readConstantPool(JavaClass &out) {
 
 ConstantInfo* JavaClassParser::readConstant(const ConstantType &type) {
     switch (type) {
-        case Class:
-            return new ConstantClass(_reader->readU2());
-        case Fieldref: {
-            u2 classIndex = _reader->readU2(), nameAndTypeIndex = _reader->readU2();
-            return new ConstantFieldref(classIndex, nameAndTypeIndex);
-        }
-        case Methodref: {
-            u2 classIndex = _reader->readU2(), nameAndTypeIndex = _reader->readU2();
-            return new ConstantMethodref(classIndex, nameAndTypeIndex);
-        }
-        case InterfaceMethodref: {
-            u2 classIndex = _reader->readU2(), nameAndTypeIndex = _reader->readU2();
-            return new ConstantInterfaceMethodref(classIndex, nameAndTypeIndex);
-        }
-        case String:
-            return new ConstantString(_reader->readU2());
-        case Integer:
-            return new ConstantInteger(_reader->readU4());
-        case Float:
-            return new ConstantFloat(_reader->readU4());
-        case Long: {
-            u4 highBytes = _reader->readU4(), lowBytes = _reader->readU4();
-            return new ConstantLong(highBytes, lowBytes);
-        }
-        case Double: {
-            u4 highBytes = _reader->readU4(), lowBytes = _reader->readU4();
-            return new ConstantDouble(highBytes, lowBytes);
-        }
-        case NameAndType: {
-            u2 nameIndex = _reader->readU2(), descriptionIndex = _reader->readU2();
-            return new ConstantNameAndType(nameIndex, descriptionIndex);
-        }
-        case Utf8: {
-            u2 length;
-            char *buffer;
-            _reader->readU2(&length);
+    case Class:
+        return new ConstantClass(_reader->readU2());
+    case Fieldref: {
+        u2 classIndex = _reader->readU2(), nameAndTypeIndex = _reader->readU2();
+        return new ConstantFieldref(classIndex, nameAndTypeIndex);
+    }
+    case Methodref: {
+        u2 classIndex = _reader->readU2(), nameAndTypeIndex = _reader->readU2();
+        return new ConstantMethodref(classIndex, nameAndTypeIndex);
+    }
+    case InterfaceMethodref: {
+        u2 classIndex = _reader->readU2(), nameAndTypeIndex = _reader->readU2();
+        return new ConstantInterfaceMethodref(classIndex, nameAndTypeIndex);
+    }
+    case String:
+        return new ConstantString(_reader->readU2());
+    case Integer:
+        return new ConstantInteger(_reader->readU4());
+    case Float:
+        return new ConstantFloat(_reader->readU4());
+    case Long: {
+        u4 highBytes = _reader->readU4(), lowBytes = _reader->readU4();
+        return new ConstantLong(highBytes, lowBytes);
+    }
+    case Double: {
+        u4 highBytes = _reader->readU4(), lowBytes = _reader->readU4();
+        return new ConstantDouble(highBytes, lowBytes);
+    }
+    case NameAndType: {
+        u2 nameIndex = _reader->readU2(), descriptionIndex = _reader->readU2();
+        return new ConstantNameAndType(nameIndex, descriptionIndex);
+    }
+    case Utf8: {
+        u2 length;
+        char *buffer;
+        _reader->readU2(&length);
 
-            buffer = new char[length + 1];
-            _reader->read(buffer, length);
-            buffer[length] = '\0';
-            return new ConstantUtf8(length, std::string(buffer));
-        }
-        case MethodHandle: {
-            u1 referenceKind = _reader->readU1();
-            u2 rererenceIndex = _reader->readU2();
-            return new ConstantMethodHandle(referenceKind, rererenceIndex);
-        }
-        case MethodType:
-            return new ConstantMethodType(_reader->readU2());
-        case InvokeDynamic: {
-            u2 bootstrapMethodAttrIndex = _reader->readU2(), nameAndTypeIndex = _reader->readU2();
-            return new ConstantInvokeDynamic(bootstrapMethodAttrIndex,
-                    nameAndTypeIndex);
-        }
-        default:
-            throw ClassFormatException(
-                    "Unknown constant type:"
-                            + std::to_string((long long) type));
+        buffer = new char[length + 1];
+        _reader->read(buffer, length);
+        buffer[length] = '\0';
+        return new ConstantUtf8(length, std::string(buffer));
+    }
+    case MethodHandle: {
+        u1 referenceKind = _reader->readU1();
+        u2 rererenceIndex = _reader->readU2();
+        return new ConstantMethodHandle(referenceKind, rererenceIndex);
+    }
+    case MethodType:
+        return new ConstantMethodType(_reader->readU2());
+    case InvokeDynamic: {
+        u2 bootstrapMethodAttrIndex = _reader->readU2(), nameAndTypeIndex = _reader->readU2();
+        return new ConstantInvokeDynamic(bootstrapMethodAttrIndex,
+                                         nameAndTypeIndex);
+    }
+    default:
+        throw ClassFormatException(
+            "Unknown constant type:"
+            + std::to_string((long long) type));
     }
 }
 
@@ -127,7 +127,7 @@ void JavaClassParser::parse(JavaClass &out) {
     readClassDescriptors(out);
     readFields(out);
     readMethods(out);
-	readAttributes(out._constantPool, out);
+    readAttributes(out._constantPool, out);
 
     out.setConstantPoolReferences();
 }
@@ -147,7 +147,7 @@ void JavaClassParser::readFields(JavaClass &out) {
     _reader->readU2(&out._fieldsCount);
     out.initializeFields();
     for (u2 i = 0; i < out._fieldsCount; i++) {
-		readField(out._constantPool, out._fields[i]);
+        readField(out._constantPool, out._fields[i]);
     }
 }
 
@@ -163,7 +163,7 @@ void JavaClassParser::readField(const ConstantPool* constants, FieldInfo &field)
     _reader->readU2(&field._accessFlags);
     _reader->readU2(&field._nameIndex);
     _reader->readU2(&field._descriptorIndex);
-	readAttributes(constants, field);
+    readAttributes(constants, field);
 }
 
 void JavaClassParser::readMethod(const ConstantPool* constants, MethodInfo &method) {
@@ -174,28 +174,28 @@ void JavaClassParser::readMethod(const ConstantPool* constants, MethodInfo &meth
 }
 
 void JavaClassParser::readAttributes(const ConstantPool* constants, WithAttributes& out) {
-	_reader->readU2(&out._attributesCount);
+    _reader->readU2(&out._attributesCount);
 
-	u2 nameIndex;
-	u4 length;
-	for (u2 i = 0; i < out._attributesCount; i++) {
-		_reader->readU2(&nameIndex);
-		_reader->readU4(&length);
+    u2 nameIndex;
+    u4 length;
+    for (u2 i = 0; i < out._attributesCount; i++) {
+        _reader->readU2(&nameIndex);
+        _reader->readU4(&length);
 
-		const std::string name = constants->getString(nameIndex);
+        const std::string name = constants->getString(nameIndex);
         AttributeInfo* attribute = nullptr;
-		if(name == "ConstantValue")
-			attribute = new ConstantValue(_reader->readU2());
+        if(name == "ConstantValue")
+            attribute = new ConstantValue(_reader->readU2());
         else if(name == "Code")
             attribute = readCode(constants);
         else if(name == "Exceptions")
             attribute=  readExceptions(constants);
-		else
-			_reader->skip(length);
-        
+        else
+            _reader->skip(length);
+
         if(attribute)
             out.addAttribute(attribute);
-	}
+    }
 }
 Exceptions* JavaClassParser::readExceptions(const ConstantPool* constants) {
     Exceptions* attribute = new Exceptions();
@@ -246,7 +246,7 @@ void JavaClassParser::readInstructions(Code& out) {
             for(int j = 0; j < opcode.oprandCount; j++) {
                 instruction->_oprands[j] = _reader->readU1();
             }
-                
+
         }
         i += (opcode.oprandCount + 1) * sizeof(u1);
         out._opcodes.push_back(std::unique_ptr<Instruction>(instruction));

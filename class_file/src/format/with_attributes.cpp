@@ -4,7 +4,7 @@
 using namespace avm;
 
 WithAttributes::WithAttributes() :
-        _attributesCount(0) {
+    _attributesCount(0) {
 
 }
 

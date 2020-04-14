@@ -14,7 +14,7 @@ public:
     explicit BinaryFileReader(const char *file);
     virtual ~BinaryFileReader();
 public:
-	virtual void skip(u2 length);
+    virtual void skip(u2 length);
     virtual void reset();
     virtual inline void read(char *buffer, unsigned int length);
     virtual inline void readU1(u1 *buffer);

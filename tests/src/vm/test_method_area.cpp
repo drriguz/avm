@@ -12,7 +12,7 @@ using namespace avm;
 TEST(MethodArea, throwExceptionIfClassNotFound) {
     MethodArea methodArea;
     EXPECT_THROW(methodArea.getClass("com.riguz.Simple"),
-            ClassNotFoundException);
+                 ClassNotFoundException);
 }
 
 TEST(MethodArea, getClassIfClassFound) {
@@ -42,5 +42,5 @@ TEST(MethodArea, throwExceptionIfClassExists) {
     VmClass* vmClass= new VmClass(javaClass);
     methodArea.putClass("com.riguz.Simple", vmClass);
     EXPECT_THROW(methodArea.putClass("com.riguz.Simple", vmClass),
-            ClassAlreadyLoadedException);
+                 ClassAlreadyLoadedException);
 }

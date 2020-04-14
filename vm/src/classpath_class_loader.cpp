@@ -7,7 +7,7 @@
 using namespace avm;
 
 ClasspathClassLoader::ClasspathClassLoader(const std::string &classpath) :
-        _classpath(classpath) {
+    _classpath(classpath) {
 
 }
 

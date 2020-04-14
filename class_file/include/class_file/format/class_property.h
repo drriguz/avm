@@ -12,7 +12,7 @@
 namespace avm {
 
 class ClassProperty: public WithAttributes,
-                     public ConstantPoolVisitor {
+    public ConstantPoolVisitor {
 public:
     ClassProperty();
     virtual ~ClassProperty();

@@ -3,7 +3,7 @@
 using namespace avm;
 
 Exceptions::Exceptions():
-AttributeInfo(AttributeType::EXCEPTIONS) {
+    AttributeInfo(AttributeType::EXCEPTIONS) {
 }
 
 Exceptions::~Exceptions() {

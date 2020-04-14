@@ -21,6 +21,6 @@ TEST(ClasspathClassLoader, throwExceptionIfClassNotFound) {
     ClasspathClassLoader loader("res");
     JavaClass loaded;
     EXPECT_THROW(loader.loadClass("com.test.NotExist", loaded),
-            ClassNotFoundException);
+                 ClassNotFoundException);
 }
 

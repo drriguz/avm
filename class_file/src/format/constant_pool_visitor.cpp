@@ -4,7 +4,7 @@
 using namespace avm;
 
 ConstantPoolVisitor::ConstantPoolVisitor() :
-        _constantsReference(nullptr) {
+    _constantsReference(nullptr) {
 
 }
 ConstantPoolVisitor::~ConstantPoolVisitor() {

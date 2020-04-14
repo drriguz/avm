@@ -16,9 +16,9 @@ const ConstantPool* VmClass::getRuntimeConstantPool() const {
 
 const VmMethod VmClass::getClassInitializationMethod() const {
     try {
-        const MethodInfo* cinit = _javaClass->getMethod("<cinit>", "()V");  
+        const MethodInfo* cinit = _javaClass->getMethod("<cinit>", "()V");
         return VmMethod(cinit);
-    }catch(MethodNotFoundException) {
+    } catch(MethodNotFoundException) {
         return nullptr;
     }
 }

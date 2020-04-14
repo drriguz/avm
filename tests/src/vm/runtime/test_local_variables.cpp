@@ -44,7 +44,7 @@ TEST(LocalVariables, throwExceptionIfOutOfRange) {
     LocalVariables var(1);
 
     EXPECT_THROW(var.setLong(0, -100000010001),
-            LocalVariablesOutOfRangeException);
+                 LocalVariablesOutOfRangeException);
     EXPECT_THROW(var.setLong(2, -100000010001),
-            LocalVariablesOutOfRangeException);
+                 LocalVariablesOutOfRangeException);
 }

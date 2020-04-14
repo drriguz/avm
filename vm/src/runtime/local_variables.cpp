@@ -5,8 +5,8 @@
 using namespace avm;
 
 LocalVariables::LocalVariables(int size) :
-        _size(size),
-        _variables(new Slot*[size]()) {
+    _size(size),
+    _variables(new Slot*[size]()) {
 
 }
 
@@ -51,7 +51,7 @@ int32_t LocalVariables::getSingleByte(int i) {
 int64_t LocalVariables::getDoubleByte(int i) {
     checkRange(i, 2);
     uint32_t highBytes = _variables[i]->getValue(), lowBytes =
-            _variables[i + 1]->getValue();
+                             _variables[i + 1]->getValue();
     return Numbers::asLong(highBytes, lowBytes);
 }
 

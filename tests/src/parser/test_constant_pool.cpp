@@ -19,12 +19,12 @@ TEST(ClassParser, getConstants) {
     ASSERT_EQ(53, c2->getNameAndTypeIndex());
 
     const ConstantMethodref *c3 = (ConstantMethodref*) javaClass.getConstantAt(
-            1);
+                                      1);
     ASSERT_EQ(22, c3->getClassIndex());
     ASSERT_EQ(51, c3->getNameAndTypeIndex());
 
     const ConstantInterfaceMethodref *c4 =
-            (ConstantInterfaceMethodref*) javaClass.getConstantAt(19);
+        (ConstantInterfaceMethodref*) javaClass.getConstantAt(19);
     ASSERT_EQ(68, c4->getClassIndex());
     ASSERT_EQ(69, c4->getNameAndTypeIndex());
 
@@ -44,7 +44,7 @@ TEST(ClassParser, getConstants) {
     ASSERT_EQ(3.1415926535898, c10->getValue());
 
     const ConstantNameAndType *c11 =
-            (ConstantNameAndType*) javaClass.getConstantAt(51);
+        (ConstantNameAndType*) javaClass.getConstantAt(51);
     ASSERT_EQ(42, c11->getNameIndex());
     ASSERT_EQ(43, c11->getDescriptorIndex());
 
@@ -52,16 +52,16 @@ TEST(ClassParser, getConstants) {
     ASSERT_STREQ("str", c12->getValue().c_str());
 
     const ConstantMethodHandle *c13 =
-            (ConstantMethodHandle*) javaClass.getConstantAt(59);
+        (ConstantMethodHandle*) javaClass.getConstantAt(59);
     ASSERT_EQ(6, c13->getReferenceKind());
     ASSERT_EQ(73, c13->getReferenceIndex());
 
     const ConstantMethodType *c14 =
-            (ConstantMethodType*) javaClass.getConstantAt(62);
+        (ConstantMethodType*) javaClass.getConstantAt(62);
     ASSERT_EQ(48, c14->getDescriptorIndex());
 
     const ConstantInvokeDynamic *c15 =
-            (ConstantInvokeDynamic*) javaClass.getConstantAt(13);
+        (ConstantInvokeDynamic*) javaClass.getConstantAt(13);
     ASSERT_EQ(0, c15->getBootstrapMethodAttrIndex());
     ASSERT_EQ(63, c15->getNameAndTypeIndex());
 }

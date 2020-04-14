@@ -4,8 +4,8 @@
 using namespace avm;
 
 Instruction::Instruction(const Mnemonic& mnemonic):
-_mnemonic(mnemonic),
-_oprands(nullptr){
+    _mnemonic(mnemonic),
+    _oprands(nullptr) {
 
 }
 
