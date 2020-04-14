@@ -4,7 +4,7 @@
 
 using namespace avm;
 
-ConstantClass::ConstantClass(const u2 &nameIndex) :
+ConstantClass::ConstantClass(const u2 nameIndex) :
     _nameIndex(nameIndex),
     ConstantInfo(ConstantType::Class) {
 

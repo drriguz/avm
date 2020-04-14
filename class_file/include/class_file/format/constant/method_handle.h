@@ -9,7 +9,7 @@ namespace avm {
 
 class ConstantMethodHandle: public ConstantInfo {
 public:
-    ConstantMethodHandle(const u1 &referenceKind, const u2 &referenceIndex);
+    ConstantMethodHandle(const u1 referenceKind, const u2 referenceIndex);
 public:
     inline const u1 getReferenceKind() const {
         return _referenceKind;

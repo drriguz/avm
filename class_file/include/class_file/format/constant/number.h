@@ -9,7 +9,7 @@ namespace avm {
 
 class ConstantInteger: public ConstantInfo {
 public:
-    ConstantInteger(const u4 &bytes);
+    ConstantInteger(const u4 bytes);
 public:
     inline const u4 getValue() const {
         return _bytes;
@@ -20,7 +20,7 @@ private:
 
 class ConstantFloat: public ConstantInfo {
 public:
-    ConstantFloat(const u4 &bytes);
+    ConstantFloat(const u4 bytes);
 public:
     inline const float getValue() const {
         return *reinterpret_cast<float*>(&_bytes);
@@ -31,7 +31,7 @@ private:
 
 class ConstantLong: public ConstantInfo {
 public:
-    ConstantLong(const u4 &highBytes, const u4 &lowBytes);
+    ConstantLong(const u4 highBytes, const u4 lowBytes);
 public:
     inline const uint64_t getValue() const {
         return ((uint64_t) _highBytes << 32) + _lowBytes;
@@ -53,7 +53,7 @@ public:
      = 4614256656552045864
      = 0100000000001001001000011111101101010100010001000010110100101000
      */
-    ConstantDouble(const u4 &highBytes, const u4 &lowBytes);
+    ConstantDouble(const u4 highBytes, const u4 lowBytes);
 public:
     inline const double getValue() const {
         uint64_t value = ((uint64_t) _highBytes << 32) + _lowBytes;

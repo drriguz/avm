@@ -4,7 +4,7 @@
 
 using namespace avm;
 
-ConstantMethodType::ConstantMethodType(const u2 &descriptorIndex) :
+ConstantMethodType::ConstantMethodType(const u2 descriptorIndex) :
     _descriptorIndex(descriptorIndex),
     ConstantInfo(ConstantType::MethodType) {
 

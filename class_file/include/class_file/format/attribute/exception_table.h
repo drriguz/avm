@@ -6,7 +6,7 @@
 namespace avm {
 class ExceptionTable {
 public:
-    ExceptionTable(const u2& startPc, const u2& endPc, const u2& handlerPc, const u2& catchType);
+    ExceptionTable(u2  startPc, u2  endPc, u2  handlerPc, u2  catchType);
     ExceptionTable(const ExceptionTable& p);
     virtual ~ExceptionTable();
 protected:

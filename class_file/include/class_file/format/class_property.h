@@ -17,13 +17,13 @@ public:
     ClassProperty();
     virtual ~ClassProperty();
 public:
-    inline const u2& getAccessFlags() const {
+    inline u2  getAccessFlags() const {
         return _accessFlags;
     }
-    inline const u2& getNameIndex() const {
+    inline u2  getNameIndex() const {
         return _nameIndex;
     }
-    inline const u2& getDescriptorIndex() const {
+    inline u2  getDescriptorIndex() const {
         return _descriptorIndex;
     }
 public:

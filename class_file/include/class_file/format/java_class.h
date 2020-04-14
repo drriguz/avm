@@ -21,43 +21,43 @@ public:
     JavaClass();
     virtual ~JavaClass();
 public:
-    inline const u4& getMagic() const {
+    inline u4 getMagic() const {
         return _magic;
     }
-    inline const u2& getMinorVersion() const {
+    inline u2 getMinorVersion() const {
         return _minorVersion;
     }
-    inline const u2& getMajorVersion() const {
+    inline u2 getMajorVersion() const {
         return _majorVersion;
     }
     inline const ConstantPool* getConstantPool() const {
         return _constantPool;
     }
-    inline const u2& getConstantPoolCount() const {
+    inline u2 getConstantPoolCount() const {
         return _constantPool->getConstantPoolCount();
     }
-    const ConstantInfo* getConstantAt(const u2 &index) const;
-    inline const u2& getAccessFlags() const {
+    const ConstantInfo* getConstantAt(const u2 index) const;
+    inline u2 getAccessFlags() const {
         return _accessFlags;
     }
-    inline const u2& getThisClass() const {
+    inline u2 getThisClass() const {
         return _thisClass;
     }
-    inline const u2& getSuperClass() const {
+    inline u2 getSuperClass() const {
         return _superClass;
     }
-    inline const u2& getInterfacesCount() const {
+    inline u2 getInterfacesCount() const {
         return _interfacesCount;
     }
-    const u2& getInterfaceAt(const u2 &index) const;
-    inline const u2& getFieldsCount() const {
+    u2 getInterfaceAt(const u2 index) const;
+    inline u2 getFieldsCount() const {
         return _fieldsCount;
     }
-    const FieldInfo* getFieldAt(const u2 &index) const;
-    inline const u2& getMethodsCount() const {
+    const FieldInfo* getFieldAt(const u2 index) const;
+    inline u2 getMethodsCount() const {
         return _methodsCount;
     }
-    const MethodInfo* getMethodAt(const u2 &index) const;
+    const MethodInfo* getMethodAt(const u2 index) const;
 public:
     inline bool isPublic() const {
         return _accessFlags & ACC_PUBLIC;

@@ -4,7 +4,7 @@
 
 using namespace avm;
 
-ConstantUtf8::ConstantUtf8(const u2 &length, const std::string &value) :
+ConstantUtf8::ConstantUtf8(const u2 length, const std::string &value) :
     _length(length),
     _value(value),
     ConstantInfo(ConstantType::Utf8) {

@@ -9,7 +9,7 @@ namespace avm {
 
 class ConstantString: public ConstantInfo {
 public:
-    ConstantString(const u2 &stringIndex);
+    ConstantString(const u2 stringIndex);
 public:
     inline const u2 getStringIndex() const {
         return _stringIndex;

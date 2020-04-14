@@ -78,23 +78,23 @@ void JavaClass::setConstantPoolReferences() {
         _methods[i].setConstantPool(_constantPool);
 }
 
-const ConstantInfo* JavaClass::getConstantAt(const u2 &index) const {
+const ConstantInfo* JavaClass::getConstantAt(const u2 index) const {
     return _constantPool->at(index);
 }
 
-const u2& JavaClass::getInterfaceAt(const u2 &index) const {
+u2  JavaClass::getInterfaceAt(const u2 index) const {
     if ((index < 0) || (index >= _interfacesCount))
         throw new RuntimeException("Index out of bound");
     return _interfaces[index];
 }
 
-const FieldInfo* JavaClass::getFieldAt(const u2 &index) const {
+const FieldInfo* JavaClass::getFieldAt(const u2 index) const {
     if ((index < 0) || (index >= _fieldsCount))
         throw new RuntimeException("Index out of bound");
     return &_fields[index];
 }
 
-const MethodInfo* JavaClass::getMethodAt(const u2 &index) const {
+const MethodInfo* JavaClass::getMethodAt(const u2 index) const {
     if ((index < 0) || (index >= _methodsCount))
         throw new RuntimeException("Index out of bound");
     return &_methods[index];

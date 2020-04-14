@@ -16,7 +16,7 @@ void WithAttributes::addAttribute(AttributeInfo* attribute) {
     _attributes.push_back(std::unique_ptr<AttributeInfo>(attribute));
 }
 
-const AttributeInfo* WithAttributes::getAttributeAt(const u2 &index) const {
+const AttributeInfo* WithAttributes::getAttributeAt(const u2 index) const {
     if ((index < 0) || (index >= _attributesCount))
         throw new RuntimeException("Index out of bound");
     return _attributes[index].get();

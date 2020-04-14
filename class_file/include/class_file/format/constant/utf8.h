@@ -10,7 +10,7 @@ namespace avm {
 
 class ConstantUtf8: public ConstantInfo {
 public:
-    ConstantUtf8(const u2 &length, const std::string &value);
+    ConstantUtf8(const u2 length, const std::string &value);
     ConstantUtf8(const ConstantUtf8 &p);
 public:
     inline const u2 getLength() const {

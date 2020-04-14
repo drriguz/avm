@@ -19,10 +19,10 @@ public:
     virtual ~WithAttributes();
 public:
     void addAttribute(AttributeInfo* attribute);
-    inline const u2& getAttributesCount() const {
+    inline u2  getAttributesCount() const {
         return _attributesCount;
     }
-    const AttributeInfo* getAttributeAt(const u2 &index) const;
+    const AttributeInfo* getAttributeAt(const u2 index) const;
     const AttributeInfo* getAttrinute(AttributeType type) const;
     const AttributeInfo* getAttrinuteIfPresent(AttributeType type) const;
 protected:

@@ -7,7 +7,7 @@ namespace avm {
 
 class ConstantValue: public AttributeInfo {
 public:
-    ConstantValue(const u2 &valueIndex);
+    ConstantValue(const u2 valueIndex);
     virtual ~ConstantValue();
 public:
     inline const u2 getValueIndex() const {

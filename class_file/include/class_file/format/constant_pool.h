@@ -25,7 +25,7 @@ public:
     ConstantPool(u2 count);
     virtual ~ConstantPool();
 public:
-    inline const u2& getConstantPoolCount() const {
+    inline u2  getConstantPoolCount() const {
         return _constantCount;
     }
     void push_back(ConstantInfo *info);

@@ -4,8 +4,8 @@
 
 using namespace avm;
 
-ConstantMethodHandle::ConstantMethodHandle(const u1 &referenceKind,
-        const u2 &referenceIndex) :
+ConstantMethodHandle::ConstantMethodHandle(const u1 referenceKind,
+        const u2 referenceIndex) :
     _referenceKind(referenceKind),
     _referenceIndex(referenceIndex),
     ConstantInfo(ConstantType::MethodHandle) {

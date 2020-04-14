@@ -2,7 +2,7 @@
 
 using namespace avm;
 
-ConstantValue::ConstantValue(const u2 &valueIndex) :
+ConstantValue::ConstantValue(const u2 valueIndex) :
     _valueIndex(valueIndex),
     AttributeInfo(AttributeType::CONSTANT_VALUE) {
 }

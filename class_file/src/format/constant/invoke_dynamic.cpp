@@ -4,8 +4,8 @@
 
 using namespace avm;
 
-ConstantInvokeDynamic::ConstantInvokeDynamic(const u2 &bootstrapMethodAttrIndex,
-        const u2 &nameAndTypeIndex) :
+ConstantInvokeDynamic::ConstantInvokeDynamic(const u2 bootstrapMethodAttrIndex,
+        const u2 nameAndTypeIndex) :
     _bootstrapMethodAttrIndex(bootstrapMethodAttrIndex),
     _nameAndTypeIndex(nameAndTypeIndex),
     ConstantInfo(ConstantType::InvokeDynamic) {

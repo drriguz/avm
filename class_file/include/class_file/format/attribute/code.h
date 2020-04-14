@@ -15,7 +15,7 @@ class Code: public AttributeInfo,
     public WithAttributes {
     friend class JavaClassParser;
 public:
-    Code(const u2& maxStack, const u2& maxLocals);
+    Code(u2  maxStack, u2  maxLocals);
     virtual ~Code();
 public:
     inline u2 getMaxStack() const {
