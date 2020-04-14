@@ -11,13 +11,11 @@
 using namespace avm;
 
 JavaClassParser::JavaClassParser(const char *filePath)
-    :_reader(new BinaryFileReader(filePath)) {
+    :_reader(std::unique_ptr<BinaryReader>(new BinaryFileReader(filePath))) {
 
 }
 
 JavaClassParser::~JavaClassParser() {
-    if(_reader)
-        delete _reader;
 }
 
 void JavaClassParser::readHeader(JavaClass &out) {

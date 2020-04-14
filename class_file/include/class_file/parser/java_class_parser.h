@@ -9,6 +9,8 @@
 #include "class_file/format/attribute/attribute_types.h"
 #include "class_file/format/attribute/attribute_info.h"
 
+#include <memory>
+
 namespace avm {
 
 class JavaClassParser {
@@ -32,7 +34,7 @@ private:
     void readInstructions(Code& out);
     void readExceptionTable(Code& out);
 protected:
-    BinaryReader* _reader;
+    std::unique_ptr<BinaryReader> _reader;
 };
 }
 
