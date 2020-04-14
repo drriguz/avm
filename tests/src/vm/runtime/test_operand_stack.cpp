@@ -7,11 +7,13 @@
 using namespace avm;
 
 TEST(OperandStack, pushAndPopSingleByteValues) {
-    OperandStack stack(4);
+    OperandStack stack(5);
     stack.pushByte(-18);
     stack.pushByte(18);
     stack.pushShort(19);
     stack.pushInt(20);
+    stack.pushFloat(100.1234);
+    ASSERT_FLOAT_EQ(100.1234, stack.popFloat());
     ASSERT_EQ(20, stack.popInt());
     ASSERT_EQ(19, stack.popShort());
     ASSERT_EQ(18, stack.popByte());

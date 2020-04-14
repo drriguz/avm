@@ -16,8 +16,8 @@ TEST(LocalVariables, saveAndGetSingleByteValues) {
     ASSERT_EQ(18, var.getShort(0));
     var.setInt(0, 1234);
     ASSERT_EQ(1234, var.getInt(0));
-    var.setFloat(0, 1234.5);
-    ASSERT_EQ(1234.5, var.getFloat(0));
+    var.setFloat(0, 1234.65);
+    ASSERT_FLOAT_EQ(1234.65, var.getFloat(0));
 }
 
 TEST(LocalVariables, saveAndGetDoubleByteValues) {

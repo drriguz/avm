@@ -91,6 +91,7 @@ add_executable(
 	tests/src/vm/util/test_numbers.cpp
 	tests/src/vm/runtime/test_operand_stack.cpp
 	tests/src/vm/runtime/test_local_variables.cpp
+	tests/src/vm/runtime/test_vm_field.cpp
 	tests/src/vm/test_classpath_class_loader.cpp
 	tests/src/vm/test_method_area.cpp
 	tests/src/vm/test_virtual_machine.cpp)

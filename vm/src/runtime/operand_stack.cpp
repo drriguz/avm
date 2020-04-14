@@ -66,7 +66,6 @@ void OperandStack::pushLong(int64_t value) {
 
 void OperandStack::pushFloat(float value) {
     int32_t *sv = reinterpret_cast<int32_t*>(&value);
-    ;
     pushSingleByte(*sv);
 }
 
