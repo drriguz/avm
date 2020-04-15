@@ -41,8 +41,8 @@ void JavaClassParser::readConstantPool(JavaClass &out) {
         u1 tag;
         _reader->readU1(&tag);
         const ConstantType type = static_cast<ConstantType>(tag);
-        ConstantInfo *info = readConstant(type);
-        constantPool->push_back(info);
+        auto info = readConstant(type);
+        constantPool->push_back(std::move(info));
         /*
          * If a CONSTANT_Long_info or CONSTANT_Double_info structure is the item in the constant_pool table at index n, then the next usable item in the pool is located at index n+2. The constant_pool index n+1 must be valid but is considered unusable.
          */
@@ -53,39 +53,39 @@ void JavaClassParser::readConstantPool(JavaClass &out) {
     }
 }
 
-ConstantInfo* JavaClassParser::readConstant(const ConstantType &type) {
+std::unique_ptr<ConstantInfo> JavaClassParser::readConstant(const ConstantType &type) {
     switch (type) {
     case CONSTANT_Class:
-        return new ConstantClass(_reader->readU2());
+        return std::unique_ptr<ConstantInfo>(new ConstantClass(_reader->readU2()));
     case CONSTANT_Fieldref: {
         u2 classIndex = _reader->readU2(), nameAndTypeIndex = _reader->readU2();
-        return new ConstantFieldref(classIndex, nameAndTypeIndex);
+        return std::unique_ptr<ConstantInfo>(new ConstantFieldref(classIndex, nameAndTypeIndex));
     }
     case CONSTANT_Methodref: {
         u2 classIndex = _reader->readU2(), nameAndTypeIndex = _reader->readU2();
-        return new ConstantMethodref(classIndex, nameAndTypeIndex);
+        return std::unique_ptr<ConstantInfo>(new ConstantMethodref(classIndex, nameAndTypeIndex));
     }
     case CONSTANT_InterfaceMethodref: {
         u2 classIndex = _reader->readU2(), nameAndTypeIndex = _reader->readU2();
-        return new ConstantInterfaceMethodref(classIndex, nameAndTypeIndex);
+        return std::unique_ptr<ConstantInfo>(new ConstantInterfaceMethodref(classIndex, nameAndTypeIndex));
     }
     case CONSTANT_String:
-        return new ConstantString(_reader->readU2());
+        return std::unique_ptr<ConstantInfo>(new ConstantString(_reader->readU2()));
     case CONSTANT_Integer:
-        return new ConstantInteger(_reader->readU4());
+        return std::unique_ptr<ConstantInfo>(new ConstantInteger(_reader->readU4()));
     case CONSTANT_Float:
-        return new ConstantFloat(_reader->readU4());
+        return std::unique_ptr<ConstantInfo>(new ConstantFloat(_reader->readU4()));
     case CONSTANT_Long: {
         u4 highBytes = _reader->readU4(), lowBytes = _reader->readU4();
-        return new ConstantLong(highBytes, lowBytes);
+        return std::unique_ptr<ConstantInfo>(new ConstantLong(highBytes, lowBytes));
     }
     case CONSTANT_Double: {
         u4 highBytes = _reader->readU4(), lowBytes = _reader->readU4();
-        return new ConstantDouble(highBytes, lowBytes);
+        return std::unique_ptr<ConstantInfo>(new ConstantDouble(highBytes, lowBytes));
     }
     case CONSTANT_NameAndType: {
         u2 nameIndex = _reader->readU2(), descriptionIndex = _reader->readU2();
-        return new ConstantNameAndType(nameIndex, descriptionIndex);
+        return std::unique_ptr<ConstantInfo>(new ConstantNameAndType(nameIndex, descriptionIndex));
     }
     case CONSTANT_Utf8: {
         u2 length;
@@ -95,19 +95,19 @@ ConstantInfo* JavaClassParser::readConstant(const ConstantType &type) {
         buffer = new char[length + 1];
         _reader->read(buffer, length);
         buffer[length] = '\0';
-        return new ConstantUtf8(length, std::string(buffer));
+        return std::unique_ptr<ConstantInfo>(new ConstantUtf8(length, std::string(buffer)));
     }
     case CONSTANT_MethodHandle: {
         u1 referenceKind = _reader->readU1();
         u2 rererenceIndex = _reader->readU2();
-        return new ConstantMethodHandle(referenceKind, rererenceIndex);
+        return std::unique_ptr<ConstantInfo>(new ConstantMethodHandle(referenceKind, rererenceIndex));
     }
     case CONSTANT_MethodType:
-        return new ConstantMethodType(_reader->readU2());
+        return std::unique_ptr<ConstantInfo>(new ConstantMethodType(_reader->readU2()));
     case CONSTANT_InvokeDynamic: {
         u2 bootstrapMethodAttrIndex = _reader->readU2(), nameAndTypeIndex = _reader->readU2();
-        return new ConstantInvokeDynamic(bootstrapMethodAttrIndex,
-                                         nameAndTypeIndex);
+        return std::unique_ptr<ConstantInfo>(new ConstantInvokeDynamic(bootstrapMethodAttrIndex,
+                                         nameAndTypeIndex));
     }
     default:
         throw ClassFormatException(

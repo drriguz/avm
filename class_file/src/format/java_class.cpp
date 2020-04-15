@@ -84,19 +84,19 @@ const ConstantInfo* JavaClass::getConstantAt(const u2 index) const {
 
 u2  JavaClass::getInterfaceAt(const u2 index) const {
     if ((index < 0) || (index >= _interfacesCount))
-        throw new RuntimeException("Index out of bound");
+        throw RuntimeException("Index out of bound");
     return _interfaces[index];
 }
 
 const FieldInfo* JavaClass::getFieldAt(const u2 index) const {
     if ((index < 0) || (index >= _fieldsCount))
-        throw new RuntimeException("Index out of bound");
+        throw RuntimeException("Index out of bound");
     return &_fields[index];
 }
 
 const MethodInfo* JavaClass::getMethodAt(const u2 index) const {
     if ((index < 0) || (index >= _methodsCount))
-        throw new RuntimeException("Index out of bound");
+        throw RuntimeException("Index out of bound");
     return &_methods[index];
 }
 

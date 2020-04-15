@@ -16,13 +16,13 @@ void ConstantPool::push_empty() {
     _constantPool.push_back(std::unique_ptr<ConstantInfo>());
 }
 
-void ConstantPool::push_back(ConstantInfo *info) {
-    _constantPool.push_back(std::unique_ptr<ConstantInfo>(info));
+void ConstantPool::push_back(std::unique_ptr<ConstantInfo> info) {
+    _constantPool.push_back(std::move(info));
 }
 
 const ConstantInfo* ConstantPool::at(u2 index) const {
     if ((index < 0) || (index >= _constantCount))
-        throw new RuntimeException("Index out of bound");
+        throw RuntimeException("Index out of bound");
     return _constantPool.at(index).get();
 }
 

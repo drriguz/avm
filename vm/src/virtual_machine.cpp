@@ -33,7 +33,7 @@ void VirtualMachine::execute(VmThread* thread) {
 }
 
 VmClass* VirtualMachine::getClass(const std::string &className) const {
-    if (!_methodArea->loadedClass(className)) {
+    if ( !_methodArea->loadedClass(className)) {
         auto newClass = std::unique_ptr<JavaClass>(new JavaClass());
         _classLoader->loadClass(className, *newClass.get());
         auto vmClass = std::unique_ptr<VmClass>(new VmClass(std::move(newClass)));

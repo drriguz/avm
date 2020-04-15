@@ -22,7 +22,7 @@ public:
 private:
     void readHeader(JavaClass &out);
     void readConstantPool(JavaClass &out);
-    ConstantInfo* readConstant(const ConstantType &type);
+    std::unique_ptr<ConstantInfo> readConstant(const ConstantType &type);
     void readClassDescriptors(JavaClass &out);
     void readFields(JavaClass &out);
     void readField(const ConstantPool* constants, FieldInfo &to);

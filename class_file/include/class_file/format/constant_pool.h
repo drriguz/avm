@@ -28,7 +28,7 @@ public:
     inline u2  getConstantPoolCount() const {
         return _constantCount;
     }
-    void push_back(ConstantInfo *info);
+    void push_back(std::unique_ptr<ConstantInfo> info);
     void push_empty();
     const ConstantInfo* at(u2 index) const;
 public:

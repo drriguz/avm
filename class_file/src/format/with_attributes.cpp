@@ -18,7 +18,7 @@ void WithAttributes::addAttribute(AttributeInfo* attribute) {
 
 const AttributeInfo* WithAttributes::getAttributeAt(const u2 index) const {
     if ((index < 0) || (index >= _attributesCount))
-        throw new RuntimeException("Index out of bound");
+        throw RuntimeException("Index out of bound");
     return _attributes[index].get();
 }
 

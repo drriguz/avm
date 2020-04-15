@@ -13,12 +13,12 @@ ConstantPoolVisitor::~ConstantPoolVisitor() {
 
 void ConstantPoolVisitor::checkConstantPool() {
     if (_constantsReference == nullptr)
-        throw new RuntimeException("Constant pool havn't been initialized");
+        throw RuntimeException("Constant pool havn't been initialized");
 }
 
 void ConstantPoolVisitor::setConstantPool(const ConstantPool *constants) {
     if (constants == nullptr)
-        throw new RuntimeException("Constant pool should not be nullptr");
+        throw RuntimeException("Constant pool should not be nullptr");
     _constantsReference = constants;
 }
 
