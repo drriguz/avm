@@ -1,8 +1,8 @@
 {
-    "C_Cpp.default.configurationProvider": "vector-of-bool.cmake-tools",
+    "cmake.debugConfig": {
+        "miDebuggerPath": "/Users/hfli/.vscode/extensions/ms-vscode.cpptools-0.27.0/debugAdapters/lldb-mi/bin/lldb-mi"
+    },
     "files.associations": {
-        "cstring": "cpp",
-        "vector": "cpp",
         "__bit_reference": "cpp",
         "__config": "cpp",
         "__debug": "cpp",
@@ -32,6 +32,7 @@
         "cstdint": "cpp",
         "cstdio": "cpp",
         "cstdlib": "cpp",
+        "cstring": "cpp",
         "ctime": "cpp",
         "cwchar": "cpp",
         "cwctype": "cpp",
@@ -67,6 +68,7 @@
         "type_traits": "cpp",
         "typeinfo": "cpp",
         "unordered_map": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "vector": "cpp"
     }
 }

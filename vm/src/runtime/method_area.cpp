@@ -19,10 +19,10 @@ VmClass* MethodArea::getClass(const std::string &className) const {
     }
 }
 
-void MethodArea::putClass(const std::string &className, VmClass *javaClass) {
+void MethodArea::putClass(const std::string &className, std::unique_ptr<VmClass> javaClass) {
     if (_loadedClasses.count(className) > 0)
         throw ClassAlreadyLoadedException(className);
-    _loadedClasses[className] = std::unique_ptr<VmClass>(javaClass);
+    _loadedClasses[className] = std::move(javaClass);
 }
 
 bool MethodArea::loadedClass(const std::string &className) const {

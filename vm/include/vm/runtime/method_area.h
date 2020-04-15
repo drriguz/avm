@@ -17,7 +17,7 @@ public:
 public:
     bool loadedClass(const std::string &className) const;
     VmClass* getClass(const std::string &className) const;
-    void putClass(const std::string &className, VmClass *javaClass);
+    void putClass(const std::string &className, std::unique_ptr<VmClass> javaClass);
 protected:
     std::map<std::string, std::unique_ptr<VmClass>> _loadedClasses;
 };

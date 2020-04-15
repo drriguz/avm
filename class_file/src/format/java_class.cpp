@@ -70,8 +70,12 @@ void JavaClass::initializeMethods() {
 }
 
 void JavaClass::setConstantPoolReferences() {
-    for (int i = 0; i < _methodsCount; i++)
+    for (int i = 0; i < _methodsCount; i++) {
         _methods[i].setConstantPool(_constantPool.get());
+    }
+    for (int i = 0; i < _fieldsCount; i++) {
+        _fields[i].setConstantPool(_constantPool.get());
+    }
 }
 
 const ConstantInfo* JavaClass::getConstantAt(const u2 index) const {

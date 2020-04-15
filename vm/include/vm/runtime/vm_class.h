@@ -13,7 +13,7 @@ namespace avm {
 
 class VmClass {
 public:
-    VmClass(JavaClass* _javaClass);
+    VmClass(std::unique_ptr<JavaClass> _javaClass);
     virtual ~VmClass();
 public:
     const JavaClass* getClass() const {
@@ -21,11 +21,13 @@ public:
     }
     const ConstantPool* getRuntimeConstantPool() const;
     const VmMethod getClassInitializationMethod() const;
-    void prepare();
-    void initializeConstantField(VmField& field, u2 constantIndex);
+
     VmField* getField(const std::string& name) {
         return _fields[name].get();
     }
+protected:
+    void prepare();
+    void initializeConstantField(VmField& field, u2 constantIndex);
 protected:
     std::unique_ptr<JavaClass> _javaClass;
     std::map<std::string, std::unique_ptr<VmField>>  _fields;

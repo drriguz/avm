@@ -2,7 +2,7 @@
 
 using namespace avm;
 
-VmClass::VmClass(JavaClass* javaClass) : _javaClass(javaClass) {
+VmClass::VmClass(std::unique_ptr<JavaClass> javaClass) : _javaClass(std::move(javaClass)) {
     prepare();
 }
 
@@ -36,7 +36,7 @@ void VmClass::prepare() {
             const ConstantValue* constantValue = (ConstantValue*)fieldInfo->getAttrinuteIfPresent(CONSTANT_VALUE);
             if(constantValue != nullptr) {
                 u2 index = constantValue->getValueIndex();
-
+                initializeConstantField(*field, index);
             }
         }
     }
@@ -52,5 +52,39 @@ void VmClass::prepare() {
 */
 void VmClass::initializeConstantField(VmField& field, u2 constantIndex) {
     const ConstantInfo* info = _javaClass->getConstantPool()->at(constantIndex);
-    
+    switch(field.getDescriptor().getBaseType()) {
+    case FIELD_Byte:
+    case FIELD_Short:
+    case FIELD_Char:
+    case FIELD_Int:
+    case FIELD_Boolean: {
+        ConstantInteger* c = (ConstantInteger*) info;
+        field.setInt(c->getValue());
+        break;
+    }
+    case FIELD_Float: {
+        ConstantFloat* c = (ConstantFloat*) info;
+        field.setFloat(c->getValue());
+        break;
+    }
+    case FIELD_Long: {
+        ConstantLong* c = (ConstantLong*) info;
+        field.setLong(c->getValue());
+        break;
+    }
+    case FIELD_Double: {
+        ConstantDouble* c = (ConstantDouble*) info;
+        field.setDouble(c->getValue());
+        break;
+    }
+    case FIELD_Reference: {
+        ConstantString* c = (ConstantString*) info;
+        // _javaClass->getConstantPool()->getString(c->getStringIndex())
+        // fixme:
+        break;
+    }
+    default:
+        break;
+
+    }
 }

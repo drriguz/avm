@@ -18,11 +18,11 @@ TEST(MethodArea, throwExceptionIfClassNotFound) {
 TEST(MethodArea, getClassIfClassFound) {
     MethodArea methodArea;
     JavaClassParser parser("res/com/test/Simple.class");
-    JavaClass *javaClass = new JavaClass();
-    parser.parse(*javaClass);
-    VmClass* vmClass= new VmClass(javaClass);
+    auto javaClass = std::unique_ptr<JavaClass>(new JavaClass());
+    parser.parse(*javaClass.get());
+    auto vmClass= std::unique_ptr<VmClass>(new VmClass(std::move(javaClass)));
 
-    methodArea.putClass("com.riguz.Simple", vmClass);
+    methodArea.putClass("com.riguz.Simple", std::move(vmClass));
     try {
         const JavaClass *actual = methodArea.getClass("com.riguz.Simple")->getClass();
 
@@ -37,10 +37,10 @@ TEST(MethodArea, getClassIfClassFound) {
 TEST(MethodArea, throwExceptionIfClassExists) {
     MethodArea methodArea;
     JavaClassParser parser("res/com/test/Simple.class");
-    JavaClass *javaClass = new JavaClass();
-    parser.parse(*javaClass);
-    VmClass* vmClass= new VmClass(javaClass);
-    methodArea.putClass("com.riguz.Simple", vmClass);
-    EXPECT_THROW(methodArea.putClass("com.riguz.Simple", vmClass),
+    auto javaClass = std::unique_ptr<JavaClass>(new JavaClass());
+    parser.parse(*javaClass.get());
+    auto vmClass= std::unique_ptr<VmClass>(new VmClass(std::move(javaClass)));
+    methodArea.putClass("com.riguz.Simple", std::move(vmClass));
+    EXPECT_THROW(methodArea.putClass("com.riguz.Simple", std::move(vmClass)),
                  ClassAlreadyLoadedException);
 }
