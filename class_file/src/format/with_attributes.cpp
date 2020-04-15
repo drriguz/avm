@@ -12,8 +12,8 @@ WithAttributes::~WithAttributes() {
 
 }
 
-void WithAttributes::addAttribute(AttributeInfo* attribute) {
-    _attributes.push_back(std::unique_ptr<AttributeInfo>(attribute));
+void WithAttributes::addAttribute(std::unique_ptr<AttributeInfo> attribute) {
+    _attributes.push_back(std::move(attribute));
 }
 
 const AttributeInfo* WithAttributes::getAttributeAt(const u2 index) const {

@@ -18,7 +18,7 @@ public:
     WithAttributes();
     virtual ~WithAttributes();
 public:
-    void addAttribute(AttributeInfo* attribute);
+    void addAttribute(std::unique_ptr<AttributeInfo> attribute);
     inline u2  getAttributesCount() const {
         return _attributesCount;
     }

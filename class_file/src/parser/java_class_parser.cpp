@@ -181,9 +181,9 @@ void JavaClassParser::readAttributes(const ConstantPool* constants, WithAttribut
         _reader->readU4(&length);
 
         const std::string name = constants->getString(nameIndex);
-        AttributeInfo* attribute = nullptr;
+        std::unique_ptr<AttributeInfo> attribute = nullptr;
         if(name == "ConstantValue")
-            attribute = new ConstantValue(_reader->readU2());
+            attribute = std::unique_ptr<AttributeInfo>(new ConstantValue(_reader->readU2()));
         else if(name == "Code")
             attribute = readCode(constants);
         else if(name == "Exceptions")
@@ -192,26 +192,26 @@ void JavaClassParser::readAttributes(const ConstantPool* constants, WithAttribut
             _reader->skip(length);
 
         if(attribute)
-            out.addAttribute(attribute);
+            out.addAttribute(std::move(attribute));
     }
 }
-Exceptions* JavaClassParser::readExceptions(const ConstantPool* constants) {
-    Exceptions* attribute = new Exceptions();
+std::unique_ptr<Exceptions> JavaClassParser::readExceptions(const ConstantPool* constants) {
+    auto attribute = std::unique_ptr<Exceptions>(new Exceptions());
     u2 count = _reader->readU2();
     for(int i = 0; i < count; i ++) {
         u2 index = _reader->readU2();
-        attribute->_exceptionClasses.push_back(constants->getClassName(index));
+        attribute.get()->_exceptionClasses.push_back(constants->getClassName(index));
     }
     return attribute;
 }
 
-Code* JavaClassParser::readCode(const ConstantPool* constants) {
+std::unique_ptr<Code> JavaClassParser::readCode(const ConstantPool* constants) {
     u2 maxStack = _reader->readU2();
     u2 maxLocals = _reader->readU2();
-    Code* attribute = new Code(maxStack, maxLocals);
-    readInstructions(*attribute);
-    readExceptionTable(*attribute);
-    readAttributes(constants, *attribute);
+    auto attribute = std::unique_ptr<Code>(new Code(maxStack, maxLocals));
+    readInstructions(*attribute.get());
+    readExceptionTable(*attribute.get());
+    readAttributes(constants, *attribute.get());
     return attribute;
 }
 
