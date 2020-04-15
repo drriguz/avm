@@ -5,33 +5,34 @@ using namespace avm;
 
 BaseType detectPrimitiveType(const std::string& descriptor) {
     if(descriptor == "B")
-        return Byte;
+        return FIELD_Byte;
     else if(descriptor == "C")
-        return Char;
+        return FIELD_Char;
     else if(descriptor == "D")
-        return Double;
+        return FIELD_Double;
     else if(descriptor == "F")
-        return Float;
+        return FIELD_Float;
     else if(descriptor == "I")
-        return Int;
+        return FIELD_Int;
     else if(descriptor == "J")
-        return Long;
+        return FIELD_Long;
     else if(descriptor == "S")
-        return Short;
+        return FIELD_Short;
     else if(descriptor == "Z")
-        return Boolean;
+        return FIELD_Boolean;
     else
         throw RuntimeException("Descriptor not recognized");
 }
 FieldDescriptor::FieldDescriptor(const std::string& descriptor) {
     std::string componentType = descriptor;
     if(descriptor.rfind("[", 0) == 0) {
+        // fixme: support [[I (int[][])
         componentType = descriptor.substr(1);
         _isArray = true;
     }
 
     if(componentType.rfind("L", 0) == 0) {
-        _baseType = Reference;
+        _baseType = FIELD_Reference;
         _className = componentType.substr(1);
     } else
         _baseType = detectPrimitiveType(componentType);

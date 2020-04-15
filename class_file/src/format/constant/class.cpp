@@ -6,7 +6,7 @@ using namespace avm;
 
 ConstantClass::ConstantClass(const u2 nameIndex) :
     _nameIndex(nameIndex),
-    ConstantInfo(ConstantType::Class) {
+    ConstantInfo(ConstantType::CONSTANT_Class) {
 
 }
 

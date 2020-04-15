@@ -52,5 +52,5 @@ void VmClass::prepare() {
 */
 void VmClass::initializeConstantField(VmField& field, u2 constantIndex) {
     const ConstantInfo* info = _javaClass->getConstantPool()->at(constantIndex);
-    std::string fieldType = field.getDescriptor();
+    
 }

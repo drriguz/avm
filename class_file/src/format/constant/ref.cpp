@@ -16,19 +16,19 @@ ConstantRef::ConstantRef(const ConstantType &type,
 
 ConstantFieldref::ConstantFieldref(const u2 classIndex,
                                    const u2 nameAndTypeIndex) :
-    ConstantRef(ConstantType::Fieldref, classIndex, nameAndTypeIndex) {
+    ConstantRef(ConstantType::CONSTANT_Fieldref, classIndex, nameAndTypeIndex) {
 
 }
 
 ConstantMethodref::ConstantMethodref(const u2 classIndex,
                                      const u2 nameAndTypeIndex) :
-    ConstantRef(ConstantType::Methodref, classIndex, nameAndTypeIndex) {
+    ConstantRef(ConstantType::CONSTANT_Methodref, classIndex, nameAndTypeIndex) {
 
 }
 
 ConstantInterfaceMethodref::ConstantInterfaceMethodref(const u2 classIndex,
         const u2 nameAndTypeIndex) :
-    ConstantRef(ConstantType::InterfaceMethodref, classIndex,
+    ConstantRef(ConstantType::CONSTANT_InterfaceMethodref, classIndex,
                 nameAndTypeIndex) {
 
 }

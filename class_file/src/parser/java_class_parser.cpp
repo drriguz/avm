@@ -46,7 +46,7 @@ void JavaClassParser::readConstantPool(JavaClass &out) {
         /*
          * If a CONSTANT_Long_info or CONSTANT_Double_info structure is the item in the constant_pool table at index n, then the next usable item in the pool is located at index n+2. The constant_pool index n+1 must be valid but is considered unusable.
          */
-        if (type == Long || type == Double) {
+        if (type == CONSTANT_Long || type == CONSTANT_Double) {
             constantPool->push_empty();
             i++;
         }
@@ -55,39 +55,39 @@ void JavaClassParser::readConstantPool(JavaClass &out) {
 
 ConstantInfo* JavaClassParser::readConstant(const ConstantType &type) {
     switch (type) {
-    case Class:
+    case CONSTANT_Class:
         return new ConstantClass(_reader->readU2());
-    case Fieldref: {
+    case CONSTANT_Fieldref: {
         u2 classIndex = _reader->readU2(), nameAndTypeIndex = _reader->readU2();
         return new ConstantFieldref(classIndex, nameAndTypeIndex);
     }
-    case Methodref: {
+    case CONSTANT_Methodref: {
         u2 classIndex = _reader->readU2(), nameAndTypeIndex = _reader->readU2();
         return new ConstantMethodref(classIndex, nameAndTypeIndex);
     }
-    case InterfaceMethodref: {
+    case CONSTANT_InterfaceMethodref: {
         u2 classIndex = _reader->readU2(), nameAndTypeIndex = _reader->readU2();
         return new ConstantInterfaceMethodref(classIndex, nameAndTypeIndex);
     }
-    case String:
+    case CONSTANT_String:
         return new ConstantString(_reader->readU2());
-    case Integer:
+    case CONSTANT_Integer:
         return new ConstantInteger(_reader->readU4());
-    case Float:
+    case CONSTANT_Float:
         return new ConstantFloat(_reader->readU4());
-    case Long: {
+    case CONSTANT_Long: {
         u4 highBytes = _reader->readU4(), lowBytes = _reader->readU4();
         return new ConstantLong(highBytes, lowBytes);
     }
-    case Double: {
+    case CONSTANT_Double: {
         u4 highBytes = _reader->readU4(), lowBytes = _reader->readU4();
         return new ConstantDouble(highBytes, lowBytes);
     }
-    case NameAndType: {
+    case CONSTANT_NameAndType: {
         u2 nameIndex = _reader->readU2(), descriptionIndex = _reader->readU2();
         return new ConstantNameAndType(nameIndex, descriptionIndex);
     }
-    case Utf8: {
+    case CONSTANT_Utf8: {
         u2 length;
         char *buffer;
         _reader->readU2(&length);
@@ -97,14 +97,14 @@ ConstantInfo* JavaClassParser::readConstant(const ConstantType &type) {
         buffer[length] = '\0';
         return new ConstantUtf8(length, std::string(buffer));
     }
-    case MethodHandle: {
+    case CONSTANT_MethodHandle: {
         u1 referenceKind = _reader->readU1();
         u2 rererenceIndex = _reader->readU2();
         return new ConstantMethodHandle(referenceKind, rererenceIndex);
     }
-    case MethodType:
+    case CONSTANT_MethodType:
         return new ConstantMethodType(_reader->readU2());
-    case InvokeDynamic: {
+    case CONSTANT_InvokeDynamic: {
         u2 bootstrapMethodAttrIndex = _reader->readU2(), nameAndTypeIndex = _reader->readU2();
         return new ConstantInvokeDynamic(bootstrapMethodAttrIndex,
                                          nameAndTypeIndex);

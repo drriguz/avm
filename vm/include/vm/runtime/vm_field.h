@@ -6,6 +6,7 @@
 #include <memory>
 
 #include "class_file/format/field_info.h"
+#include "class_file/format/descriptor_type.h"
 #include "slot.h"
 
 namespace avm {
@@ -32,13 +33,13 @@ public:
     inline std::string getName() const {
         return _name;
     }
-    inline std::string getDescriptor() const {
+    inline FieldDescriptor getDescriptor() const {
         return _descriptor;
     }
 protected:
     const FieldInfo* _fieldInfo;
     std::string _name;
-    std::string _descriptor;
+    FieldDescriptor _descriptor;
     std::unique_ptr<Slot> _slot1;
     std::unique_ptr<Slot> _slot2;
 };

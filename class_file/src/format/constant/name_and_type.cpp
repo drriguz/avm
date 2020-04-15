@@ -8,7 +8,7 @@ ConstantNameAndType::ConstantNameAndType(const u2 nameIndex,
         const u2 descriptorIndex) :
     _nameIndex(nameIndex),
     _descriptorIndex(descriptorIndex),
-    ConstantInfo(ConstantType::NameAndType) {
+    ConstantInfo(ConstantType::CONSTANT_NameAndType) {
 
 }
 

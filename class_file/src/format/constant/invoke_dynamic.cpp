@@ -8,6 +8,6 @@ ConstantInvokeDynamic::ConstantInvokeDynamic(const u2 bootstrapMethodAttrIndex,
         const u2 nameAndTypeIndex) :
     _bootstrapMethodAttrIndex(bootstrapMethodAttrIndex),
     _nameAndTypeIndex(nameAndTypeIndex),
-    ConstantInfo(ConstantType::InvokeDynamic) {
+    ConstantInfo(ConstantType::CONSTANT_InvokeDynamic) {
 
 }

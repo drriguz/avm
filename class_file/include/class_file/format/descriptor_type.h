@@ -5,15 +5,15 @@
 
 namespace avm {
 enum BaseType {
-    Byte,
-    Char,
-    Double,
-    Float,
-    Int,
-    Long,
-    Short,
-    Boolean,
-    Reference,
+    FIELD_Byte,
+    FIELD_Char,
+    FIELD_Double,
+    FIELD_Float,
+    FIELD_Int,
+    FIELD_Long,
+    FIELD_Short,
+    FIELD_Boolean,
+    FIELD_Reference,
 };
 class FieldDescriptor {
 public:
