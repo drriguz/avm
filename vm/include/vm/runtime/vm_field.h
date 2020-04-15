@@ -29,6 +29,7 @@ public:
     float getFloat();
     double getDouble();
     uint16_t getChar();
+    std::string getString();
 public:
     inline std::string getName() const {
         return _name;

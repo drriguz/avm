@@ -66,3 +66,7 @@ double VmField::getDouble() {
 uint16_t VmField::getChar() {
     return _slot1.get()->asInt();
 }
+
+std::string VmField::getString() {
+    return *reinterpret_cast<const std::string*>(getLong());
+}

@@ -9,6 +9,7 @@
 namespace avm {
 
 class ConstantUtf8: public ConstantInfo {
+    friend class ConstantPool;
 public:
     ConstantUtf8(const u2 length, const std::string &value);
     ConstantUtf8(const ConstantUtf8 &p);

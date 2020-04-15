@@ -33,6 +33,7 @@ public:
     const ConstantInfo* at(u2 index) const;
 public:
     std::string getString(u2 index) const;
+    const std::string* getStringReference(u2 index) const;
     std::string getClassName(u2 classInfoIndex) const;
 protected:
     u2 _constantCount;

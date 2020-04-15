@@ -79,8 +79,8 @@ void VmClass::initializeConstantField(VmField& field, u2 constantIndex) {
     }
     case FIELD_Reference: {
         ConstantString* c = (ConstantString*) info;
-        // _javaClass->getConstantPool()->getString(c->getStringIndex())
-        // fixme:
+        const std::string* stringRef =  _javaClass->getConstantPool()->getStringReference(c->getStringIndex());
+        field.setLong(reinterpret_cast<long>(stringRef));
         break;
     }
     default:
