@@ -22,6 +22,7 @@ public:
     const ConstantPool* getRuntimeConstantPool() const;
     const VmMethod getClassInitializationMethod() const;
     void prepare();
+    void initializeConstantField(VmField& field, u2 constantIndex);
     VmField* getField(const std::string& name) {
         return _fields[name].get();
     }

@@ -22,6 +22,7 @@ include_directories(
 add_library(
 	class_file STATIC
 	class_file/src/format/java_class.cpp
+	class_file/src/format/descriptor_type.cpp
 	class_file/src/format/class_property.cpp
 	class_file/src/format/field_info.cpp
 	class_file/src/format/method_info.cpp
@@ -80,6 +81,7 @@ add_executable(
 	tests/src/format/constant/test_number.cpp
 	tests/src/format/constant/test_utf8.cpp
 	tests/src/format/test_java_class.cpp
+	tests/src/format/test_descriptor_parsing.cpp
 	tests/src/parser/test_binary_reader.cpp
 	tests/src/parser/test_base_info.cpp
 	tests/src/parser/test_constant_pool.cpp

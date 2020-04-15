@@ -30,10 +30,27 @@ void VmClass::prepare() {
         VmField* field = new VmField(fieldInfo->getName(), fieldInfo->getDescriptor());
         _fields[fieldInfo->getName()] = std::unique_ptr<VmField>(field);
         if(fieldInfo->isStatic()) {
+            /*
+             * https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html#jvms-4.7.2
+            */
             const ConstantValue* constantValue = (ConstantValue*)fieldInfo->getAttrinuteIfPresent(CONSTANT_VALUE);
             if(constantValue != nullptr) {
                 u2 index = constantValue->getValueIndex();
+
             }
         }
     }
+}
+
+/*
+    Field Type 	Entry Type
+    long 	                             CONSTANT_Long
+    float 	                             CONSTANT_Float
+    double 	                             CONSTANT_Double
+    int, short, char, byte, boolean 	 CONSTANT_Integer
+    String 	                             CONSTANT_String
+*/
+void VmClass::initializeConstantField(VmField& field, u2 constantIndex) {
+    const ConstantInfo* info = _javaClass->getConstantPool()->at(constantIndex);
+    std::string fieldType = field.getDescriptor();
 }
