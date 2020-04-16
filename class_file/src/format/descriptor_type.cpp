@@ -23,7 +23,9 @@ BaseType detectPrimitiveType(const std::string& descriptor) {
     else
         throw RuntimeException("Descriptor not recognized");
 }
-FieldDescriptor::FieldDescriptor(const std::string& descriptor) {
+FieldDescriptor::FieldDescriptor(const std::string& descriptor)
+    :_isArray(false),
+     _className(std::string("")) {
     std::string componentType = descriptor;
     if(descriptor.rfind("[", 0) == 0) {
         // fixme: support [[I (int[][])

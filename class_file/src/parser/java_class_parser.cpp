@@ -107,7 +107,7 @@ std::unique_ptr<ConstantInfo> JavaClassParser::readConstant(const ConstantType &
     case CONSTANT_InvokeDynamic: {
         u2 bootstrapMethodAttrIndex = _reader->readU2(), nameAndTypeIndex = _reader->readU2();
         return std::unique_ptr<ConstantInfo>(new ConstantInvokeDynamic(bootstrapMethodAttrIndex,
-                                         nameAndTypeIndex));
+                                             nameAndTypeIndex));
     }
     default:
         throw ClassFormatException(
