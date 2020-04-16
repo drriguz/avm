@@ -2,6 +2,8 @@
 #include "vm/exceptions.h"
 #include "vm/util/numbers.h"
 
+#include <iostream>
+
 using namespace avm;
 
 OperandStack::OperandStack(int maxSize) :
@@ -106,4 +108,36 @@ double OperandStack::popDouble() {
 
 uint16_t OperandStack::popChar() {
     return popSingleByte();
+}
+
+void OperandStack::pushFieldValue(const VmField* field) {
+    switch(field->getDescriptor().getBaseType()) {
+    case FIELD_Byte:
+    case FIELD_Short:
+    case FIELD_Char:
+    case FIELD_Int:
+    case FIELD_Boolean: {
+        pushInt(field->getInt());
+        break;
+    }
+    case FIELD_Float: {
+        pushFloat(field->getFloat());
+        break;
+    }
+    case FIELD_Long: {
+        pushLong(field->getLong());
+        break;
+    }
+    case FIELD_Double: {
+        pushDouble(field->getDouble());
+        break;
+    }
+    case FIELD_Reference: {
+        // FIXME:
+        std::cout<< "put reference..." << std::endl;
+        break;
+    }
+    default:
+        break;
+    } 
 }

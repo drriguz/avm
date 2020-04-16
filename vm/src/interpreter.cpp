@@ -784,8 +784,18 @@ void avm::invoke_getstatic       (Context& context, const Instruction* instructi
     const ConstantFieldref* fieldRef = (const ConstantFieldref*)context.constantPool()->at(fieldRefIndex);
     const ConstantClass* classRef = (const ConstantClass*)context.constantPool()->at(fieldRef->getClassIndex());
     const ConstantNameAndType* nameAndType = (const ConstantNameAndType*)context.constantPool()->at(fieldRef->getNameAndTypeIndex());
-    std::cout << "get_static #" <<context.constantPool()->getString(classRef->getNameIndex()) <<  context.constantPool()->getString(nameAndType->getNameIndex()) << std::endl;
-    context.frame()->getOperandStack()->pushInt(-1);
+    
+    std::string className = context.constantPool()->getString(classRef->getNameIndex());
+    std::string fieldName = context.constantPool()->getString(nameAndType->getNameIndex());
+
+    std::cout << "get_static #" << className << " " << fieldName << std::endl;
+
+    VmClass* theClass = context.vm()->getClass(className);
+    theClass->initialize();
+
+    VmField* theField = theClass->getField(fieldName);
+    
+    context.frame()->getOperandStack()->pushFieldValue(theField);
 }
 void avm::invoke_putstatic       (Context& context, const Instruction* instruction) {
     throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));

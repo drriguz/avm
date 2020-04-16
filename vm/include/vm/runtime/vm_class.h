@@ -25,6 +25,8 @@ public:
     VmField* getField(const std::string& name) {
         return _fields[name].get();
     }
+public:
+    void initialize();
 protected:
     void prepare();
     void initializeConstantField(VmField& field, u2 constantIndex);

@@ -22,14 +22,14 @@ public:
     void setFloat(float value);
     void setDouble(double value);
     void setChar(uint16_t value);
-    int8_t getByte();
-    int16_t getShort();
-    int32_t getInt();
-    int64_t getLong();
-    float getFloat();
-    double getDouble();
-    uint16_t getChar();
-    std::string getString();
+    int8_t getByte() const;
+    int16_t getShort() const;
+    int32_t getInt() const;
+    int64_t getLong() const;
+    float getFloat() const;
+    double getDouble() const;
+    uint16_t getChar() const;
+    std::string getString() const;
 public:
     inline std::string getName() const {
         return _name;

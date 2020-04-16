@@ -2,6 +2,7 @@
 #define _AVM_OPERAND_STACK_H_
 
 #include "slot.h"
+#include "vm_field.h"
 
 #include <cstdint>
 #include <stack>
@@ -26,6 +27,8 @@ public:
     float popFloat();
     double popDouble();
     uint16_t popChar();
+public:
+    void pushFieldValue(const VmField* field);
 protected:
     void checkStackSize(int valueSize);
     void pushSingleByte(int32_t value);

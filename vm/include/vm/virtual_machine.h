@@ -18,7 +18,6 @@ public:
 public:
     void execute();
     void execute(VmThread* thread);
-protected:
     VmClass* getClass(const std::string &className) const;
 protected:
     std::string _classPath;

@@ -23,6 +23,10 @@ const VmMethod VmClass::getClassInitializationMethod() const {
     }
 }
 
+void VmClass::initialize() {
+    // todo: <cinit>
+}
+
 void VmClass::prepare() {
     int fieldsCount = _javaClass->getFieldsCount();
     for(int i = 0; i < fieldsCount; i++) {
@@ -85,6 +89,5 @@ void VmClass::initializeConstantField(VmField& field, u2 constantIndex) {
     }
     default:
         break;
-
     }
 }
