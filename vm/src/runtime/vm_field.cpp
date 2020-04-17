@@ -76,6 +76,6 @@ int VmField::getFieldSlotsSize() const {
     // todo: should reference return 2?
     if(type == FIELD_Double || type == FIELD_Long)
         return 2;
-    else 
+    else
         return 1;
 }

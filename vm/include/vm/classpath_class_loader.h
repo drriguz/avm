@@ -9,7 +9,7 @@ namespace avm {
 
 class ClasspathClassLoader: public ClassLoader {
 public:
-    ClasspathClassLoader(const std::string &classpath);
+    ClasspathClassLoader(MethodArea* methodArea, const std::string &classpath);
     virtual ~ClasspathClassLoader();
 public:
     virtual void loadClass(const std::string &className, JavaClass &out);

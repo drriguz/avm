@@ -2,7 +2,8 @@
 
 using namespace avm;
 
-ClassLoader::ClassLoader() {
+ClassLoader::ClassLoader(MethodArea* methodArea):
+    _methodArea(methodArea) {
 
 }
 

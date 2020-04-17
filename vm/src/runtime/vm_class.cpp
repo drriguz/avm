@@ -43,7 +43,7 @@ void VmClass::prepare() {
                 initializeConstantField(*field, index);
             }
         } else {
-            
+
         }
     }
 }

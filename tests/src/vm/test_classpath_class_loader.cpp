@@ -8,7 +8,8 @@
 using namespace avm;
 
 TEST(ClasspathClassLoader, parseClass) {
-    ClasspathClassLoader loader("res");
+    MethodArea methodArea;
+    ClasspathClassLoader loader(&methodArea, "res");
     try {
         JavaClass loaded;
         loader.loadClass("com.test.Simple", loaded);
@@ -18,7 +19,8 @@ TEST(ClasspathClassLoader, parseClass) {
 }
 
 TEST(ClasspathClassLoader, throwExceptionIfClassNotFound) {
-    ClasspathClassLoader loader("res");
+    MethodArea methodArea;
+    ClasspathClassLoader loader(&methodArea, "res");
     JavaClass loaded;
     EXPECT_THROW(loader.loadClass("com.test.NotExist", loaded),
                  ClassNotFoundException);
