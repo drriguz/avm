@@ -5,14 +5,16 @@
 #include <string>
 #include <cstdint>
 
-#include "class_file/format/java_class.h"
+#include "vm_class.h"
+#include "vm_field.h"
+#include "slot.h"
 
 namespace avm {
 
 class Object {
 protected:
-    JavaClass *_class;
-    std::map<std::string, uint32_t> _fieldReferences;
+    VmClass *_class;
+    Slot* _data;
 };
 }
 #endif

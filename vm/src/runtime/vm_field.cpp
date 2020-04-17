@@ -41,32 +41,41 @@ void VmField::setDouble(double value) {
 void VmField::setChar(uint16_t value) {
     _slot1 = std::unique_ptr<Slot>(new Slot(value));
 }
-int8_t VmField::getByte() const{
+int8_t VmField::getByte() const {
     return _slot1.get()->asInt();
 }
-int16_t VmField::getShort() const{
+int16_t VmField::getShort() const {
     return _slot1.get()->asInt();
 }
-int32_t VmField::getInt() const{
+int32_t VmField::getInt() const {
     return _slot1.get()->asInt();
 }
-int64_t VmField::getLong() const{
+int64_t VmField::getLong() const {
     uint32_t highBytes = _slot1.get()->asInt();
     uint32_t lowBytes = _slot2.get()->asInt();
     return Numbers::asLong(highBytes, lowBytes);
 }
-float VmField::getFloat() const{
+float VmField::getFloat() const {
     return _slot1.get()->asFloat();
 }
-double VmField::getDouble() const{
+double VmField::getDouble() const {
     uint32_t highBytes = _slot1.get()->asInt();
     uint32_t lowBytes = _slot2.get()->asInt();
     return Numbers::asDouble(highBytes, lowBytes);
 }
-uint16_t VmField::getChar() const{
+uint16_t VmField::getChar() const {
     return _slot1.get()->asInt();
 }
 
-std::string VmField::getString() const{
+std::string VmField::getString() const {
     return *reinterpret_cast<const std::string*>(getLong());
+}
+
+int VmField::getFieldSlotsSize() const {
+    BaseType type = _descriptor.getBaseType();
+    // todo: should reference return 2?
+    if(type == FIELD_Double || type == FIELD_Long)
+        return 2;
+    else 
+        return 1;
 }

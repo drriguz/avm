@@ -784,7 +784,7 @@ void avm::invoke_getstatic       (Context& context, const Instruction* instructi
     const ConstantFieldref* fieldRef = (const ConstantFieldref*)context.constantPool()->at(fieldRefIndex);
     const ConstantClass* classRef = (const ConstantClass*)context.constantPool()->at(fieldRef->getClassIndex());
     const ConstantNameAndType* nameAndType = (const ConstantNameAndType*)context.constantPool()->at(fieldRef->getNameAndTypeIndex());
-    
+
     std::string className = context.constantPool()->getString(classRef->getNameIndex());
     std::string fieldName = context.constantPool()->getString(nameAndType->getNameIndex());
 
@@ -794,7 +794,7 @@ void avm::invoke_getstatic       (Context& context, const Instruction* instructi
     theClass->initialize();
 
     VmField* theField = theClass->getField(fieldName);
-    
+
     context.frame()->getOperandStack()->pushFieldValue(theField);
 }
 void avm::invoke_putstatic       (Context& context, const Instruction* instruction) {

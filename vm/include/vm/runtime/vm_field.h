@@ -37,6 +37,7 @@ public:
     inline FieldDescriptor getDescriptor() const {
         return _descriptor;
     }
+    int getFieldSlotsSize() const;
 protected:
     const FieldInfo* _fieldInfo;
     std::string _name;

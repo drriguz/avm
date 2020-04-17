@@ -42,6 +42,8 @@ void VmClass::prepare() {
                 u2 index = constantValue->getValueIndex();
                 initializeConstantField(*field, index);
             }
+        } else {
+            
         }
     }
 }

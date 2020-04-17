@@ -139,5 +139,5 @@ void OperandStack::pushFieldValue(const VmField* field) {
     }
     default:
         break;
-    } 
+    }
 }

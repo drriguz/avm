@@ -8,6 +8,7 @@
 #include "classpath_class_loader.h"
 #include "runtime/method_area.h"
 #include "runtime/vm_thread.h"
+#include "runtime/heap.h"
 
 namespace avm {
 
@@ -23,6 +24,7 @@ protected:
     std::string _classPath;
     std::string _mainClass;
     std::unique_ptr<ClassLoader> _classLoader;
+    std::unique_ptr<Heap> _heap;
     std::unique_ptr<MethodArea> _methodArea;
     std::unique_ptr<VmThread> _mainThread;
 };

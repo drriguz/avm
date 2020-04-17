@@ -9,6 +9,7 @@ VirtualMachine::VirtualMachine(const std::string &classpath,
     _classPath(classpath),
     _mainClass(mainClass),
     _mainThread(nullptr),
+    _heap(std::unique_ptr<Heap>(new Heap(1* 1024 * 1024 * 10))), // aka 10Mb
     _classLoader(std::unique_ptr<ClassLoader>(new ClasspathClassLoader(classpath))),
     _methodArea(std::unique_ptr<MethodArea>(new MethodArea())) {
 

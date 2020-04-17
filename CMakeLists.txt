@@ -53,6 +53,7 @@ add_library(
 	vm STATIC
     vm/src/virtual_machine.cpp
 	vm/src/interpreter.cpp
+	vm/src/runtime/heap.cpp
     vm/src/runtime/method_area.cpp
 	vm/src/runtime/slot.cpp
 	vm/src/runtime/operand_stack.cpp
