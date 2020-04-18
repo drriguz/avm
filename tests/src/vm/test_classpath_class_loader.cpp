@@ -7,22 +7,18 @@
 
 using namespace avm;
 
-// TEST(ClasspathClassLoader, parseClass) {
-//     MethodArea methodArea;
-//     ClasspathClassLoader loader(&methodArea, "res");
-//     try {
-//         JavaClass loaded;
-//         loader.readClass("com.test.Simple", loaded);
-//     } catch (std::exception const &err) {
-//         FAIL() << err.what();
-//     }
-// }
+TEST(ClasspathClassLoader, parseClass) {
+    ClasspathClassLoader loader("res");
+    try {
+        auto loaded = loader.load("com/test/Simple");
+    } catch (std::exception const &err) {
+        FAIL() << err.what();
+    }
+}
 
-// TEST(ClasspathClassLoader, throwExceptionIfClassNotFound) {
-//     MethodArea methodArea;
-//     ClasspathClassLoader loader(&methodArea, "res");
-//     JavaClass loaded;
-//     EXPECT_THROW(loader.readClass("com.test.NotExist", loaded),
-//                  ClassNotFoundException);
-// }
+TEST(ClasspathClassLoader, throwExceptionIfClassNotFound) {
+    ClasspathClassLoader loader("res");
+    EXPECT_THROW(loader.load("com/test/NotExist"),
+                 ClassNotFoundException);
+}
 
