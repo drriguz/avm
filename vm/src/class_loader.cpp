@@ -18,11 +18,16 @@ void ClassLoader::link(const JavaClass& theClass) {
 
 }
 
-std::unique_ptr<VmClass> ClassLoader::load(const std::string& className) {
-    // if(_classCache.count(className) != 0) {
+std::shared_ptr<JavaClass> ClassLoader::readClass(const std::string& className) {
+    if(_classCache.count(className) == 0) {
+        auto newClass = std::shared_ptr<JavaClass>(new JavaClass());
+        readClass(className, *newClass.get());
+        _classCache[className] = newClass;
+    }
+    return _classCache.at(className);
+}
 
-    auto newClass = std::shared_ptr<JavaClass>(new JavaClass());
-    readClass(className, *newClass.get());
-    _classCache[className] = newClass;
-    return std::unique_ptr<VmClass>(new VmClass(std::shared_ptr<JavaClass>(newClass)));
+std::unique_ptr<VmClass> ClassLoader::load(const std::string& className) {
+    std::shared_ptr<JavaClass> rawClass = readClass(className);
+    return std::unique_ptr<VmClass>(new VmClass(std::shared_ptr<JavaClass>(rawClass)));
 }
