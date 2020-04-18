@@ -19,6 +19,9 @@ public:
     const JavaClass* getClass() const {
         return _javaClass.get();
     }
+    const JavaClass* getSuperClass() const {
+        return _superClass.get();
+    }
     const ConstantPool* getRuntimeConstantPool() const;
     const VmMethod getClassInitializationMethod() const;
 
@@ -33,6 +36,8 @@ protected:
 protected:
     int _fieldSlotsCount;
     std::shared_ptr<JavaClass> _javaClass;
+    std::shared_ptr<JavaClass> _superClass;
+    std::vector<std::shared_ptr<JavaClass>> _interfaces;
     std::map<std::string, std::unique_ptr<VmField>>  _fields;
 };
 }

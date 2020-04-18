@@ -45,3 +45,13 @@ TEST(JavaClass, throwExceptionIfNotFound) {
     EXPECT_THROW(javaClass1.getMethod("world", "()Ljava/lang/String;"),
                  MethodNotFoundException);
 }
+
+
+TEST(JavaClass, getClassMeta) {
+    JavaClassParser parser1("res/com/test/SingleMethod.class");
+    JavaClass javaClass1;
+    parser1.parse(javaClass1);
+
+    ASSERT_STREQ("com/test/SingleMethod", javaClass1.getClassName().c_str());
+    ASSERT_STREQ("java/lang/Object", javaClass1.getSuperClassName().c_str());
+}

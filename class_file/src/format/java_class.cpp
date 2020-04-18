@@ -133,3 +133,12 @@ const MethodInfo* JavaClass::getMethod(const std::string &name,
 
     return method;
 }
+
+std::string JavaClass::getClassName() const {
+    
+    return _constantPool->getClassName(_thisClass);
+}
+
+std::string JavaClass::getSuperClassName() const {
+    return _constantPool->getClassName(_superClass);
+}

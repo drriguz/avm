@@ -90,6 +90,8 @@ public:
                                 const std::string &descriptor,
                                 int flagsCount,
                                 ...) const;
+    std::string getClassName() const;
+    std::string getSuperClassName() const;
 private:
     void clearInterfaces();
     void clearFields();
