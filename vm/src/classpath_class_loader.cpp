@@ -23,7 +23,7 @@ std::string ClasspathClassLoader::getClassFilePath(const std::string &className)
     return classFile;
 }
 
-void ClasspathClassLoader::loadClass(const std::string &className,
+void ClasspathClassLoader::readClass(const std::string &className,
                                      JavaClass &out) {
     const std::string file = getClassFilePath(className);
 

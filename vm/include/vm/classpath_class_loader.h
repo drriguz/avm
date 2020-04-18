@@ -11,9 +11,8 @@ class ClasspathClassLoader: public ClassLoader {
 public:
     ClasspathClassLoader(MethodArea* methodArea, const std::string &classpath);
     virtual ~ClasspathClassLoader();
-public:
-    virtual void loadClass(const std::string &className, JavaClass &out);
-private:
+protected:
+    virtual void readClass(const std::string &className, JavaClass &out);
     std::string getClassFilePath(const std::string &className) const;
 protected:
     const std::string _classpath;

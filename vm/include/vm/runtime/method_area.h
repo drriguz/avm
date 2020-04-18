@@ -19,7 +19,6 @@ public:
     VmClass* getClass(const std::string &className) const;
     void putClass(const std::string &className, std::unique_ptr<VmClass> javaClass);
 protected:
-    std::map<std::string, std::unique_ptr<JavaClass>> _rawClasses;
     std::map<std::string, std::unique_ptr<VmClass>> _loadedClasses;
 };
 

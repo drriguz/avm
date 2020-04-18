@@ -13,7 +13,7 @@ namespace avm {
 
 class VmClass {
 public:
-    VmClass(std::unique_ptr<JavaClass> _javaClass);
+    VmClass(std::shared_ptr<JavaClass> _javaClass);
     virtual ~VmClass();
 public:
     const JavaClass* getClass() const {
@@ -32,7 +32,7 @@ protected:
     void initializeConstantField(VmField& field, u2 constantIndex);
 protected:
     int _fieldSlotsCount;
-    std::unique_ptr<JavaClass> _javaClass;
+    std::shared_ptr<JavaClass> _javaClass;
     std::map<std::string, std::unique_ptr<VmField>>  _fields;
 };
 }

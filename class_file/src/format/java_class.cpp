@@ -104,10 +104,11 @@ const MethodInfo* JavaClass::getMethod(const std::string &name,
                                        const std::string &descriptor) const {
     for (int i = 0; i < _methodsCount; i++) {
         const MethodInfo &it = _methods[i];
+        std::cout << "->" << it.getName() << " "<< it.getDescriptor() << std::endl;
         if (it.getName() == name && it.getDescriptor() == descriptor)
             return &it;
     }
-    throw MethodNotFoundException(name + descriptor);
+    throw MethodNotFoundException(name + descriptor + " Not found");
 }
 
 const MethodInfo* JavaClass::getMethod(const std::string &name,
