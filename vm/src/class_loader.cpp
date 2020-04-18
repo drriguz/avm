@@ -2,8 +2,7 @@
 
 using namespace avm;
 
-ClassLoader::ClassLoader(MethodArea* methodArea):
-    _methodArea(methodArea) {
+ClassLoader::ClassLoader() {
 
 }
 
@@ -19,10 +18,11 @@ void ClassLoader::link(const JavaClass& theClass) {
 
 }
 
-void ClassLoader::load(const std::string& className) {
+std::unique_ptr<VmClass> ClassLoader::load(const std::string& className) {
+    // if(_classCache.count(className) != 0) {
+
     auto newClass = std::shared_ptr<JavaClass>(new JavaClass());
     readClass(className, *newClass.get());
-    _loadedClasses[className] = newClass;
-    auto vmClass = std::unique_ptr<VmClass>(new VmClass(std::shared_ptr<JavaClass>(newClass)));
-    _methodArea->putClass(className, std::move(vmClass));
+    _classCache[className] = newClass;
+    return std::unique_ptr<VmClass>(new VmClass(std::shared_ptr<JavaClass>(newClass)));
 }

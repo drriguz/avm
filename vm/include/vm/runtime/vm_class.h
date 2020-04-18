@@ -13,7 +13,7 @@ namespace avm {
 
 class VmClass {
 public:
-    VmClass(std::shared_ptr<JavaClass> _javaClass);
+    VmClass(std::shared_ptr<JavaClass> javaClass);
     virtual ~VmClass();
 public:
     const JavaClass* getClass() const {

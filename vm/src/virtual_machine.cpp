@@ -11,7 +11,7 @@ VirtualMachine::VirtualMachine(const std::string &classpath,
     _mainThread(nullptr),
     _heap(std::unique_ptr<Heap>(new Heap(1* 1024 * 1024 * 10))), // aka 10Mb
     _methodArea(std::unique_ptr<MethodArea>(new MethodArea())) {
-    _classLoader =std::unique_ptr<ClassLoader>(new ClasspathClassLoader(_methodArea.get(), classpath));
+    _classLoader =std::unique_ptr<ClassLoader>(new ClasspathClassLoader(classpath));
 }
 
 VirtualMachine::~VirtualMachine() {
@@ -34,7 +34,8 @@ void VirtualMachine::execute(VmThread* thread) {
 
 VmClass* VirtualMachine::getClass(const std::string &className) const {
     if ( !_methodArea->isLoaded(className)) {
-        _classLoader->load(className);
+        std::unique_ptr<VmClass> loaded = _classLoader->load(className);
+        _methodArea->putClass(className, std::move(loaded));
     }
     return _methodArea->getClass(className);
 }

@@ -5,24 +5,22 @@
 #include <map>
 
 #include "class_file/format/java_class.h"
-#include "runtime/method_area.h"
 #include "runtime/vm_class.h"
 
 namespace avm {
 
 class ClassLoader {
 public:
-    ClassLoader(MethodArea* methodArea);
+    ClassLoader();
     virtual ~ClassLoader();
 public:
-    void load(const std::string& className);
+    std::unique_ptr<VmClass> load(const std::string& className);
 protected:
     virtual void readClass(const std::string &className, JavaClass &out) = 0;
     void defineClass(const JavaClass& theClass);
     void link(const JavaClass& theClass);
 protected:
-    MethodArea* _methodArea;
-    std::map<std::string, std::shared_ptr<JavaClass>> _loadedClasses;
+    std::map<std::string, std::shared_ptr<JavaClass>> _classCache;
 };
 }
 #endif

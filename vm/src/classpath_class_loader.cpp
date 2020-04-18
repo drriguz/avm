@@ -6,9 +6,8 @@
 
 using namespace avm;
 
-ClasspathClassLoader::ClasspathClassLoader(MethodArea* methodArea, const std::string &classpath) :
-    ClassLoader(methodArea),
-    _classpath(classpath) {
+ClasspathClassLoader::ClasspathClassLoader(const std::string &classpath)
+    :_classpath(classpath) {
 
 }
 
