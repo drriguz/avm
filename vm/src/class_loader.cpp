@@ -29,5 +29,10 @@ std::shared_ptr<JavaClass> ClassLoader::readClass(const std::string& className) 
 
 std::unique_ptr<VmClass> ClassLoader::load(const std::string& className) {
     std::shared_ptr<JavaClass> rawClass = readClass(className);
-    return std::unique_ptr<VmClass>(new VmClass(std::shared_ptr<JavaClass>(rawClass)));
+    auto loaded = std::unique_ptr<VmClass>(new VmClass(rawClass));
+    loaded.get()->_superClass = readClass(rawClass.get()->getSuperClassName());
+    for(int i = 0; i < loaded.get()->getClass()->getInterfacesCount(); i++) {
+        loaded.get()->_interfaces.push_back(readClass(loaded.get()->getClass()->getInterfaceName(i)));
+    }
+    return loaded;
 }

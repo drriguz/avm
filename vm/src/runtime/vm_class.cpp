@@ -3,7 +3,8 @@
 using namespace avm;
 
 VmClass::VmClass(std::shared_ptr<JavaClass> javaClass)
-    : _javaClass(javaClass) {
+    : _javaClass(javaClass),
+    _superClass(nullptr) {
     prepare();
 }
 

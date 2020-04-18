@@ -12,15 +12,19 @@
 namespace avm {
 
 class VmClass {
+    friend class ClassLoader;
 public:
     VmClass(std::shared_ptr<JavaClass> javaClass);
     virtual ~VmClass();
 public:
-    const JavaClass* getClass() const {
+    inline const JavaClass* getClass() const {
         return _javaClass.get();
     }
-    const JavaClass* getSuperClass() const {
+    inline const JavaClass* getSuperClass() const {
         return _superClass.get();
+    }
+    inline std::vector<std::shared_ptr<JavaClass>> getInterfaces() const {
+        return _interfaces;
     }
     const ConstantPool* getRuntimeConstantPool() const;
     const VmMethod getClassInitializationMethod() const;
