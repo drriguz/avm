@@ -25,6 +25,6 @@ void MethodArea::putClass(const std::string &className, std::unique_ptr<VmClass>
     _loadedClasses[className] = std::move(javaClass);
 }
 
-bool MethodArea::loadedClass(const std::string &className) const {
+bool MethodArea::isLoaded(const std::string &className) const {
     return _loadedClasses.count(className) > 0;
 }

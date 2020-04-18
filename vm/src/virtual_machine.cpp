@@ -33,7 +33,7 @@ void VirtualMachine::execute(VmThread* thread) {
 }
 
 VmClass* VirtualMachine::getClass(const std::string &className) const {
-    if ( !_methodArea->loadedClass(className)) {
+    if ( !_methodArea->isLoaded(className)) {
         _classLoader->load(className);
     }
     return _methodArea->getClass(className);

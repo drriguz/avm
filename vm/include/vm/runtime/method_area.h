@@ -15,7 +15,7 @@ public:
     MethodArea();
     virtual ~MethodArea();
 public:
-    bool loadedClass(const std::string &className) const;
+    bool isLoaded(const std::string &className) const;
     VmClass* getClass(const std::string &className) const;
     void putClass(const std::string &className, std::unique_ptr<VmClass> javaClass);
 protected:
