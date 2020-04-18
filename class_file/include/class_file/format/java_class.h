@@ -92,6 +92,7 @@ public:
                                 ...) const;
     std::string getClassName() const;
     std::string getSuperClassName() const;
+    std::string getInterfaceName(const u2 index) const;
 private:
     void clearInterfaces();
     void clearFields();

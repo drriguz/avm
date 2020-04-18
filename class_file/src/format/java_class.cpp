@@ -142,3 +142,7 @@ std::string JavaClass::getClassName() const {
 std::string JavaClass::getSuperClassName() const {
     return _constantPool->getClassName(_superClass);
 }
+
+std::string JavaClass::getInterfaceName(const u2 index) const {
+    return _constantPool->getClassName(getInterfaceAt(index));
+}

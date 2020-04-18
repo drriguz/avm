@@ -48,10 +48,13 @@ TEST(JavaClass, throwExceptionIfNotFound) {
 
 
 TEST(JavaClass, getClassMeta) {
-    JavaClassParser parser1("res/com/test/SingleMethod.class");
+    JavaClassParser parser1("res/com/test/complex/MemoryDb.class");
     JavaClass javaClass1;
     parser1.parse(javaClass1);
 
-    ASSERT_STREQ("com/test/SingleMethod", javaClass1.getClassName().c_str());
-    ASSERT_STREQ("java/lang/Object", javaClass1.getSuperClassName().c_str());
+    ASSERT_STREQ("com/test/complex/MemoryDb", javaClass1.getClassName().c_str());
+    ASSERT_STREQ("com/test/complex/Db", javaClass1.getSuperClassName().c_str());
+    ASSERT_EQ(2, javaClass1.getInterfacesCount());
+    ASSERT_STREQ("com/test/i/Imaginable", javaClass1.getInterfaceName(0).c_str());
+    ASSERT_STREQ("com/test/i/Store", javaClass1.getInterfaceName(1).c_str());
 }
