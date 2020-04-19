@@ -16,10 +16,10 @@ public:
     virtual ~MethodArea();
 public:
     bool isLoaded(const std::string &className) const;
-    VmClass* getClass(const std::string &className) const;
-    void putClass(const std::string &className, std::unique_ptr<VmClass> javaClass);
+    std::shared_ptr<VmClass> getClass(const std::string &className) const;
+    void registerClass(const std::string &className, std::shared_ptr<VmClass> javaClass);
 protected:
-    std::map<std::string, std::unique_ptr<VmClass>> _loadedClasses;
+    std::map<std::string, std::shared_ptr<VmClass>> _loadedClasses;
 };
 
 }

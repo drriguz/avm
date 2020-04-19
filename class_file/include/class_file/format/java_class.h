@@ -46,6 +46,9 @@ public:
     inline u2 getSuperClass() const {
         return _superClass;
     }
+    inline bool hasSuperClass() const {
+        return _superClass != 0;
+    }
     inline u2 getInterfacesCount() const {
         return _interfacesCount;
     }

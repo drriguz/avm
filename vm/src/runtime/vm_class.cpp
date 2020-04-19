@@ -4,8 +4,7 @@ using namespace avm;
 
 VmClass::VmClass(std::shared_ptr<JavaClass> javaClass)
     : _javaClass(javaClass),
-    _superClass(nullptr) {
-    prepare();
+      _superClass(nullptr) {
 }
 
 VmClass::~VmClass() {
@@ -31,6 +30,7 @@ void VmClass::initialize() {
 
 void VmClass::prepare() {
     int fieldsCount = _javaClass->getFieldsCount();
+
     for(int i = 0; i < fieldsCount; i++) {
         const FieldInfo* fieldInfo = _javaClass->getFieldAt(i);
         VmField* field = new VmField(fieldInfo->getName(), fieldInfo->getDescriptor());

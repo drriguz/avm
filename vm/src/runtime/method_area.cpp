@@ -11,18 +11,18 @@ MethodArea::~MethodArea() {
 
 }
 
-VmClass* MethodArea::getClass(const std::string &className) const {
+std::shared_ptr<VmClass> MethodArea::getClass(const std::string &className) const {
     try {
-        return _loadedClasses.at(className).get();
+        return _loadedClasses.at(className);
     } catch (...) {
         throw ClassNotFoundException(className);
     }
 }
 
-void MethodArea::putClass(const std::string &className, std::unique_ptr<VmClass> javaClass) {
+void MethodArea::registerClass(const std::string &className, std::shared_ptr<VmClass> javaClass) {
     if (_loadedClasses.count(className) > 0)
         throw ClassAlreadyLoadedException(className);
-    _loadedClasses[className] = std::move(javaClass);
+    _loadedClasses[className] = javaClass;
 }
 
 bool MethodArea::isLoaded(const std::string &className) const {

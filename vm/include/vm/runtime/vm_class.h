@@ -17,13 +17,16 @@ public:
     VmClass(std::shared_ptr<JavaClass> javaClass);
     virtual ~VmClass();
 public:
-    inline const JavaClass* getClass() const {
+    inline const JavaClass* getRawClass() const {
         return _javaClass.get();
     }
-    inline const JavaClass* getSuperClass() const {
+    inline std::string getClassName() const {
+        return _javaClass->getClassName();
+    }
+    inline const VmClass* getSuperClass() const {
         return _superClass.get();
     }
-    inline std::vector<std::shared_ptr<JavaClass>> getInterfaces() const {
+    inline std::vector<std::shared_ptr<VmClass>> getInterfaces() const {
         return _interfaces;
     }
     const ConstantPool* getRuntimeConstantPool() const;
@@ -40,8 +43,8 @@ protected:
 protected:
     int _fieldSlotsCount;
     std::shared_ptr<JavaClass> _javaClass;
-    std::shared_ptr<JavaClass> _superClass;
-    std::vector<std::shared_ptr<JavaClass>> _interfaces;
+    std::shared_ptr<VmClass> _superClass;
+    std::vector<std::shared_ptr<VmClass>> _interfaces;
     std::map<std::string, std::unique_ptr<VmField>>  _fields;
 };
 }

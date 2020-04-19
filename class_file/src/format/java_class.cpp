@@ -135,7 +135,7 @@ const MethodInfo* JavaClass::getMethod(const std::string &name,
 }
 
 std::string JavaClass::getClassName() const {
-    
+
     return _constantPool->getClassName(_thisClass);
 }
 

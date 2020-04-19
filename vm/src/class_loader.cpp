@@ -1,5 +1,7 @@
 #include "vm/class_loader.h"
 
+#include <iostream>
+
 using namespace avm;
 
 ClassLoader::ClassLoader() {
@@ -10,12 +12,10 @@ ClassLoader::~ClassLoader() {
 
 }
 
-void ClassLoader::defineClass(const JavaClass& theClass) {
-
-}
-
-void ClassLoader::link(const JavaClass& theClass) {
-
+void ClassLoader::link(VmClass* vmClass) {
+    // verify
+    // prepare
+    vmClass->prepare();
 }
 
 std::shared_ptr<JavaClass> ClassLoader::readClass(const std::string& className) {
@@ -27,12 +27,23 @@ std::shared_ptr<JavaClass> ClassLoader::readClass(const std::string& className) 
     return _classCache.at(className);
 }
 
-std::unique_ptr<VmClass> ClassLoader::load(const std::string& className) {
+std::shared_ptr<VmClass> ClassLoader::load(const std::string& className, MethodArea* methodArea) {
+    if(methodArea->isLoaded(className))
+        return methodArea->getClass(className);
+    std::cout << "Loading class:" << className << std::endl;
     std::shared_ptr<JavaClass> rawClass = readClass(className);
-    auto loaded = std::unique_ptr<VmClass>(new VmClass(rawClass));
-    loaded.get()->_superClass = readClass(rawClass.get()->getSuperClassName());
-    for(int i = 0; i < loaded.get()->getClass()->getInterfacesCount(); i++) {
-        loaded.get()->_interfaces.push_back(readClass(loaded.get()->getClass()->getInterfaceName(i)));
+    auto loaded = std::shared_ptr<VmClass>(new VmClass(rawClass));
+
+    // otherwise it's java/lang/Object
+    if(rawClass->hasSuperClass()) {
+        loaded->_superClass = load(rawClass->getSuperClassName(), methodArea);
+        for(int i = 0; i < loaded->getRawClass()->getInterfacesCount(); i++) {
+            auto interface = load(loaded->getRawClass()->getInterfaceName(i), methodArea);
+            loaded->_interfaces.push_back(interface);
+        }
     }
+    link(loaded.get());
+
+    methodArea->registerClass(className, loaded);
     return loaded;
 }

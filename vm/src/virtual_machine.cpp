@@ -19,7 +19,7 @@ VirtualMachine::~VirtualMachine() {
 
 void VirtualMachine::execute() {
     VmClass *mainClass = getClass(_mainClass);
-    const MethodInfo* entry = mainClass->getClass()->getMethod("main",
+    const MethodInfo* entry = mainClass->getRawClass()->getMethod("main",
                               "([Ljava/lang/String;)V", 2, ACC_PUBLIC, ACC_STATIC);
     VmMethod method(entry);
     _mainThread = std::unique_ptr<VmThread>(new VmThread(mainClass, &method));
@@ -34,8 +34,7 @@ void VirtualMachine::execute(VmThread* thread) {
 
 VmClass* VirtualMachine::getClass(const std::string &className) const {
     if ( !_methodArea->isLoaded(className)) {
-        std::unique_ptr<VmClass> loaded = _classLoader->load(className);
-        _methodArea->putClass(className, std::move(loaded));
+        _classLoader->load(className, _methodArea.get());
     }
-    return _methodArea->getClass(className);
+    return _methodArea->getClass(className).get();
 }
