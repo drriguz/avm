@@ -1,6 +1,8 @@
 #include "vm/interpreter.h"
 #include "vm/exceptions.h"
+#include "vm/thread_context.h"
 #include "class_file/format/constant_pool.h"
+
 
 #include <iostream>
 #include <string>
@@ -224,19 +226,9 @@ Interpreter::~Interpreter() {
 
 }
 
-void Interpreter::execute(Context& context) {
-    while(true) {
-        const Instruction* instruction = context.thread()->nextInstruction();
-        if(instruction == nullptr)
-            break;
-        invoke(context, instruction);
-        std::cout << "=>" << instruction->getOpcode() << std::endl;
-    }
-}
-
-void Interpreter::invoke(Context& context, const Instruction* instruction) {
+void Interpreter::invoke(Context* context, const Instruction* instruction) {
     invoke_fn* invoker = invoke_mapping[instruction->getOpcode()];
-    invoker(context, instruction);
+    invoker(*context, instruction);
 }
 
 /* ------------------- */

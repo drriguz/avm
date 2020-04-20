@@ -1,39 +1,17 @@
 #ifndef _AVM_BYTECODE_INTERPRETER_H_
 #define _AVM_BYTECODE_INTERPRETER_H_
 
-#include "runtime/vm_thread.h"
-#include "virtual_machine.h"
+#include "class_file/format/instruction.h"
 
 namespace avm {
-class Context {
-public:
-    Context(VirtualMachine* jvm, VmThread* thread): _jvm(jvm), _thread(thread) {}
-    virtual ~Context() {}
-public:
-    inline VirtualMachine* vm() {
-        return _jvm;
-    }
-    inline VmThread* thread() {
-        return _thread;
-    }
-    inline Frame* frame() {
-        return _thread->currentFrame();
-    }
-    inline const ConstantPool* constantPool() const {
-        return _thread->currentClass()->getRuntimeConstantPool();
-    }
-protected:
-    VirtualMachine* _jvm;
-    VmThread* _thread;
-};
+class Context;
 
 class Interpreter {
 public:
     Interpreter();
     virtual ~Interpreter();
 public:
-    void execute(Context& context);
-    void invoke(Context& context, const Instruction* instruction);
+    void invoke(Context* context, const Instruction* instruction);
 };
 
 void invoke_nop             (Context& context, const Instruction* instruction);

@@ -7,18 +7,16 @@
 #include "class_loader.h"
 #include "classpath_class_loader.h"
 #include "runtime/method_area.h"
-#include "runtime/vm_thread.h"
 #include "runtime/heap.h"
+#include "runtime/vm_thread.h"
 
 namespace avm {
-
 class VirtualMachine {
 public:
     VirtualMachine(const std::string &classpath, const std::string &mainClass);
     virtual ~VirtualMachine();
 public:
     void execute();
-    void execute(VmThread* thread);
     VmClass* getClass(const std::string &className) const;
 protected:
     std::string _classPath;

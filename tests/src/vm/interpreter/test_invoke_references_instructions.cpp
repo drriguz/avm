@@ -28,6 +28,6 @@ References
 195 (0xc3)    monitorexit
 */
 
-TEST(Interperter, invokeNewObject) {
-
+TEST(Interperter, getStatic) {
+    
 }

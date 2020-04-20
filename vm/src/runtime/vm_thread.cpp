@@ -1,17 +1,34 @@
 #include "vm/runtime/vm_thread.h"
+#include "vm/interpreter.h"
+#include "vm/thread_context.h"
+
+#include <iostream>
 
 using namespace avm;
 
-VmThread::VmThread(const VmClass* entryClass, const VmMethod* entryMethod):
+VmThread::VmThread(const VmClass* entryClass, const VmMethod* entryMethod, VirtualMachine* jvm):
     _entryClass(entryClass),
     _entryMethod(entryMethod),
-    _pcRegister(0) {
+    _jvm(jvm),
+    _pcRegister(0){
     Frame *topFrame = new Frame(entryMethod->getMaxLocals(), entryMethod->getMaxStack(), entryClass->getRuntimeConstantPool());
     _vmStack.push(topFrame);
 }
 
 VmThread::~VmThread() {
 
+}
+
+void VmThread::execute() {
+    Context context(_jvm, this);
+    Interpreter interpreter;
+    while(true) {
+        const Instruction* instruction = nextInstruction();
+        if(instruction == nullptr)
+            break;
+        interpreter.invoke(&context, instruction);
+        std::cout << "=>" << instruction->getOpcode() << std::endl;
+    }
 }
 
 Frame* VmThread::currentFrame() {

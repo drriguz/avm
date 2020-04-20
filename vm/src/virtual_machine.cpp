@@ -2,6 +2,8 @@
 #include "vm/runtime/vm_method.h"
 #include "vm/interpreter.h"
 
+#include <iostream>
+
 using namespace avm;
 
 VirtualMachine::VirtualMachine(const std::string &classpath,
@@ -22,14 +24,8 @@ void VirtualMachine::execute() {
     const MethodInfo* entry = mainClass->getRawClass()->getMethod("main",
                               "([Ljava/lang/String;)V", 2, ACC_PUBLIC, ACC_STATIC);
     VmMethod method(entry);
-    _mainThread = std::unique_ptr<VmThread>(new VmThread(mainClass, &method));
-    execute(_mainThread.get());
-}
-
-void VirtualMachine::execute(VmThread* thread) {
-    Interpreter interpreter;
-    Context context(this, thread);
-    interpreter.execute(context);
+    _mainThread = std::unique_ptr<VmThread>(new VmThread(mainClass, &method, this));
+    _mainThread->execute();
 }
 
 VmClass* VirtualMachine::getClass(const std::string &className) const {
