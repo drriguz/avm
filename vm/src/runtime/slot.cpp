@@ -2,6 +2,10 @@
 
 using namespace avm;
 
+Slot::Slot() :
+    _value(0) {
+}
+
 Slot::Slot(uint32_t value) :
     _value(value) {
 }

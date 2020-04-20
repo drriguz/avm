@@ -12,9 +12,13 @@
 namespace avm {
 
 class Object {
+public:
+    Object(Slot* data, int size): _data(data), _size(size) {}
+    Object(const Object& p): _data(p._data), _size(p._size) {}
+    virtual ~Object() {}
 protected:
-    VmClass *_class;
     Slot* _data;
+    int _size;
 };
 }
 #endif

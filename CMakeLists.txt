@@ -96,9 +96,12 @@ add_executable(
 	tests/src/vm/runtime/test_local_variables.cpp
 	tests/src/vm/runtime/test_vm_class.cpp
 	tests/src/vm/runtime/test_vm_field.cpp
+	tests/src/vm/runtime/test_heap.cpp
 	tests/src/vm/test_classpath_class_loader.cpp
 	tests/src/vm/test_method_area.cpp
-	tests/src/vm/test_virtual_machine.cpp)
+	tests/src/vm/test_virtual_machine.cpp
+	tests/src/vm/interpreter/test_invoke_references_instructions.cpp
+	)
 	
 target_include_directories(tests PRIVATE ${GOOGLE_TEST_DIR}/include)
 

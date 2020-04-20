@@ -823,6 +823,9 @@ void avm::invoke_invokedynamic   (Context& context, const Instruction* instructi
     throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
 }
 void avm::invoke_new             (Context& context, const Instruction* instruction) {
+    u2 index = instruction->getOprandAsU2();
+    std::cout << "invoke_new #" << index << std::endl;
+
     throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
 }
 void avm::invoke_newarray        (Context& context, const Instruction* instruction) {

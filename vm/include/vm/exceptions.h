@@ -49,6 +49,13 @@ public:
         RuntimeException(std::string("Set wrong type of value to field:") + msg) {
     }
 };
+
+class OutOfMemoryException: public RuntimeException {
+public:
+    OutOfMemoryException(const std::string &msg) :
+        RuntimeException(std::string("Out of memory:") + msg) {
+    }
+};
 }
 
 #endif

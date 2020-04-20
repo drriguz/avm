@@ -7,6 +7,7 @@ namespace avm {
 
 class Slot {
 public:
+    Slot();
     Slot(uint32_t value);
     Slot(const Slot &p);
     virtual ~Slot();
