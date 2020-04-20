@@ -12,9 +12,10 @@
 namespace avm {
 class VmField {
 public:
-    VmField(const std::string& name, const std::string& descriptor);
-    VmField(const std::string& name, const std::string& descriptor, Slot* slot1, Slot* slot2);
+    VmField(const std::string& name, const FieldDescriptor& descriptor, const int fieldId, const bool isStatic, Slot* slot1, Slot* slot2);
     virtual ~VmField();
+    static std::unique_ptr<VmField> newStaticField(const std::string& name, const std::string& descriptor);
+    static std::unique_ptr<VmField> newInstanceField(const std::string& name, const std::string& descriptor, const int fieldId);
 public:
     void setByte(int8_t value);
     void setShort(int16_t value);

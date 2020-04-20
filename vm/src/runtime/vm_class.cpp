@@ -39,23 +39,25 @@ void VmClass::prepare() {
         _fieldSlots += _superClass->_fieldSlots;
     }
     int fieldsCount = _javaClass->getFieldsCount();
-
     for(int i = 0; i < fieldsCount; i++) {
         const FieldInfo* fieldInfo = _javaClass->getFieldAt(i);
-        VmField* field = new VmField(fieldInfo->getName(), fieldInfo->getDescriptor());
-        _fields[fieldInfo->getName()] = std::unique_ptr<VmField>(field);
+        std::unique_ptr<VmField> field;
+       
         if(fieldInfo->isStatic()) {
             /*
              * https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html#jvms-4.7.2
             */
+            field = VmField::newStaticField(fieldInfo->getName(), fieldInfo->getDescriptor());
             const ConstantValue* constantValue = (ConstantValue*)fieldInfo->getAttrinuteIfPresent(CONSTANT_VALUE);
             if(constantValue != nullptr) {
                 u2 index = constantValue->getValueIndex();
                 initializeConstantField(*field, index);
             }
         } else {
-
+            // instance fields are located in heap
+            field = VmField::newInstanceField(fieldInfo->getName(), fieldInfo->getDescriptor(), 1);
         }
+         _fields[fieldInfo->getName()] = std::move(field);
     }
     _prepared = true;
 }

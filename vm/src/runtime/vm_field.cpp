@@ -5,26 +5,26 @@
 
 using namespace avm;
 
-VmField::VmField(const std::string &name, const std::string &descriptor)
+VmField::VmField(const std::string& name, const FieldDescriptor& descriptor, const int fieldId, const bool isStatic, Slot* slot1, Slot* slot2)
     : _name(name),
-      _fieldId(-1),
+      _fieldId(fieldId),
       _descriptor(descriptor),
-      _isStatic(true),
-      _slot1(new Slot(0)),
-      _slot2(nullptr) {
-    if(_descriptor.isDoubleBytes())
-        _slot2 = new Slot(0);
-}
-
-VmField::VmField(const std::string& name, const std::string& descriptor, Slot* slot1, Slot* slot2)
-    : _name(name),
-      _fieldId(-1),
-      _descriptor(descriptor),
-      _isStatic(false),
+      _isStatic(isStatic),
       _slot1(slot1),
       _slot2(slot2) {
 }
 
+std::unique_ptr<VmField> VmField::newStaticField(const std::string& name, const std::string& descriptor) {
+    FieldDescriptor type(descriptor);
+    Slot* slot2 = nullptr;
+    if(type.isDoubleBytes())
+        slot2 = new Slot(0);
+    return std::unique_ptr<VmField>(new VmField(name, descriptor, -1, true, new Slot(0), slot2));
+}
+
+std::unique_ptr<VmField> VmField::newInstanceField(const std::string& name, const std::string& descriptor, const int fieldId) {
+    return  std::unique_ptr<VmField>(new VmField(name, descriptor, fieldId, false, nullptr, nullptr));
+}
 
 VmField::~VmField() {
     if(_isStatic) {
