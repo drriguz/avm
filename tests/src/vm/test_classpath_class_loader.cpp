@@ -53,3 +53,20 @@ TEST(ClasspathClassLoader, prepareConstFieldValues) {
     ASSERT_FLOAT_EQ(3.14, field2->getFloat());
     ASSERT_STREQ("Hello world!", field1->getString().c_str());
 }
+
+TEST(ClasspathClassLoader, calculateInstanceFields) {
+    MethodArea methodArea;
+    ClasspathClassLoader loader("res");
+    auto loaded = loader.load("com/test/complex/MemoryDb", &methodArea);
+    auto child = methodArea.getClass("com/test/complex/MemoryDb");
+    auto super = methodArea.getClass("com/test/complex/Db");
+
+    VmField* field1 = child->getField("value");
+    VmField* field2 = super->getField("id");
+
+    ASSERT_TRUE(field1);
+    ASSERT_TRUE(field2);
+
+    ASSERT_EQ(1, field1->getSlotId());
+    ASSERT_EQ(0, field2->getSlotId());
+}

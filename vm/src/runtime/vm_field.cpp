@@ -5,9 +5,9 @@
 
 using namespace avm;
 
-VmField::VmField(const std::string& name, const FieldDescriptor& descriptor, const int fieldId, const bool isStatic, Slot* slot1, Slot* slot2)
+VmField::VmField(const std::string& name, const FieldDescriptor& descriptor, const int slotId, const bool isStatic, Slot* slot1, Slot* slot2)
     : _name(name),
-      _fieldId(fieldId),
+      _slotId(slotId),
       _descriptor(descriptor),
       _isStatic(isStatic),
       _slot1(slot1),
@@ -111,7 +111,6 @@ std::string VmField::getString() const {
 }
 
 int VmField::getFieldSlotsSize() const {
-    // todo: should reference return 2?
     if(_descriptor.isDoubleBytes())
         return 2;
     else
