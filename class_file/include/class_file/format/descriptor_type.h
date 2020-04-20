@@ -29,7 +29,10 @@ public:
     inline bool isArray() const {
         return _isArray;
     }
-
+    inline bool isDoubleBytes() const {
+        // it's 64bit address size under x64
+        return _baseType == FIELD_Long || _baseType == FIELD_Double || _baseType == FIELD_Reference;
+    }
 protected:
     BaseType _baseType;
     std::string _className;

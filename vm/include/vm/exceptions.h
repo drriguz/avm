@@ -42,6 +42,13 @@ public:
         RuntimeException(std::string("Unsupported instruction:") + msg) {
     }
 };
+
+class FieldValueTypeNotMatchException: public RuntimeException {
+public:
+    FieldValueTypeNotMatchException(const std::string &msg) :
+        RuntimeException(std::string("Set wrong type of value to field:") + msg) {
+    }
+};
 }
 
 #endif

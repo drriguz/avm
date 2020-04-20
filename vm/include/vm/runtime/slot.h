@@ -24,7 +24,7 @@ public:
         return *reinterpret_cast<float*>(&copy);
     }
 protected:
-    const uint32_t _value;
+    uint32_t _value;
 };
 }
 #endif

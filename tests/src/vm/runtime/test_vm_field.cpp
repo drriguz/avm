@@ -17,9 +17,15 @@ TEST(VmField, setAndGetSingleByteValues) {
 }
 
 TEST(VmField, setAndGetDoubleByteValues) {
-    VmField field("name", "I");
+    VmField field("name", "D");
     field.setLong(10000001);
     ASSERT_EQ(10000001, field.getLong());
     field.setDouble(100000.001);
     ASSERT_EQ(100000.001, field.getDouble());
+}
+
+
+TEST(VmField, defaultValue) {
+    VmField field("name", "I");
+    ASSERT_EQ(0, field.getInt());
 }

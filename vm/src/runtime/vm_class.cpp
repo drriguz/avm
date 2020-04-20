@@ -1,10 +1,14 @@
 #include "vm/runtime/vm_class.h"
 
+#include <iostream>
+
 using namespace avm;
 
 VmClass::VmClass(std::shared_ptr<JavaClass> javaClass)
     : _javaClass(javaClass),
-      _superClass(nullptr) {
+      _superClass(nullptr),
+      _fieldSlots(0),
+      _prepared(false) {
 }
 
 VmClass::~VmClass() {
@@ -29,6 +33,11 @@ void VmClass::initialize() {
 }
 
 void VmClass::prepare() {
+    if(_prepared)
+        return;
+    if(_superClass) {
+        _fieldSlots += _superClass->_fieldSlots;
+    }
     int fieldsCount = _javaClass->getFieldsCount();
 
     for(int i = 0; i < fieldsCount; i++) {
@@ -48,6 +57,7 @@ void VmClass::prepare() {
 
         }
     }
+    _prepared = true;
 }
 
 /*
@@ -88,7 +98,7 @@ void VmClass::initializeConstantField(VmField& field, u2 constantIndex) {
     case FIELD_Reference: {
         ConstantString* c = (ConstantString*) info;
         const std::string* stringRef =  _javaClass->getConstantPool()->getStringReference(c->getStringIndex());
-        field.setLong(reinterpret_cast<long>(stringRef));
+        field.setReference(reinterpret_cast<int64_t>(stringRef));
         break;
     }
     default:

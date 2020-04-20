@@ -41,7 +41,8 @@ protected:
     void prepare();
     void initializeConstantField(VmField& field, u2 constantIndex);
 protected:
-    int _fieldSlotsCount;
+    bool _prepared;
+    int _fieldSlots;
     std::shared_ptr<JavaClass> _javaClass;
     std::shared_ptr<VmClass> _superClass;
     std::vector<std::shared_ptr<VmClass>> _interfaces;

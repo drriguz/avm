@@ -19,7 +19,7 @@ public:
 protected:
     virtual void readClass(const std::string &className, JavaClass &out) = 0;
     std::shared_ptr<JavaClass> readClass(const std::string &className);
-    void defineClass();
+    std::shared_ptr<VmClass> resolve(const std::string& className, MethodArea* methodArea);
     void link(VmClass* vmClass);
 protected:
     std::map<std::string, std::shared_ptr<JavaClass>> _classCache;

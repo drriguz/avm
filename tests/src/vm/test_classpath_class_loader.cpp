@@ -38,7 +38,7 @@ TEST(ClasspathClassLoader, resolveSuperClassAndInterfaces) {
 }
 
 TEST(ClasspathClassLoader, prepareConstFieldValues) {
-      MethodArea methodArea;
+    MethodArea methodArea;
     ClasspathClassLoader loader("res");
     auto loaded = loader.load("com/test/Fields", &methodArea);
     auto vmClass = methodArea.getClass("com/test/Fields");
