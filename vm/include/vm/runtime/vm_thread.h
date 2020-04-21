@@ -5,6 +5,7 @@
 #include "vm_class.h"
 #include "vm_method.h"
 #include "vm/interpreter.h"
+#include "method_area.h"
 
 namespace avm {
 class VirtualMachine;

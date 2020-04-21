@@ -1,5 +1,6 @@
 #include "vm/interpreter.h"
 #include "vm/exceptions.h"
+#include "vm/virtual_machine.h"
 #include "gtest/gtest.h"
 
 using namespace avm;

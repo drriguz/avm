@@ -782,7 +782,7 @@ void avm::invoke_getstatic       (Context& context, const Instruction* instructi
 
     std::cout << "get_static #" << className << " " << fieldName << std::endl;
 
-    VmClass* theClass = context.vm()->getClass(className);
+    auto theClass = context.getJVM()->getClass(className);
     theClass->initialize();
 
     VmField* theField = theClass->getField(fieldName);
