@@ -1,6 +1,7 @@
 #include "vm/interpreter.h"
 #include "vm/exceptions.h"
 #include "vm/virtual_machine.h"
+#include "vm/thread_context.h"
 #include "gtest/gtest.h"
 
 using namespace avm;
@@ -30,5 +31,12 @@ References
 */
 
 TEST(Interperter, getStatic) {
-    
+    VirtualMachine vm("res", "com/vm/HelloWorld");
+    Interpreter interpreter;
+    VmStack stack;
+    auto vmClass = vm.getClass("com/test/Fields");
+    Context ctx(&stack, &vm, vmClass->getRuntimeConstantPool());
+
+    //Instruction instruction();
+    //interpreter.invoke(&ctx, )
 }

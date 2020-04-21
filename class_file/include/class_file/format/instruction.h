@@ -5,6 +5,7 @@
 
 #include "class_file/format/types.h"
 #include "class_file/format/opcodes.h"
+#include "vm/exceptions.h"
 
 namespace avm {
 class Instruction {
@@ -19,8 +20,7 @@ public:
     inline u1 getOprand(int i) const {
         Opcode config = instructionSet[_mnemonic];
         if(i < 0 || i > config.oprandCount)
-            // FIXME:
-            throw "error";
+            throw RuntimeException("Oprand index out of range");
         return _oprands[i];
     }
     inline u2 getOprandAsU2() const {
@@ -29,7 +29,7 @@ public:
     }
 protected:
     Mnemonic _mnemonic;
-    u1* _oprands;
+    std::vector<u1> _oprands;
 };
 }
 

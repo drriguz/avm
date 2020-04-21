@@ -238,15 +238,11 @@ void JavaClassParser::readInstructions(Code& out) {
         u2 opcodeValue = _reader->readU1();
         Mnemonic mnemonic = static_cast<Mnemonic>(opcodeValue);
         Opcode opcode = instructionSet[opcodeValue];
-        Instruction *instruction = new Instruction(mnemonic);
-        if(opcode.oprandCount > 0) {
-            instruction->_oprands =  new u1[opcode.oprandCount];
-            for(int j = 0; j < opcode.oprandCount; j++) {
-                instruction->_oprands[j] = _reader->readU1();
-            }
-
+        auto instruction = std::unique_ptr<Instruction>(new Instruction(mnemonic));
+        for(int j = 0; j < opcode.oprandCount; j++) {
+            instruction->_oprands.push_back(_reader->readU1());
         }
         i += (opcode.oprandCount + 1) * sizeof(u1);
-        out._opcodes.push_back(std::unique_ptr<Instruction>(instruction));
+        out._opcodes.push_back(std::move(instruction));
     }
 }

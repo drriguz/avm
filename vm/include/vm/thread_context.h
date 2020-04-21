@@ -24,7 +24,7 @@ public:
     }
     inline const VirtualMachine* getJVM() const {
         return _jvm;
-    } 
+    }
 protected:
     VmStack* _vmStack;
     VirtualMachine* _jvm;
