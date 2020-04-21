@@ -134,7 +134,7 @@ void OperandStack::pushFieldValue(const VmField* field) {
     }
     case FIELD_Reference: {
         // FIXME:
-        std::cout<< "put reference..." << std::endl;
+        // pushDouble(field->getDouble());
         break;
     }
     default:

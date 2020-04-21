@@ -53,6 +53,17 @@ add_library(
 	vm STATIC
     vm/src/virtual_machine.cpp
 	vm/src/interpreter.cpp
+	vm/src/interpreter/constants.cpp
+	vm/src/interpreter/loads.cpp
+	vm/src/interpreter/stores.cpp
+	vm/src/interpreter/stack.cpp
+	vm/src/interpreter/math.cpp
+	vm/src/interpreter/conversions.cpp
+	vm/src/interpreter/comparisons.cpp
+	vm/src/interpreter/control.cpp
+	vm/src/interpreter/references.cpp
+	vm/src/interpreter/extended.cpp
+	vm/src/interpreter/reserved.cpp
 	vm/src/runtime/heap.cpp
     vm/src/runtime/method_area.cpp
 	vm/src/runtime/slot.cpp
