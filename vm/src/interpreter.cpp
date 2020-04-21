@@ -772,13 +772,13 @@ void avm::invoke_return          (Context& context, const Instruction* instructi
 void avm::invoke_getstatic       (Context& context, const Instruction* instruction) {
     // FIXME:
     u2 fieldRefIndex = instruction->getOprandAsU2();
+    const ConstantPool* constantPool = context.frame()->getRuntimeConstantPool();
+    const ConstantFieldref* fieldRef = (const ConstantFieldref*)constantPool->at(fieldRefIndex);
+    const ConstantClass* classRef = (const ConstantClass*)constantPool->at(fieldRef->getClassIndex());
+    const ConstantNameAndType* nameAndType = (const ConstantNameAndType*)constantPool->at(fieldRef->getNameAndTypeIndex());
 
-    const ConstantFieldref* fieldRef = (const ConstantFieldref*)context.constantPool()->at(fieldRefIndex);
-    const ConstantClass* classRef = (const ConstantClass*)context.constantPool()->at(fieldRef->getClassIndex());
-    const ConstantNameAndType* nameAndType = (const ConstantNameAndType*)context.constantPool()->at(fieldRef->getNameAndTypeIndex());
-
-    std::string className = context.constantPool()->getString(classRef->getNameIndex());
-    std::string fieldName = context.constantPool()->getString(nameAndType->getNameIndex());
+    std::string className = constantPool->getString(classRef->getNameIndex());
+    std::string fieldName = constantPool->getString(nameAndType->getNameIndex());
 
     std::cout << "get_static #" << className << " " << fieldName << std::endl;
 

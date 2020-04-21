@@ -20,7 +20,7 @@ VmThread::~VmThread() {
 }
 
 void VmThread::execute() {
-    Context context(&_vmStack, _jvm, _entryClass->getRuntimeConstantPool());
+    Context context(_vmStack.currentFrame(), _jvm);
     Interpreter interpreter;
     while(true) {
         const Instruction* instruction = nextInstruction();

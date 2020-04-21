@@ -21,6 +21,9 @@ public:
     inline bool isReturned() const {
         return _returned;
     }
+    inline const ConstantPool * getRuntimeConstantPool() const {
+        return _runtimeConstants;
+    }
     void returnVoid();
 protected:
     bool _returned;

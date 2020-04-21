@@ -29,6 +29,9 @@ public:
     uint16_t popChar();
 public:
     void pushFieldValue(const VmField* field);
+    inline int size() const {
+        return _variables.size();
+    }
 protected:
     void checkStackSize(int valueSize);
     void pushSingleByte(int32_t value);

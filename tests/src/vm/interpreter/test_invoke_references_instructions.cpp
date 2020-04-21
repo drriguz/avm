@@ -33,10 +33,14 @@ References
 TEST(Interperter, getStatic) {
     VirtualMachine vm("res", "com/vm/HelloWorld");
     Interpreter interpreter;
-    VmStack stack;
-    auto vmClass = vm.getClass("com/test/Fields");
-    Context ctx(&stack, &vm, vmClass->getRuntimeConstantPool());
+    auto vmClass = vm.getClass("com/op/FieldOperations");
+    Frame frame(3, 3, vmClass->getRuntimeConstantPool());
+    
+    Context ctx(&frame, &vm);
+    vmClass->getField("count")->setInt(1024);
+    Instruction getCount(j_getstatic, 0, 2);
+    interpreter.invoke(&ctx, &getCount);
 
-    //Instruction instruction();
-    //interpreter.invoke(&ctx, )
+    ASSERT_EQ(1, frame.getOperandStack()->size());
+    ASSERT_EQ(1024, frame.getOperandStack()->popInt());
 }

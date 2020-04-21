@@ -12,6 +12,8 @@ class Instruction {
     friend class JavaClassParser;
 public:
     Instruction(const Mnemonic& mnemonic);
+    Instruction(const Mnemonic& mnemonic, const u1 oprand1);
+    Instruction(const Mnemonic& mnemonic, const u1 oprand1, const u1 oprand2);
     virtual ~Instruction();
 public:
     inline const Mnemonic getOpcode() const {
