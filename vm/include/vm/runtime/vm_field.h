@@ -12,7 +12,7 @@
 namespace avm {
 class VmField {
 public:
-    VmField(const std::string& name, const FieldDescriptor& descriptor, const int slotId, const bool isStatic, Slot* slot1, Slot* slot2);
+    VmField(const std::string& name, const FieldDescriptor& descriptor, const int slotId, const bool isStatic, uint32_t value1, uint32_t value2);
     virtual ~VmField();
     static std::unique_ptr<VmField> newStaticField(const std::string& name, const std::string& descriptor);
     static std::unique_ptr<VmField> newInstanceField(const std::string& name, const std::string& descriptor, const int fieldId);
@@ -24,7 +24,7 @@ public:
     void setFloat(float value);
     void setDouble(double value);
     void setChar(uint16_t value);
-    void setReference(int64_t value);
+    void setReference(reference value);
 public:
     int8_t getByte() const;
     int16_t getShort() const;
@@ -41,18 +41,18 @@ public:
     inline FieldDescriptor getDescriptor() const {
         return _descriptor;
     }
-    inline int getSlotId() const {
-        return _slotId;
+    inline int getOffset() const {
+        return _offset;
     }
-    int getFieldSlotsSize() const;
+    int getFieldSize() const;
 protected:
-    int _slotId;
+    int _offset;
     bool _isStatic;
     const FieldInfo* _fieldInfo;
     std::string _name;
     FieldDescriptor _descriptor;
-    Slot* _slot1;
-    Slot* _slot2;
+    uint32_t _value1;
+    uint32_t _value2;
 };
 }
 

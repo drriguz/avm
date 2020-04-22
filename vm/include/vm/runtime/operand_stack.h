@@ -40,7 +40,7 @@ protected:
     int64_t popDoubleByte();
 protected:
     int _maxSize;
-    std::stack<Slot> _variables;
+    std::stack<SLOT> _variables;
 };
 }
 #endif

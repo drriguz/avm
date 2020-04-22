@@ -24,28 +24,27 @@ void OperandStack::checkStackSize(int valueSize) {
 void OperandStack::pushSingleByte(int32_t value) {
     checkStackSize(1);
     uint32_t *uv = reinterpret_cast<uint32_t*>(&value);
-    Slot slot = Slot(*uv);
-    _variables.push(slot);
+    _variables.push(*uv);
 }
 
 void OperandStack::pushDoubleByte(int64_t value) {
     checkStackSize(2);
     uint32_t highBytes, lowBytes;
     std::tie(highBytes, lowBytes) = Numbers::splitLong(value);
-    _variables.push(Slot(highBytes));
-    _variables.push(Slot(lowBytes));
+    _variables.push(highBytes);
+    _variables.push(lowBytes);
 }
 
 int32_t OperandStack::popSingleByte() {
-    Slot top = _variables.top();
+    SLOT top = _variables.top();
     _variables.pop();
-    return top.asInt();
+    return top;
 }
 
 int64_t OperandStack::popDoubleByte() {
-    uint32_t lowBytes = _variables.top().getValue();
+    uint32_t lowBytes = _variables.top();
     _variables.pop();
-    uint32_t highBytes = _variables.top().getValue();
+    uint32_t highBytes = _variables.top();
     _variables.pop();
     return Numbers::asLong(highBytes, lowBytes);
 }

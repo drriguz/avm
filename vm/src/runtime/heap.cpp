@@ -6,7 +6,7 @@ using namespace avm;
 Heap::Heap(int size)
     :_freePosition(0),
      _maxSize(size),
-     _data(new Slot[size]) {
+     _data(new OBJECT_UNIT[size]) {
 
 }
 
@@ -15,7 +15,8 @@ Heap::~Heap() {
 }
 
 Object Heap::newInstance(const VmClass& type) {
-    Slot* startPos = _data;
+    OBJECT_UNIT* startPos = _data;
+    //FIXME:
     int totalSlots = type.getSize();
     if(_freePosition + totalSlots > _maxSize)
         throw OutOfMemoryException("Heap is full");

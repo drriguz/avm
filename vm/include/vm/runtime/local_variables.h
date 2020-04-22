@@ -33,7 +33,7 @@ protected:
     int64_t getDoubleByte(int i);
 protected:
     int _size;
-    Slot **_variables;
+    SLOT* _variables;
 };
 }
 #endif

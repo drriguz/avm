@@ -7,7 +7,7 @@ using namespace avm;
 VmClass::VmClass(std::shared_ptr<JavaClass> javaClass)
     : _javaClass(javaClass),
       _superClass(nullptr),
-      _fieldSlots(0),
+      _size(0),
       _prepared(false) {
 }
 
@@ -35,9 +35,9 @@ void VmClass::initialize() {
 void VmClass::prepare() {
     if(_prepared)
         return;
-    int slotId = 0;
+    int offset = 0;
     if(_superClass) {
-        slotId = _superClass->_fieldSlots;
+        offset = _superClass->_size;
     }
     int fieldsCount = _javaClass->getFieldsCount();
     for(int i = 0; i < fieldsCount; i++) {
@@ -56,12 +56,12 @@ void VmClass::prepare() {
             }
         } else {
             // instance fields are located in heap
-            field = VmField::newInstanceField(fieldInfo->getName(), fieldInfo->getDescriptor(), slotId);
-            slotId += field->getFieldSlotsSize();
+            field = VmField::newInstanceField(fieldInfo->getName(), fieldInfo->getDescriptor(), offset);
+            offset += field->getFieldSize();
         }
         _fields[fieldInfo->getName()] = std::move(field);
     }
-    _fieldSlots = slotId;
+    _size = offset;
     _prepared = true;
 }
 

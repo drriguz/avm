@@ -35,7 +35,7 @@ public:
         return _fields[name].get();
     }
     inline int getSize() const {
-        return _fieldSlots;
+        return _size;
     }
 public:
     void initialize();
@@ -44,7 +44,7 @@ protected:
     void initializeConstantField(VmField& field, u2 constantIndex);
 protected:
     bool _prepared;
-    int _fieldSlots;
+    int _size;
     std::shared_ptr<JavaClass> _javaClass;
     std::shared_ptr<VmClass> _superClass;
     std::vector<std::shared_ptr<VmClass>> _interfaces;

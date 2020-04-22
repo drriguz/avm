@@ -7,17 +7,18 @@
 
 #include "vm_class.h"
 #include "vm_field.h"
-#include "slot.h"
+
+typedef uint64_t OBJECT_UNIT;
 
 namespace avm {
 
 class Object {
 public:
-    Object(Slot* data, int size): _data(data), _size(size) {}
+    Object(OBJECT_UNIT* data, int size): _data(data), _size(size) {}
     Object(const Object& p): _data(p._data), _size(p._size) {}
     virtual ~Object() {}
 protected:
-    Slot* _data;
+    OBJECT_UNIT* _data;
     int _size;
 };
 }

@@ -5,6 +5,8 @@
 
 #include "class_file/exceptions.h"
 
+#include "vm/runtime/slot.h"
+
 using namespace avm;
 
 TEST(ConstantNumber, getValue) {
@@ -12,3 +14,10 @@ TEST(ConstantNumber, getValue) {
     ASSERT_EQ(3.1415926535898, number.getValue());
 }
 
+TEST(Misc, ReferenceSize) {
+    #ifdef _ARCH_X64_
+        ASSERT_EQ(8, sizeof(reference));
+    #else
+        ASSERT_EQ(4, sizeof(reference));
+    #endif
+}

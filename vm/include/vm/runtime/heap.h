@@ -16,7 +16,7 @@ public:
 protected:
     int _freePosition;
     int _maxSize;
-    Slot* _data;
+    OBJECT_UNIT* _data;
 };
 }
 #endif

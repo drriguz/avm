@@ -3,29 +3,13 @@
 
 #include <cstdint>
 
-namespace avm {
+#ifdef _ARCH_X64_
+#define SLOT uint64_t
+#else
+#define SLOT uint32_t
+#pragma message "32bit system detetectd, will not use 8-bytes references"
+#endif
 
-class Slot {
-public:
-    Slot();
-    Slot(uint32_t value);
-    Slot(const Slot &p);
-    virtual ~Slot();
-public:
-    inline uint32_t getValue() const {
-        return _value;
-    }
-    inline int32_t asInt() const {
-        uint32_t copy = _value;
-        return *reinterpret_cast<int32_t*>(&copy);
-    }
+typedef SLOT reference;
 
-    inline float asFloat() const {
-        uint32_t copy = _value;
-        return *reinterpret_cast<float*>(&copy);
-    }
-protected:
-    uint32_t _value;
-};
-}
 #endif

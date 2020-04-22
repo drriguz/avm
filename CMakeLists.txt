@@ -5,6 +5,11 @@ project (avm)
 set(CMAKE_CXX_STANDARD 11)
 set(GOOGLE_TEST_DIR    tests/lib/googletest-1.8.0)
 
+
+if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+	add_compile_definitions(_ARCH_X64_)
+endif()
+
 if(WIN32)
 	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
 	set(CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
@@ -66,7 +71,6 @@ add_library(
 	vm/src/interpreter/reserved.cpp
 	vm/src/runtime/heap.cpp
     vm/src/runtime/method_area.cpp
-	vm/src/runtime/slot.cpp
 	vm/src/runtime/operand_stack.cpp
 	vm/src/runtime/local_variables.cpp
 	vm/src/runtime/frame.cpp

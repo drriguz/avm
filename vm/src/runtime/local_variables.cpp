@@ -6,14 +6,11 @@ using namespace avm;
 
 LocalVariables::LocalVariables(int size) :
     _size(size),
-    _variables(new Slot*[size]()) {
+    _variables(new SLOT[size]) {
 
 }
 
 LocalVariables::~LocalVariables() {
-    for (int i = 0; i < _size; i++)
-        if (_variables[i])
-            delete _variables[i];
     delete[] _variables;
 }
 
@@ -26,32 +23,25 @@ void LocalVariables::checkRange(int i, int valueSize) {
 void LocalVariables::setSingleByte(int i, int32_t value) {
     checkRange(i, 1);
     uint32_t *uv = reinterpret_cast<uint32_t*>(&value);
-    if (_variables[i])
-        delete _variables[i];
-    _variables[i] = new Slot(*uv);
+    _variables[i] = *uv;
 }
 
 void LocalVariables::setDoubleByte(int i, int64_t value) {
     checkRange(i, 2);
     uint32_t highBytes, lowBytes;
     std::tie(highBytes, lowBytes) = Numbers::splitLong(value);
-    if (_variables[i]) {
-        delete _variables[i];
-        delete _variables[i + 1];
-    }
-    _variables[i] = new Slot(highBytes);
-    _variables[i + 1] = new Slot(lowBytes);
+    _variables[i] = highBytes;
+    _variables[i + 1] = lowBytes;
 }
 
 int32_t LocalVariables::getSingleByte(int i) {
     checkRange(i, 1);
-    return _variables[i]->asInt();
+    return _variables[i];
 }
 
 int64_t LocalVariables::getDoubleByte(int i) {
     checkRange(i, 2);
-    uint32_t highBytes = _variables[i]->getValue(), lowBytes =
-                             _variables[i + 1]->getValue();
+    uint32_t highBytes = _variables[i], lowBytes = _variables[i + 1];
     return Numbers::asLong(highBytes, lowBytes);
 }
 

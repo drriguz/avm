@@ -67,8 +67,8 @@ TEST(ClasspathClassLoader, calculateInstanceFields) {
     ASSERT_TRUE(field1);
     ASSERT_TRUE(field2);
 
-    ASSERT_EQ(1, field1->getSlotId());
-    ASSERT_EQ(0, field2->getSlotId());
+    ASSERT_EQ(1, field1->getOffset());
+    ASSERT_EQ(0, field2->getOffset());
     ASSERT_EQ(1, super->getSize());
     ASSERT_EQ(2, child->getSize());
 }
