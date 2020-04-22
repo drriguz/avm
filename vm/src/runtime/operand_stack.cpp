@@ -75,6 +75,14 @@ void OperandStack::pushDouble(double value) {
     pushDoubleByte(*sv);
 }
 
+void OperandStack::pushReference(reference value) {
+#ifdef _ARCH_X64_
+    pushSingleByte(value);
+#else
+    pushDoubleByte(value);
+#endif
+}
+
 void OperandStack::pushChar(uint16_t value) {
     pushSingleByte(value);
 }
@@ -109,31 +117,69 @@ uint16_t OperandStack::popChar() {
     return popSingleByte();
 }
 
-void OperandStack::pushFieldValue(const VmField* field) {
+reference OperandStack::popRererence() {
+#ifdef _ARCH_X64_
+    return popSingleByte();
+#else
+    return popLong();
+#endif
+}
+
+void OperandStack::pushField(const VmField* source) {
+    switch(source->getDescriptor().getBaseType()) {
+    case FIELD_Byte:
+    case FIELD_Short:
+    case FIELD_Char:
+    case FIELD_Int:
+    case FIELD_Boolean: {
+        pushInt(source->getInt());
+        break;
+    }
+    case FIELD_Float: {
+        pushFloat(source->getFloat());
+        break;
+    }
+    case FIELD_Long: {
+        pushLong(source->getLong());
+        break;
+    }
+    case FIELD_Double: {
+        pushDouble(source->getDouble());
+        break;
+    }
+    case FIELD_Reference: {
+        pushReference(source->getReference());
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+void OperandStack::popField(VmField* field) {
     switch(field->getDescriptor().getBaseType()) {
     case FIELD_Byte:
     case FIELD_Short:
     case FIELD_Char:
     case FIELD_Int:
     case FIELD_Boolean: {
-        pushInt(field->getInt());
+        field->setInt(popInt());
         break;
     }
     case FIELD_Float: {
-        pushFloat(field->getFloat());
+        field->setFloat(popFloat());
         break;
     }
     case FIELD_Long: {
-        pushLong(field->getLong());
+        field->setLong(popLong());
         break;
     }
     case FIELD_Double: {
-        pushDouble(field->getDouble());
+        field->setDouble(popDouble());
         break;
     }
     case FIELD_Reference: {
-        // FIXME:
-        // pushDouble(field->getDouble());
+        field->setReference(popRererence());
         break;
     }
     default:

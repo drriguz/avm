@@ -49,10 +49,27 @@ void avm::invoke_getstatic       (Context& context, const Instruction* instructi
 
     VmField* theField = theClass->getField(fieldName);
 
-    context.frame()->getOperandStack()->pushFieldValue(theField);
+    context.frame()->getOperandStack()->pushField(theField);
 }
+
 void avm::invoke_putstatic       (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    u2 fieldRefIndex = instruction->getOprandAsU2();
+    const ConstantPool* constantPool = context.frame()->getRuntimeConstantPool();
+    const ConstantFieldref* fieldRef = (const ConstantFieldref*)constantPool->at(fieldRefIndex);
+    const ConstantClass* classRef = (const ConstantClass*)constantPool->at(fieldRef->getClassIndex());
+    std::string className = constantPool->getString(classRef->getNameIndex());
+
+    const ConstantNameAndType* nameAndType = (const ConstantNameAndType*)constantPool->at(fieldRef->getNameAndTypeIndex());
+    std::string fieldName = constantPool->getString(nameAndType->getNameIndex());
+
+    std::cout << "put_static #" << className << " " << fieldName << std::endl;
+
+    auto theClass = context.getJVM()->getClass(className);
+    theClass->initialize();
+
+    VmField* theField = theClass->getField(fieldName);
+
+    context.frame()->getOperandStack()->popField(theField);
 }
 void avm::invoke_getfield        (Context& context, const Instruction* instruction) {
     throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));

@@ -34,6 +34,7 @@ public:
     double getDouble() const;
     uint16_t getChar() const;
     std::string getString() const;
+    reference getReference() const;
 public:
     inline std::string getName() const {
         return _name;

@@ -15,9 +15,9 @@ TEST(ConstantNumber, getValue) {
 }
 
 TEST(Misc, ReferenceSize) {
-    #ifdef _ARCH_X64_
-        ASSERT_EQ(8, sizeof(reference));
-    #else
-        ASSERT_EQ(4, sizeof(reference));
-    #endif
+#ifdef _ARCH_X64_
+    ASSERT_EQ(8, sizeof(reference));
+#else
+    ASSERT_EQ(4, sizeof(reference));
+#endif
 }

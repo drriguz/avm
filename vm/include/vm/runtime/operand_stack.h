@@ -20,6 +20,7 @@ public:
     void pushFloat(float value);
     void pushDouble(double value);
     void pushChar(uint16_t value);
+    void pushReference(reference value);
     int8_t popByte();
     int16_t popShort();
     int32_t popInt();
@@ -27,8 +28,10 @@ public:
     float popFloat();
     double popDouble();
     uint16_t popChar();
+    reference popRererence();
 public:
-    void pushFieldValue(const VmField* field);
+    void pushField(const VmField* field);
+    void popField(VmField* field);
     inline int size() const {
         return _variables.size();
     }

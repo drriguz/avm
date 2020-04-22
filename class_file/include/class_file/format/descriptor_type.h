@@ -30,11 +30,11 @@ public:
         return _isArray;
     }
     inline bool isDoubleBytes() const {
-        #ifdef _ARCH_X64_
-            return _baseType == FIELD_Long || _baseType == FIELD_Double || _baseType == FIELD_Reference;
-        #else
-            return _baseType == FIELD_Long || _baseType == FIELD_Double;
-        #endif
+#ifdef _ARCH_X64_
+        return _baseType == FIELD_Long || _baseType == FIELD_Double || _baseType == FIELD_Reference;
+#else
+        return _baseType == FIELD_Long || _baseType == FIELD_Double;
+#endif
     }
 protected:
     BaseType _baseType;

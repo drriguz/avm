@@ -100,6 +100,14 @@ uint16_t VmField::getChar() const {
     return _value1;
 }
 
+reference VmField::getReference() const {
+#ifdef _ARCH_X64_
+    return getLong();
+#else
+    return getInt();
+#endif
+}
+
 std::string VmField::getString() const {
     return *reinterpret_cast<const std::string*>(getLong());
 }
