@@ -49,6 +49,7 @@ protected:
     std::shared_ptr<VmClass> _superClass;
     std::vector<std::shared_ptr<VmClass>> _interfaces;
     std::map<std::string, std::unique_ptr<VmField>>  _fields;
+    std::map<std::string, std::unique_ptr<VmMethod>> _methods;
 };
 }
 

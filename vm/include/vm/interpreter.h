@@ -2,14 +2,18 @@
 #define _AVM_BYTECODE_INTERPRETER_H_
 
 #include "class_file/format/instruction.h"
+#include "vm/runtime/vm_field.h"
+#include "vm/runtime/vm_method.h"
 
 namespace avm {
 class Context;
-
 class Interpreter {
 public:
     Interpreter();
     virtual ~Interpreter();
+public:
+    static VmField* lookupField(Context& context, const u2 fieldRefIndex);
+    static VmMethod* lookupMethod(Context& context, const u2 methodRefIndex);
 public:
     void invoke(Context* context, const Instruction* instruction);
 };

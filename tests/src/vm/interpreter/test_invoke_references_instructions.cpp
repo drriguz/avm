@@ -37,3 +37,15 @@ TEST(Interperter, putStatic) {
     ASSERT_EQ(0, frame.getOperandStack()->size());
     ASSERT_EQ(2048, field->getInt());
 }
+
+// TEST(Interperter, invokeStatic) {
+//     VirtualMachine vm("res", "com/vm/HelloWorld");
+//     Interpreter interpreter;
+//     auto vmClass = vm.getClass("com/op/NativeCall");
+//     Frame frame(3, 3, vmClass->getRuntimeConstantPool());
+
+//     Context ctx(&frame, &vm);
+   
+//     Instruction setCount(j_invokestatic, 0, 2);
+//     interpreter.invoke(&ctx, &setCount);
+// }

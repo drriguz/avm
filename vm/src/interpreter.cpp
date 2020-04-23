@@ -37,3 +37,38 @@ void Interpreter::invoke(Context* context, const Instruction* instruction) {
     invoke_fn* invoker = invoke_mapping[instruction->getOpcode()];
     invoker(*context, instruction);
 }
+
+VmField* Interpreter::lookupField(Context& context, const u2 fieldRefIndex) {
+    const ConstantPool* constantPool = context.frame()->getRuntimeConstantPool();
+    const ConstantFieldref* fieldRef = (const ConstantFieldref*)constantPool->at(fieldRefIndex);
+    const ConstantClass* classRef = (const ConstantClass*)constantPool->at(fieldRef->getClassIndex());
+    std::string className = constantPool->getString(classRef->getNameIndex());
+
+    const ConstantNameAndType* nameAndType = (const ConstantNameAndType*)constantPool->at(fieldRef->getNameAndTypeIndex());
+    std::string fieldName = constantPool->getString(nameAndType->getNameIndex());
+
+    auto theClass = context.getJVM()->getClass(className);
+    theClass->initialize();
+
+    return theClass->getField(fieldName);
+}
+
+VmMethod* Interpreter::lookupMethod(Context& context, const u2 methodRefIndex) {
+    const ConstantPool* constantPool = context.frame()->getRuntimeConstantPool();
+
+    ConstantMethodref* methodRef = (ConstantMethodref*) constantPool->at(methodRefIndex);
+    
+    const ConstantClass* classRef = (const ConstantClass*)constantPool->at(methodRef->getClassIndex());
+    std::string className = constantPool->getString(classRef->getNameIndex());
+
+    const ConstantNameAndType* nameAndType = (const ConstantNameAndType*)constantPool->at(methodRef->getNameAndTypeIndex());
+    std::string methodName = constantPool->getString(nameAndType->getNameIndex());
+    std::string descriptor = constantPool->getString(nameAndType->getDescriptorIndex());
+
+    auto theClass = context.getJVM()->getClass(className);
+    theClass->initialize();
+
+    // fixme:
+    // return theClass->getRawClass()->getMethod(methodName, descriptor);
+    return nullptr;
+}
