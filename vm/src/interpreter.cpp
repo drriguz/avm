@@ -57,7 +57,7 @@ VmMethod* Interpreter::lookupMethod(Context& context, const u2 methodRefIndex) {
     const ConstantPool* constantPool = context.frame()->getRuntimeConstantPool();
 
     ConstantMethodref* methodRef = (ConstantMethodref*) constantPool->at(methodRefIndex);
-    
+
     const ConstantClass* classRef = (const ConstantClass*)constantPool->at(methodRef->getClassIndex());
     std::string className = constantPool->getString(classRef->getNameIndex());
 
@@ -68,7 +68,5 @@ VmMethod* Interpreter::lookupMethod(Context& context, const u2 methodRefIndex) {
     auto theClass = context.getJVM()->getClass(className);
     theClass->initialize();
 
-    // fixme:
-    // return theClass->getRawClass()->getMethod(methodName, descriptor);
-    return nullptr;
+    return theClass->getMethod(methodName, descriptor);
 }

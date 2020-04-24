@@ -45,7 +45,7 @@ TEST(Interperter, putStatic) {
 //     Frame frame(3, 3, vmClass->getRuntimeConstantPool());
 
 //     Context ctx(&frame, &vm);
-   
+
 //     Instruction setCount(j_invokestatic, 0, 2);
 //     interpreter.invoke(&ctx, &setCount);
 // }

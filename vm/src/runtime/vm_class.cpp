@@ -32,9 +32,7 @@ void VmClass::initialize() {
     // todo: <cinit>
 }
 
-void VmClass::prepare() {
-    if(_prepared)
-        return;
+void VmClass::registerFields() {
     int offset = 0;
     if(_superClass) {
         offset = _superClass->_size;
@@ -62,6 +60,21 @@ void VmClass::prepare() {
         _fields[fieldInfo->getName()] = std::move(field);
     }
     _size = offset;
+}
+
+void VmClass::registerMethods() {
+    for(int i = 0; i < _javaClass->getMethodsCount(); i++) {
+        const MethodInfo* methodInfo = _javaClass->getMethodAt(i);
+        std::string methodId = methodInfo->getName() + "<" + methodInfo->getDescriptor() + ">";
+        _methods[methodId] = std::unique_ptr<VmMethod>(new VmMethod(methodInfo));
+    }
+}
+
+void VmClass::prepare() {
+    if(_prepared)
+        return;
+    registerFields();
+    registerMethods();
     _prepared = true;
 }
 

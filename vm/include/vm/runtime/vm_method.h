@@ -15,7 +15,10 @@ public:
     u2 getInstructionsCount() const;
     const Instruction* getInstruction(u2 index) const;
 protected:
+    const std::string _name;
+    const std::string _descriptor;
     const MethodInfo* _javaMethod;
+    const bool _isNative;
 };
 }
 

@@ -34,13 +34,21 @@ public:
     VmField* getField(const std::string& name) {
         return _fields[name].get();
     }
+    VmMethod* getMethod(const std::string& name, const std::string& descriptor) {
+        return _methods.at(getMethodId(name, descriptor)).get();
+    }
     inline int getSize() const {
         return _size;
     }
 public:
     void initialize();
 protected:
+    std::string getMethodId(const std::string& name, const std::string& descriptor) const {
+        return name + "<" + descriptor + ">";
+    }
     void prepare();
+    void registerFields();
+    void registerMethods();
     void initializeConstantField(VmField& field, u2 constantIndex);
 protected:
     bool _prepared;

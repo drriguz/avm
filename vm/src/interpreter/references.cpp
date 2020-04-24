@@ -55,7 +55,7 @@ void avm::invoke_invokespecial   (Context& context, const Instruction* instructi
     throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
 }
 void avm::invoke_invokestatic    (Context& context, const Instruction* instruction) {
-    
+
     throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
 }
 void avm::invoke_invokeinterface (Context& context, const Instruction* instruction) {
