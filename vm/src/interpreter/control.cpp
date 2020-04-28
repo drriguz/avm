@@ -41,7 +41,8 @@ void avm::invoke_lookupswitch    (Context& context, const Instruction* instructi
     throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
 }
 void avm::invoke_ireturn         (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int32_t returnValue = context.frame()->getOperandStack()->popInt();
+    context.previousFrame()->getOperandStack()->pushInt(returnValue);
 }
 void avm::invoke_lreturn         (Context& context, const Instruction* instruction) {
     throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
@@ -56,5 +57,5 @@ void avm::invoke_areturn         (Context& context, const Instruction* instructi
     throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
 }
 void avm::invoke_return          (Context& context, const Instruction* instruction) {
-    context.frame()->returnVoid();
+    // do nothing
 }

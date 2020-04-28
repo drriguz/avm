@@ -9,7 +9,7 @@ namespace avm {
 
 class Frame {
 public:
-    Frame(int locals, int stack, const ConstantPool *constantPool);
+    Frame(int locals, int stack, const ConstantPool *constantPool, Frame* previousFrame);
     virtual ~Frame();
 public:
     inline OperandStack* getOperandStack() {
@@ -21,15 +21,23 @@ public:
     inline bool isReturned() const {
         return _returned;
     }
+    inline int getPcOffset() const {
+        return _pcOffset;
+    }
     inline const ConstantPool * getRuntimeConstantPool() const {
         return _runtimeConstants;
     }
+    inline Frame* getPreviousFrame() const {
+        return _previousFrame;
+    }
     void returnVoid();
 protected:
+    int _pcOffset;
     bool _returned;
     LocalVariables _localVariables;
     OperandStack _operandStack;
     const ConstantPool *_runtimeConstants;
+    Frame* _previousFrame;
 };
 }
 #endif

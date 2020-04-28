@@ -6,7 +6,7 @@
             "type": "lldb",
             "request": "launch",
             "program": "${command:cmake.launchTargetPath}",
-            "args": ["--gtest_filter=*prepareConstFieldValues*"],
+            "args": ["--gtest_filter=*Interperter.getStatic*"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/build",
             "environment": []

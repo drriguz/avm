@@ -7,6 +7,9 @@
 
 namespace avm {
 class Context;
+class VmThread;
+class VirtualMachine;
+class VmStack;
 class Interpreter {
 public:
     Interpreter();
@@ -14,7 +17,9 @@ public:
 public:
     static VmField* lookupField(Context& context, const u2 fieldRefIndex);
     static VmMethod* lookupMethod(Context& context, const u2 methodRefIndex);
+    static void checkContext(Context& context);
 public:
+    void invoke(const VmMethod* method, VirtualMachine& jvm, VmStack& stack, int& pcRegister);
     void invoke(Context* context, const Instruction* instruction);
 };
 

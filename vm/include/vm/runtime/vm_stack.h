@@ -13,9 +13,9 @@ public:
     VmStack();
     virtual ~VmStack();
 public:
-    void push(Frame* frame);
+    void push(std::unique_ptr<Frame> frame);
     void pop();
-    Frame* currentFrame();
+    Frame* currentFrame() const;
 protected:
     std::stack<std::unique_ptr<Frame>> _frames;
 };

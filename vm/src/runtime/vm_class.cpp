@@ -19,15 +19,6 @@ const ConstantPool* VmClass::getRuntimeConstantPool() const {
     return _javaClass->getConstantPool();
 }
 
-const VmMethod VmClass::getClassInitializationMethod() const {
-    try {
-        const MethodInfo* cinit = _javaClass->getMethod("<cinit>", "()V");
-        return VmMethod(cinit);
-    } catch(MethodNotFoundException) {
-        return nullptr;
-    }
-}
-
 void VmClass::initialize() {
     // todo: <cinit>
 }
@@ -66,7 +57,7 @@ void VmClass::registerMethods() {
     for(int i = 0; i < _javaClass->getMethodsCount(); i++) {
         const MethodInfo* methodInfo = _javaClass->getMethodAt(i);
         std::string methodId = methodInfo->getName() + "<" + methodInfo->getDescriptor() + ">";
-        _methods[methodId] = std::unique_ptr<VmMethod>(new VmMethod(methodInfo));
+        _methods[methodId] = std::unique_ptr<VmMethod>(new VmMethod(methodInfo, this));
     }
 }
 

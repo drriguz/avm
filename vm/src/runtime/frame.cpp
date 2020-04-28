@@ -2,11 +2,13 @@
 
 using namespace avm;
 
-Frame::Frame(int locals, int stack, const ConstantPool *constantPool) :
+Frame::Frame(int locals, int stack, const ConstantPool *constantPool, Frame* previousFrame) :
     _localVariables(locals),
     _operandStack(stack),
     _runtimeConstants(constantPool),
-    _returned(false) {
+    _pcOffset(0),
+    _returned(false),
+    _previousFrame(previousFrame) {
 }
 
 Frame::~Frame() {

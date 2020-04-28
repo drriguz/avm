@@ -33,12 +33,40 @@ Interpreter::~Interpreter() {
 
 }
 
+void Interpreter::invoke(const VmMethod* method, VirtualMachine& jvm, VmStack& stack, int& pcRegister) {
+    stack.push(std::unique_ptr<Frame>(new Frame(method->getMaxLocals(),
+                          method->getMaxStack(),
+                          method->getClass()->getRuntimeConstantPool(),
+                          stack.currentFrame())));
+    Frame* frame;
+    while((frame = stack.currentFrame()) != nullptr) {
+        if(frame->isReturned()) {
+            pcRegister = frame->getPcOffset() + 1;
+            stack.pop();
+            continue;
+        }
+        const Instruction* instruction = (pcRegister < method->getInstructionsCount()) ?
+                                         method->getInstruction(pcRegister++) : nullptr;
+        if(instruction == nullptr)
+            break;
+        Context context(&jvm, &stack, &pcRegister);
+        invoke(&context, instruction);
+        std::cout << "=>" << instruction->getOpcode() << std::endl;
+    };
+}
+
 void Interpreter::invoke(Context* context, const Instruction* instruction) {
     invoke_fn* invoker = invoke_mapping[instruction->getOpcode()];
     invoker(*context, instruction);
 }
 
+void Interpreter::checkContext(Context& context) {
+    if(context.frame() ==nullptr)
+    throw RuntimeException("Top frame should not be null");
+}
+
 VmField* Interpreter::lookupField(Context& context, const u2 fieldRefIndex) {
+    checkContext(context);
     const ConstantPool* constantPool = context.frame()->getRuntimeConstantPool();
     const ConstantFieldref* fieldRef = (const ConstantFieldref*)constantPool->at(fieldRefIndex);
     const ConstantClass* classRef = (const ConstantClass*)constantPool->at(fieldRef->getClassIndex());
@@ -54,6 +82,7 @@ VmField* Interpreter::lookupField(Context& context, const u2 fieldRefIndex) {
 }
 
 VmMethod* Interpreter::lookupMethod(Context& context, const u2 methodRefIndex) {
+    checkContext(context);
     const ConstantPool* constantPool = context.frame()->getRuntimeConstantPool();
 
     ConstantMethodref* methodRef = (ConstantMethodref*) constantPool->at(methodRefIndex);

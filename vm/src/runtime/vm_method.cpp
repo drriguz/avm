@@ -2,11 +2,12 @@
 
 using namespace avm;
 
-VmMethod::VmMethod(const MethodInfo* method)
-    : _javaMethod(method), 
-    _name(method->getName()), 
-    _descriptor(method->getDescriptor()), 
-    _isNative(method->isNative()) {
+VmMethod::VmMethod(const MethodInfo* method, const VmClass* methodClass)
+    : _javaMethod(method),
+      _class(methodClass),
+      _name(method->getName()),
+      _descriptor(method->getDescriptor()),
+      _isNative(method->isNative()) {
 }
 
 VmMethod::~VmMethod() {

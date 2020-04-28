@@ -11,8 +11,6 @@ VmThread::VmThread(const VmClass* entryClass, const VmMethod* entryMethod, Virtu
     _entryMethod(entryMethod),
     _jvm(jvm),
     _pcRegister(0) {
-    Frame *topFrame = new Frame(entryMethod->getMaxLocals(), entryMethod->getMaxStack(), entryClass->getRuntimeConstantPool());
-    _vmStack.push(topFrame);
 }
 
 VmThread::~VmThread() {
@@ -20,15 +18,8 @@ VmThread::~VmThread() {
 }
 
 void VmThread::execute() {
-    Context context(_vmStack.currentFrame(), _jvm);
     Interpreter interpreter;
-    while(true) {
-        const Instruction* instruction = nextInstruction();
-        if(instruction == nullptr)
-            break;
-        interpreter.invoke(&context, instruction);
-        std::cout << "=>" << instruction->getOpcode() << std::endl;
-    }
+    interpreter.invoke(_entryMethod, *_jvm, _vmStack, _pcRegister);
 }
 
 Frame* VmThread::currentFrame() {

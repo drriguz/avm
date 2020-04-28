@@ -30,7 +30,6 @@ public:
         return _interfaces;
     }
     const ConstantPool* getRuntimeConstantPool() const;
-    const VmMethod getClassInitializationMethod() const;
     VmField* getField(const std::string& name) {
         return _fields[name].get();
     }

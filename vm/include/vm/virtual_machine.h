@@ -17,7 +17,7 @@ public:
     virtual ~VirtualMachine();
 public:
     void execute();
-    VmClass* getClass(const std::string &className) const;
+    VmClass* getClass(const std::string &className);
 protected:
     std::string _classPath;
     std::string _mainClass;

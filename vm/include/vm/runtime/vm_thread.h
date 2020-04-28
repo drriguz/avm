@@ -10,6 +10,7 @@
 namespace avm {
 class VirtualMachine;
 class VmThread {
+    friend class Interpreter;
 public:
     VmThread(const VmClass* entryClass, const VmMethod* entryMethod, VirtualMachine* jvm);
     virtual ~VmThread();
@@ -19,6 +20,10 @@ public:
     const Instruction* nextInstruction();
     const VmClass* currentClass();
     const VmMethod* currentMethod();
+public:
+    inline const VirtualMachine* getJVM() const {
+        return _jvm;
+    }
 protected:
     int _pcRegister;
     VmStack _vmStack;
