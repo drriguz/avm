@@ -18,13 +18,13 @@ public:
     inline VirtualMachine* getJVM() const {
         return _jvm;
     }
-    inline VmStack* getStack() const{
+    inline VmStack* getStack() const {
         return _stack;
     }
-    inline Frame* frame() const{
+    inline Frame* frame() const {
         return _stack->currentFrame();
     }
-    inline int* getPcRegister() const{
+    inline int* getPcRegister() const {
         return _pc;
     }
     inline Frame* previousFrame() const {

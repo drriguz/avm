@@ -43,6 +43,7 @@ void avm::invoke_lookupswitch    (Context& context, const Instruction* instructi
 void avm::invoke_ireturn         (Context& context, const Instruction* instruction) {
     int32_t returnValue = context.frame()->getOperandStack()->popInt();
     context.previousFrame()->getOperandStack()->pushInt(returnValue);
+    context.getStack()->pop();
 }
 void avm::invoke_lreturn         (Context& context, const Instruction* instruction) {
     throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));

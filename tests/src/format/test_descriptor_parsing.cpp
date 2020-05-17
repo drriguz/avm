@@ -8,22 +8,23 @@
 using namespace avm;
 
 TEST(FieldDescriptor, getPrimitiveType) {
-    FieldDescriptor f1("B");
-    ASSERT_EQ(FIELD_Byte, f1.getBaseType());
-    ASSERT_EQ(false, f1.isArray());
-    ASSERT_STREQ("", f1.getClassName().c_str());
+    auto f1 = FieldType::fromFieldDescriptor("B");
+    ASSERT_EQ(true, f1->isBaseType());
+    ASSERT_EQ(false, f1->isArray());
+    ASSERT_EQ(FIELD_Byte, ((BaseType*)f1.get())->getType());
 }
 
 TEST(FieldDescriptor, getClassType) {
-    FieldDescriptor f1("Ljava/lang/Sting;");
-    ASSERT_EQ(FIELD_Reference, f1.getBaseType());
-    ASSERT_EQ(false, f1.isArray());
-    ASSERT_STREQ("java/lang/Sting;", f1.getClassName().c_str());
+    auto f1 = FieldType::fromFieldDescriptor("Ljava/lang/Sting;");
+    ASSERT_EQ(true, f1->isObject());
+    ASSERT_EQ(false, f1->isArray());
+    ASSERT_STREQ("java/lang/Sting;", ((ObjectType*)f1.get())->getClassName().c_str());
 }
 
 TEST(FieldDescriptor, getArrayType) {
-    FieldDescriptor f1("[Ljava/lang/Sting;");
-    ASSERT_EQ(FIELD_Reference, f1.getBaseType());
-    ASSERT_EQ(true, f1.isArray());
-    ASSERT_STREQ("java/lang/Sting;", f1.getClassName().c_str());
+    auto f1 = FieldType::fromFieldDescriptor("[Ljava/lang/Sting;");
+    ASSERT_EQ(true, f1->isArray());
+    auto base = ((ArrayType*)f1.get())->getComponentType();
+    ASSERT_EQ(true, base->isObject());
+    ASSERT_STREQ("java/lang/Sting;", ((ObjectType*)base)->getClassName().c_str());
 }

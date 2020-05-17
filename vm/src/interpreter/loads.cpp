@@ -10,7 +10,7 @@
 using namespace avm;
 
 /*
-Loads
+Loads: Local Variables => Oprand stack
 
 21 (0x15)    iload
 22 (0x16)    lload
@@ -63,16 +63,20 @@ void avm::invoke_aload           (Context& context, const Instruction* instructi
     throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
 }
 void avm::invoke_iload_0         (Context& context, const Instruction* instruction) {
-    context.frame()->getOperandStack()->pushInt(context.frame()->getLocalVariables()->getInt(0));
+    auto value = context.frame()->getLocalVariables()->getInt(0);
+    context.frame()->getOperandStack()->pushInt(value);
 }
 void avm::invoke_iload_1         (Context& context, const Instruction* instruction) {
-    context.frame()->getOperandStack()->pushInt(context.frame()->getLocalVariables()->getInt(1));
+    auto value = context.frame()->getLocalVariables()->getInt(1);
+    context.frame()->getOperandStack()->pushInt(value);
 }
 void avm::invoke_iload_2         (Context& context, const Instruction* instruction) {
-    context.frame()->getOperandStack()->pushInt(context.frame()->getLocalVariables()->getInt(2));
+    auto value = context.frame()->getLocalVariables()->getInt(2);
+    context.frame()->getOperandStack()->pushInt(value);
 }
 void avm::invoke_iload_3         (Context& context, const Instruction* instruction) {
-    context.frame()->getOperandStack()->pushInt(context.frame()->getLocalVariables()->getInt(3));
+    auto value = context.frame()->getLocalVariables()->getInt(3);
+    context.frame()->getOperandStack()->pushInt(value);
 }
 void avm::invoke_lload_0         (Context& context, const Instruction* instruction) {
     throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));

@@ -18,3 +18,8 @@ Frame::~Frame() {
 void Frame::returnVoid() {
     _returned = true;
 }
+
+void Frame::dump() const {
+    _localVariables.dump();
+    _operandStack.dump();
+}

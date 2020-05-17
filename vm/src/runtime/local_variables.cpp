@@ -2,6 +2,8 @@
 #include "vm/util/numbers.h"
 #include "vm/exceptions.h"
 
+#include <iostream>
+
 using namespace avm;
 
 LocalVariables::LocalVariables(int size) :
@@ -74,6 +76,10 @@ void LocalVariables::setDouble(int i, double value) {
 void LocalVariables::setChar(int i, uint16_t value) {
     int32_t *sv = reinterpret_cast<int32_t*>(&value);
     setSingleByte(i, *sv);
+}
+
+void LocalVariables::dump() const {
+    std::cout << "VARS : " << _size << std::endl;
 }
 
 int8_t LocalVariables::getByte(int i) {

@@ -31,6 +31,7 @@ public:
         return _previousFrame;
     }
     void returnVoid();
+    void dump() const;
 protected:
     int _pcOffset;
     bool _returned;

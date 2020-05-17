@@ -9,7 +9,7 @@ using namespace avm;
 TEST(Interperter, getStatic) {
     VirtualMachine vm("res", "com/vm/HelloWorld");
     auto vmClass = vm.getClass("com/op/FieldOperations");
-    
+
     int pc = 0;
     VmStack stack;
     auto frame = std::unique_ptr<Frame>(new Frame(3, 3, vmClass->getRuntimeConstantPool(), nullptr));
@@ -28,7 +28,7 @@ TEST(Interperter, getStatic) {
 
 TEST(Interperter, putStatic) {
     VirtualMachine vm("res", "com/vm/HelloWorld");
-    
+
     auto vmClass = vm.getClass("com/op/FieldOperations");
     int pc = 0;
     VmStack stack;
@@ -53,13 +53,30 @@ TEST(Interperter, invokeStatic) {
     Interpreter interpreter;
     auto vmClass = vm.getClass("com/op/NativeCall");
 
+    /*
+        public static int sum(int var0, int var1) {
+            return var0 + var1;
+        }
+        com/op/NativeCall.sum:(II)I
+
+        0 iload_0
+        1 iload_1
+        2 iadd
+        3 ireturn
+    */
+
     int pc = 0;
     VmStack stack;
     auto frame = std::unique_ptr<Frame>(new Frame(3, 3, vmClass->getRuntimeConstantPool(), nullptr));
     stack.push(std::move(frame));
-
+    stack.currentFrame()->getLocalVariables()->setInt(0, 1);
+    stack.currentFrame()->getLocalVariables()->setInt(1, 1024);
     Context ctx(&vm, &stack, &pc);
 
     Instruction setCount(j_invokestatic, 0, 2);
     interpreter.invoke(&ctx, &setCount);
+
+    ASSERT_EQ(1, stack.size());
+    ASSERT_EQ(1, stack.currentFrame()->getOperandStack()->size());
+    ASSERT_EQ(1025, stack.currentFrame()->getOperandStack()->popInt());
 }

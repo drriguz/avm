@@ -10,7 +10,7 @@
 using namespace avm;
 
 /*
-Constants
+Constants: constants => Oprand stack
 
 00 (0x00)    nop
 01 (0x01)    aconst_null

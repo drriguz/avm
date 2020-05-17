@@ -19,6 +19,9 @@ public:
     inline const Mnemonic getOpcode() const {
         return _mnemonic;
     }
+    inline const std::string getOpcodeName() const {
+        return mnemonic_names[_mnemonic];
+    }
     inline u1 getOprand(int i) const {
         Opcode config = instructionSet[_mnemonic];
         if(i < 0 || i > config.oprandCount)

@@ -35,6 +35,7 @@ public:
     inline int size() const {
         return _variables.size();
     }
+    void dump() const;
 protected:
     void checkStackSize(int valueSize);
     void pushSingleByte(int32_t value);

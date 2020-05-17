@@ -25,6 +25,8 @@ public:
     float getFloat(int i);
     double getDouble(int i);
     uint16_t getChar(int i);
+public:
+    void dump() const;
 protected:
     void checkRange(int i, int valueSize);
     void setSingleByte(int i, int32_t value);

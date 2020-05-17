@@ -2,9 +2,11 @@
 #define _AVM_DESCRIPTOR_TYPE_H_
 
 #include <string>
+#include <vector>
+#include <memory>
 
 namespace avm {
-enum BaseType {
+enum BaseFieldType {
     FIELD_Byte,
     FIELD_Char,
     FIELD_Double,
@@ -13,34 +15,92 @@ enum BaseType {
     FIELD_Long,
     FIELD_Short,
     FIELD_Boolean,
-    FIELD_Reference,
 };
-class FieldDescriptor {
+
+class FieldType {
 public:
-    FieldDescriptor(const std::string& descriptor);
-    virtual ~FieldDescriptor();
+    inline virtual bool isBaseType() const {
+        return false;
+    }
+    inline virtual bool isArray() const {
+        return false;
+    }
+    inline virtual bool isObject() const {
+        return false;
+    }
+    virtual bool isDoubleBytes() const {
+        return false;
+    }
 public:
-    inline BaseType getBaseType() const {
-        return _baseType;
+    static std::unique_ptr<FieldType> fromFieldDescriptor(
+        const std::string& fieldDescriptor);
+    static std::vector<std::unique_ptr<FieldType>> fromSignature(
+        const std::string& methodSignature);
+private:
+    static std::unique_ptr<FieldType> fromFieldDescriptor(
+        const std::string& fieldDescriptor, int startPos, int& endPos);
+};
+
+class BaseType: public FieldType {
+public:
+    BaseType(char type);
+    BaseType(const BaseFieldType& type);
+public:
+    inline virtual bool isBaseType() const {
+        return true;
+    }
+    inline BaseFieldType getType() const {
+        return _type;
+    }
+    inline virtual bool isDoubleBytes() const {
+        return _type == FIELD_Long || _type == FIELD_Double;
+    }
+protected:
+    BaseFieldType _type;
+};
+
+class ObjectType: public FieldType {
+public:
+    ObjectType(const std::string& className);
+public:
+    inline virtual bool isObject() const {
+        return true;
     }
     inline std::string getClassName() const {
         return _className;
     }
-    inline bool isArray() const {
-        return _isArray;
-    }
-    inline bool isDoubleBytes() const {
+    inline virtual bool isDoubleBytes() const {
 #ifdef _ARCH_X64_
-        return _baseType == FIELD_Long || _baseType == FIELD_Double || _baseType == FIELD_Reference;
+        return true;
 #else
-        return _baseType == FIELD_Long || _baseType == FIELD_Double;
+        return false;
 #endif
     }
 protected:
-    BaseType _baseType;
     std::string _className;
-    bool _isArray;
 };
+
+class ArrayType: public FieldType {
+public:
+    ArrayType(std::unique_ptr<FieldType> componentType);
+public:
+    inline virtual bool isArray() const{
+        return true;
+    }
+    virtual bool isDoubleBytes() const {
+#ifdef _ARCH_X64_
+        return true;
+#else
+        return false;
+#endif
+    }
+    const FieldType* getComponentType() const {
+        return _componentType.get();
+    }
+protected:
+    std::unique_ptr<FieldType> _componentType;
+};
+
 }
 
 #endif

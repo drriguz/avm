@@ -79,38 +79,39 @@ void VmClass::prepare() {
 */
 void VmClass::initializeConstantField(VmField& field, u2 constantIndex) {
     const ConstantInfo* info = _javaClass->getConstantPool()->at(constantIndex);
-    switch(field.getDescriptor().getBaseType()) {
-    case FIELD_Byte:
-    case FIELD_Short:
-    case FIELD_Char:
-    case FIELD_Int:
-    case FIELD_Boolean: {
-        ConstantInteger* c = (ConstantInteger*) info;
-        field.setInt(c->getValue());
-        break;
-    }
-    case FIELD_Float: {
-        ConstantFloat* c = (ConstantFloat*) info;
-        field.setFloat(c->getValue());
-        break;
-    }
-    case FIELD_Long: {
-        ConstantLong* c = (ConstantLong*) info;
-        field.setLong(c->getValue());
-        break;
-    }
-    case FIELD_Double: {
-        ConstantDouble* c = (ConstantDouble*) info;
-        field.setDouble(c->getValue());
-        break;
-    }
-    case FIELD_Reference: {
+    const FieldType* fieldType = field.getDescriptor();
+    if(fieldType->isBaseType()) {
+        switch(((BaseType*)fieldType)->getType()) {
+        case FIELD_Byte:
+        case FIELD_Short:
+        case FIELD_Char:
+        case FIELD_Int:
+        case FIELD_Boolean: {
+            ConstantInteger* c = (ConstantInteger*) info;
+            field.setInt(c->getValue());
+            break;
+        }
+        case FIELD_Float: {
+            ConstantFloat* c = (ConstantFloat*) info;
+            field.setFloat(c->getValue());
+            break;
+        }
+        case FIELD_Long: {
+            ConstantLong* c = (ConstantLong*) info;
+            field.setLong(c->getValue());
+            break;
+        }
+        case FIELD_Double: {
+            ConstantDouble* c = (ConstantDouble*) info;
+            field.setDouble(c->getValue());
+            break;
+        }
+        }
+    } else if(fieldType->isObject()) {
         ConstantString* c = (ConstantString*) info;
         const std::string* stringRef =  _javaClass->getConstantPool()->getStringReference(c->getStringIndex());
         field.setReference(reinterpret_cast<int64_t>(stringRef));
-        break;
-    }
-    default:
-        break;
+    } else {
+        throw "fixme: support array type";
     }
 }

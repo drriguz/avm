@@ -5,22 +5,23 @@
 
 using namespace avm;
 
-VmField::VmField(const std::string& name, const FieldDescriptor& descriptor, const int offset, const bool isStatic, uint32_t value1, uint32_t value2)
+VmField::VmField(const std::string& name, std::unique_ptr<FieldType> descriptor, const int offset, const bool isStatic, uint32_t value1, uint32_t value2)
     : _name(name),
       _offset(offset),
-      _descriptor(descriptor),
+      _descriptor(std::move(descriptor)),
       _isStatic(isStatic),
       _value1(value1),
       _value2(value2) {
 }
 
 std::unique_ptr<VmField> VmField::newStaticField(const std::string& name, const std::string& descriptor) {
-    FieldDescriptor type(descriptor);
-    return std::unique_ptr<VmField>(new VmField(name, descriptor, -1, true, 0, 0));
+    auto type = FieldType::fromFieldDescriptor(descriptor);
+    return std::unique_ptr<VmField>(new VmField(name, std::move(type), -1, true, 0, 0));
 }
 
 std::unique_ptr<VmField> VmField::newInstanceField(const std::string& name, const std::string& descriptor, const int fieldId) {
-    return  std::unique_ptr<VmField>(new VmField(name, descriptor, fieldId, false, 0, 0));
+    auto type = FieldType::fromFieldDescriptor(descriptor);
+    return  std::unique_ptr<VmField>(new VmField(name, std::move(type), fieldId, false, 0, 0));
 }
 
 VmField::~VmField() {
@@ -36,7 +37,7 @@ void VmField::setInt(int32_t value) {
     _value1 = value;
 }
 void VmField::setLong(int64_t value) {
-    if(!_descriptor.isDoubleBytes())
+    if(!_descriptor->isDoubleBytes())
         throw FieldValueTypeNotMatchException("Require two bytes type");
     uint32_t highBytes, lowBytes;
     std::tie(highBytes, lowBytes) = Numbers::splitLong(value);
@@ -48,7 +49,7 @@ void VmField::setFloat(float value) {
     _value1 = *sv;
 }
 void VmField::setDouble(double value) {
-    if(!_descriptor.isDoubleBytes())
+    if(!_descriptor->isDoubleBytes())
         throw FieldValueTypeNotMatchException("Require two bytes type");
     uint32_t highBytes, lowBytes;
     std::tie(highBytes, lowBytes) = Numbers::splitDouble(value);
@@ -79,7 +80,7 @@ int32_t VmField::getInt() const {
     return *reinterpret_cast<int32_t*>(&copy);
 }
 int64_t VmField::getLong() const {
-    if(!_descriptor.isDoubleBytes())
+    if(!_descriptor->isDoubleBytes())
         throw FieldValueTypeNotMatchException("Require two bytes type");
     uint32_t highBytes = _value1;
     uint32_t lowBytes = _value2;
@@ -90,7 +91,7 @@ float VmField::getFloat() const {
     return *reinterpret_cast<float*>(&copy);
 }
 double VmField::getDouble() const {
-    if(!_descriptor.isDoubleBytes())
+    if(!_descriptor->isDoubleBytes())
         throw FieldValueTypeNotMatchException("Require two bytes type");
     uint32_t highBytes = _value1;
     uint32_t lowBytes = _value2;
@@ -113,7 +114,7 @@ std::string VmField::getString() const {
 }
 
 int VmField::getFieldSize() const {
-    if(_descriptor.isDoubleBytes())
+    if(_descriptor->isDoubleBytes())
         return 2;
     else
         return 1;

@@ -12,7 +12,7 @@
 namespace avm {
 class VmField {
 public:
-    VmField(const std::string& name, const FieldDescriptor& descriptor, const int slotId, const bool isStatic, uint32_t value1, uint32_t value2);
+    VmField(const std::string& name, std::unique_ptr<FieldType> descriptor, const int slotId, const bool isStatic, uint32_t value1, uint32_t value2);
     virtual ~VmField();
     static std::unique_ptr<VmField> newStaticField(const std::string& name, const std::string& descriptor);
     static std::unique_ptr<VmField> newInstanceField(const std::string& name, const std::string& descriptor, const int fieldId);
@@ -39,8 +39,8 @@ public:
     inline std::string getName() const {
         return _name;
     }
-    inline FieldDescriptor getDescriptor() const {
-        return _descriptor;
+    inline FieldType* getDescriptor() const {
+        return _descriptor.get();
     }
     inline int getOffset() const {
         return _offset;
@@ -51,7 +51,7 @@ protected:
     bool _isStatic;
     const FieldInfo* _fieldInfo;
     std::string _name;
-    FieldDescriptor _descriptor;
+    std::unique_ptr<FieldType> _descriptor;
     uint32_t _value1;
     uint32_t _value2;
 };

@@ -87,6 +87,10 @@ void OperandStack::pushChar(uint16_t value) {
     pushSingleByte(value);
 }
 
+void OperandStack::dump() const {
+    std::cout << "STACK: " << _variables.size() << std::endl;
+}
+
 int8_t OperandStack::popByte() {
     return popSingleByte();
 }
@@ -126,63 +130,69 @@ reference OperandStack::popRererence() {
 }
 
 void OperandStack::pushField(const VmField* source) {
-    switch(source->getDescriptor().getBaseType()) {
-    case FIELD_Byte:
-    case FIELD_Short:
-    case FIELD_Char:
-    case FIELD_Int:
-    case FIELD_Boolean: {
-        pushInt(source->getInt());
-        break;
-    }
-    case FIELD_Float: {
-        pushFloat(source->getFloat());
-        break;
-    }
-    case FIELD_Long: {
-        pushLong(source->getLong());
-        break;
-    }
-    case FIELD_Double: {
-        pushDouble(source->getDouble());
-        break;
-    }
-    case FIELD_Reference: {
+    const FieldType* type = source->getDescriptor();
+    if(type->isBaseType()) {
+        switch(((BaseType*)type)->getType()) {
+        case FIELD_Byte:
+        case FIELD_Short:
+        case FIELD_Char:
+        case FIELD_Int:
+        case FIELD_Boolean: {
+            pushInt(source->getInt());
+            break;
+        }
+        case FIELD_Float: {
+            pushFloat(source->getFloat());
+            break;
+        }
+        case FIELD_Long: {
+            pushLong(source->getLong());
+            break;
+        }
+        case FIELD_Double: {
+            pushDouble(source->getDouble());
+            break;
+        }
+        default:
+            break;
+        }
+    } else if(type->isObject()) {
         pushReference(source->getReference());
-        break;
-    }
-    default:
-        break;
+    } else {
+        throw "todo: support array type";
     }
 }
 
 void OperandStack::popField(VmField* field) {
-    switch(field->getDescriptor().getBaseType()) {
-    case FIELD_Byte:
-    case FIELD_Short:
-    case FIELD_Char:
-    case FIELD_Int:
-    case FIELD_Boolean: {
-        field->setInt(popInt());
-        break;
-    }
-    case FIELD_Float: {
-        field->setFloat(popFloat());
-        break;
-    }
-    case FIELD_Long: {
-        field->setLong(popLong());
-        break;
-    }
-    case FIELD_Double: {
-        field->setDouble(popDouble());
-        break;
-    }
-    case FIELD_Reference: {
+    const FieldType* type = field->getDescriptor();
+    if(type->isBaseType()) {
+        switch(((BaseType*)type)->getType()) {
+        case FIELD_Byte:
+        case FIELD_Short:
+        case FIELD_Char:
+        case FIELD_Int:
+        case FIELD_Boolean: {
+            field->setInt(popInt());
+            break;
+        }
+        case FIELD_Float: {
+            field->setFloat(popFloat());
+            break;
+        }
+        case FIELD_Long: {
+            field->setLong(popLong());
+            break;
+        }
+        case FIELD_Double: {
+            field->setDouble(popDouble());
+            break;
+        }
+        default:
+            break;
+        }
+    } else if(type->isObject()) {
         field->setReference(popRererence());
-        break;
-    }
-    default:
-        break;
+    } else {
+        throw "todo: support array type";
     }
 }

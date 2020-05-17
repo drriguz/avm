@@ -35,23 +35,25 @@ Interpreter::~Interpreter() {
 
 void Interpreter::invoke(const VmMethod* method, VirtualMachine& jvm, VmStack& stack, int& pcRegister) {
     stack.push(std::unique_ptr<Frame>(new Frame(method->getMaxLocals(),
-                          method->getMaxStack(),
-                          method->getClass()->getRuntimeConstantPool(),
-                          stack.currentFrame())));
+                                      method->getMaxStack(),
+                                      method->getClass()->getRuntimeConstantPool(),
+                                      stack.currentFrame())));
+    // TODO: initialize method parameters
+    int local = 0;
+    if(!method->isStatic()) {
+        // todo: support instance method
+    }
+    std::string descriptor = method->getDescriptor();
+    std::vector<std::unique_ptr<FieldType>> paramTypes = FieldType::fromSignature(descriptor);
     Frame* frame;
     while((frame = stack.currentFrame()) != nullptr) {
-        if(frame->isReturned()) {
-            pcRegister = frame->getPcOffset() + 1;
-            stack.pop();
-            continue;
-        }
         const Instruction* instruction = (pcRegister < method->getInstructionsCount()) ?
                                          method->getInstruction(pcRegister++) : nullptr;
         if(instruction == nullptr)
             break;
         Context context(&jvm, &stack, &pcRegister);
         invoke(&context, instruction);
-        std::cout << "=>" << instruction->getOpcode() << std::endl;
+        std::cout << "> " << instruction->getOpcodeName() << std::endl;
     };
 }
 
@@ -62,7 +64,7 @@ void Interpreter::invoke(Context* context, const Instruction* instruction) {
 
 void Interpreter::checkContext(Context& context) {
     if(context.frame() ==nullptr)
-    throw RuntimeException("Top frame should not be null");
+        throw RuntimeException("Top frame should not be null");
 }
 
 VmField* Interpreter::lookupField(Context& context, const u2 fieldRefIndex) {

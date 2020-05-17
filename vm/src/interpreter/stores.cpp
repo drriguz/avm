@@ -10,7 +10,7 @@
 using namespace avm;
 
 /*
-Stores
+Stores: Oprand stack => Local Variables
 
 54 (0x36)    istore
 55 (0x37)    lstore

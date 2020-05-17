@@ -13,6 +13,9 @@ public:
     VmStack();
     virtual ~VmStack();
 public:
+    inline int size() const {
+        return _frames.size();
+    }
     void push(std::unique_ptr<Frame> frame);
     void pop();
     Frame* currentFrame() const;
