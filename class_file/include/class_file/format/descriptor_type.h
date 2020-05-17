@@ -31,6 +31,10 @@ public:
     virtual bool isDoubleBytes() const {
         return false;
     }
+    template <typename T>
+    T* as() {
+        return dynamic_cast<T*>(this);
+    }
 public:
     static std::unique_ptr<FieldType> fromFieldDescriptor(
         const std::string& fieldDescriptor);
@@ -94,7 +98,7 @@ public:
         return false;
 #endif
     }
-    const FieldType* getComponentType() const {
+    FieldType* getComponentType() const {
         return _componentType.get();
     }
 protected:
