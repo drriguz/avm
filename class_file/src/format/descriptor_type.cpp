@@ -1,5 +1,6 @@
 #include "class_file/format/descriptor_type.h"
 #include "vm/exceptions.h"
+#include <iostream>
 
 using namespace avm;
 
@@ -36,39 +37,58 @@ ArrayType::ArrayType(std::unique_ptr<FieldType> componentType)
     :_componentType(std::move(componentType)) {
 
 }
-const std::string baseTypes = "BCDFIJSZ";
-std::unique_ptr<FieldType> FieldType::fromFieldDescriptor(const std::string& fieldDescriptor) {
-    int endPos = 0;
-    return fromFieldDescriptor(fieldDescriptor, 0, endPos);
-}
 
-std::unique_ptr<FieldType> FieldType::fromFieldDescriptor(const std::string& fieldDescriptor, int startPos, int& endPos) {
-    char t = fieldDescriptor.at(startPos);
+DescriptorParser::DescriptorParser(const std::string& signature)
+    :_signature(signature),
+     _currentPos(0) {
+
+}
+const std::string baseTypes = "BCDFIJSZ";
+
+std::unique_ptr<FieldType> DescriptorParser::nextField() {
+    
+    if(_currentPos >= _signature.length())
+        return nullptr;
+    char t = _signature.at(_currentPos);
+    std::cout << "-> " << _currentPos << " " << t << std::endl;
     if(baseTypes.find(t) != std::string::npos) {
-        endPos = startPos;
+        _currentPos++;
         return std::unique_ptr<FieldType>(new BaseType(t));
     } else if(t == 'L') {
         // L ClassName ;
-        endPos = fieldDescriptor.find_first_of(';');
-        if(endPos == std::string::npos)
+        int end = _signature.find(';', _currentPos + 1);
+        if(end == std::string::npos)
             throw RuntimeException("Descriptor not recognized: class name not ended");
-        std::string className = fieldDescriptor.substr(startPos + 1, endPos);
+        std::string className = _signature.substr(_currentPos + 1, end);
+        _currentPos = end + 1;
         return std::unique_ptr<FieldType>(new ObjectType(className));
     } else if (t == '[') {
-        std::unique_ptr<FieldType> componentType = fromFieldDescriptor(fieldDescriptor, startPos + 1, endPos);
+        _currentPos++;
+        std::unique_ptr<FieldType> componentType = nextField();
+        if(componentType == nullptr)
+            throw RuntimeException("Array type not found");
         return std::unique_ptr<FieldType>(new ArrayType(std::move(componentType)));
     } else
         throw RuntimeException("Descriptor not recognized: Unknown");
 }
 
+std::unique_ptr<FieldType> FieldType::fromFieldDescriptor(const std::string& fieldDescriptor) {
+    DescriptorParser parser(fieldDescriptor);
+
+    auto type = std::move(parser.nextField());
+    if(type == nullptr)
+        throw RuntimeException("Unable to get field type");
+    return std::move(type);
+}
+
 std::vector<std::unique_ptr<FieldType>> FieldType::fromSignature(const std::string& methodSignature) {
     // (II)I
     std::string parameterTypes = methodSignature.substr(1, methodSignature.find_first_of(')') - 1);
-    int i = 0;
+    DescriptorParser parser(parameterTypes);
     std::vector<std::unique_ptr<FieldType>> types;
-    do {
-        std::unique_ptr<FieldType> paramType = fromFieldDescriptor(parameterTypes, i + 1, i);
-        types.push_back(std::move(paramType));
-    } while(i < parameterTypes.size() -1);
+    std::unique_ptr<FieldType> type;
+    while((type = parser.nextField()) != nullptr)
+        types.push_back(std::move(type));
+
     return types;
 }

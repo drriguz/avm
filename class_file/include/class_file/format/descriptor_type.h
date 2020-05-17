@@ -36,13 +36,8 @@ public:
         return dynamic_cast<T*>(this);
     }
 public:
-    static std::unique_ptr<FieldType> fromFieldDescriptor(
-        const std::string& fieldDescriptor);
-    static std::vector<std::unique_ptr<FieldType>> fromSignature(
-        const std::string& methodSignature);
-private:
-    static std::unique_ptr<FieldType> fromFieldDescriptor(
-        const std::string& fieldDescriptor, int startPos, int& endPos);
+    static std::unique_ptr<FieldType> fromFieldDescriptor(const std::string& fieldDescriptor);
+    static std::vector<std::unique_ptr<FieldType>> fromSignature(const std::string& methodSignature);
 };
 
 class BaseType: public FieldType {
@@ -88,7 +83,7 @@ class ArrayType: public FieldType {
 public:
     ArrayType(std::unique_ptr<FieldType> componentType);
 public:
-    inline virtual bool isArray() const{
+    inline virtual bool isArray() const {
         return true;
     }
     virtual bool isDoubleBytes() const {
@@ -105,6 +100,15 @@ protected:
     std::unique_ptr<FieldType> _componentType;
 };
 
+class DescriptorParser {
+public:
+    DescriptorParser(const std::string& signature);
+public:
+    std::unique_ptr<FieldType> nextField();
+private:
+    int _currentPos;
+    std::string _signature;
+};
 }
 
 #endif

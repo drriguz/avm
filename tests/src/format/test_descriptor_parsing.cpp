@@ -29,3 +29,33 @@ TEST(FieldDescriptor, getArrayType) {
     ASSERT_EQ(true, base->isObject());
     ASSERT_STREQ("java/lang/Sting;", base->as<ObjectType>()->getClassName().c_str());
 }
+
+TEST(FieldDescriptor, nestedType) {
+    auto f1 = FieldType::fromFieldDescriptor("[[Ljava/lang/Sting;");
+    ASSERT_EQ(true, f1->isArray());
+    auto base1 = f1->as<ArrayType>()->getComponentType();
+    ASSERT_EQ(true, base1->isArray());
+    auto base2 = base1->as<ArrayType>()->getComponentType();
+    ASSERT_EQ(true, base2->isObject());
+    ASSERT_STREQ("java/lang/Sting;", base2->as<ObjectType>()->getClassName().c_str());
+}
+
+TEST(FieldDescriptor, parseMethodSignature) {
+    auto params = FieldType::fromSignature("(II)I)");
+    ASSERT_EQ(2, params.size());
+    ASSERT_EQ(true, params.at(0)->isBaseType());
+    ASSERT_EQ(true, params.at(1)->isBaseType());
+}
+
+TEST(FieldDescriptor, parseNestedMethodSignature) {
+    /*
+        int foo(int a, int[] b, String[] c, String[][] d)
+        (I[I[Ljava/lang/String;[[Ljava/lang/String;)I
+    */
+    auto params = FieldType::fromSignature("(I[I[Ljava/lang/String;[[Ljava/lang/String;)I");
+    ASSERT_EQ(4, params.size());
+    ASSERT_EQ(true, params.at(0)->isBaseType());
+    ASSERT_EQ(true, params.at(1)->isArray());
+    ASSERT_EQ(true, params.at(2)->isArray());
+    ASSERT_EQ(true, params.at(3)->isArray());
+}
