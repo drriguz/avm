@@ -34,6 +34,7 @@ Interpreter::~Interpreter() {
 }
 
 void Interpreter::invoke(const VmMethod* method, VirtualMachine& jvm, VmStack& stack, int& pcRegister) {
+    OperandStack* callerStack = stack.currentFrame()->getOperandStack();
     stack.push(std::unique_ptr<Frame>(new Frame(method->getMaxLocals(),
                                       method->getMaxStack(),
                                       method->getClass()->getRuntimeConstantPool(),
@@ -43,8 +44,17 @@ void Interpreter::invoke(const VmMethod* method, VirtualMachine& jvm, VmStack& s
     if(!method->isStatic()) {
         // todo: support instance method
     }
-    std::string descriptor = method->getDescriptor();
-    std::vector<std::unique_ptr<FieldType>> paramTypes = FieldType::fromSignature(descriptor);
+    // fixme: how to pass main thread arguments？
+    if(method->getName() != "main") {
+        std::string descriptor = method->getDescriptor();
+        std::vector<std::unique_ptr<FieldType>> paramTypes = FieldType::fromSignature(descriptor);
+        stack.currentFrame()->getLocalVariables()->initialize(
+            callerStack,
+            std::move(paramTypes));
+    }
+
+
+
     Frame* frame;
     while((frame = stack.currentFrame()) != nullptr) {
         const Instruction* instruction = (pcRegister < method->getInstructionsCount()) ?

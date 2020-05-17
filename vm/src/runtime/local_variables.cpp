@@ -112,3 +112,55 @@ uint16_t LocalVariables::getChar(int i) {
     int32_t intValue = getSingleByte(i);
     return *reinterpret_cast<uint16_t*>(&intValue);
 }
+
+reference LocalVariables::getReference(int i) {
+#ifdef _ARCH_X64_
+    return getDoubleByte(i);
+#else
+    return getSingleByte(i);
+#endif
+}
+
+void LocalVariables::setReference(int i, reference value) {
+#ifdef _ARCH_X64_
+    setDoubleByte(i, value);
+#else
+    setSingleByte(i, value);
+#endif
+}
+void LocalVariables::initialize(OperandStack* stack, std::vector<std::unique_ptr<FieldType>> paramTypes) {
+    for(int i = 0; i < paramTypes.size(); i++) {
+        auto type = paramTypes.at(i).get();
+        if(type->isBaseType()) {
+            switch(type->as<BaseType>()->getType()) {
+            case FIELD_Byte:
+            case FIELD_Short:
+            case FIELD_Char:
+            case FIELD_Int:
+            case FIELD_Boolean: {
+                setInt(i, stack->popInt());
+                break;
+            }
+            case FIELD_Float: {
+                setFloat(i, stack->popFloat());
+                break;
+            }
+            case FIELD_Long: {
+                setLong(i, stack->popLong());
+                break;
+            }
+            case FIELD_Double: {
+                setDouble(i, stack->popDouble());
+                break;
+            }
+            default:
+                break;
+            }
+        } else if(type->isObject()) {
+            setReference(i, stack->popReference());
+        } else {
+            // fixme: support array type
+            setReference(i, stack->popReference());
+        }
+    }
+}

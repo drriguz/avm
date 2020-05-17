@@ -69,8 +69,8 @@ TEST(Interperter, invokeStatic) {
     VmStack stack;
     auto frame = std::unique_ptr<Frame>(new Frame(3, 3, vmClass->getRuntimeConstantPool(), nullptr));
     stack.push(std::move(frame));
-    stack.currentFrame()->getLocalVariables()->setInt(0, 1);
-    stack.currentFrame()->getLocalVariables()->setInt(1, 1024);
+    stack.currentFrame()->getOperandStack()->pushInt(1);
+    stack.currentFrame()->getOperandStack()->pushInt(1024);
     Context ctx(&vm, &stack, &pc);
 
     Instruction setCount(j_invokestatic, 0, 2);

@@ -19,6 +19,7 @@ VmThread::~VmThread() {
 
 void VmThread::execute() {
     Interpreter interpreter;
+    auto stack = _vmStack.currentFrame()->getOperandStack();
     interpreter.invoke(_entryMethod, *_jvm, _vmStack, _pcRegister);
 }
 

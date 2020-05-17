@@ -46,7 +46,7 @@ DescriptorParser::DescriptorParser(const std::string& signature)
 const std::string baseTypes = "BCDFIJSZ";
 
 std::unique_ptr<FieldType> DescriptorParser::nextField() {
-    
+
     if(_currentPos >= _signature.length())
         return nullptr;
     char t = _signature.at(_currentPos);

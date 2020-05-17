@@ -121,11 +121,11 @@ uint16_t OperandStack::popChar() {
     return popSingleByte();
 }
 
-reference OperandStack::popRererence() {
+reference OperandStack::popReference() {
 #ifdef _ARCH_X64_
-    return popSingleByte();
+    return popDoubleByte();
 #else
-    return popLong();
+    return popSingleByte();
 #endif
 }
 
@@ -191,7 +191,7 @@ void OperandStack::popField(VmField* field) {
             break;
         }
     } else if(type->isObject()) {
-        field->setReference(popRererence());
+        field->setReference(popReference());
     } else {
         throw "todo: support array type";
     }

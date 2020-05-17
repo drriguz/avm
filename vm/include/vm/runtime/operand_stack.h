@@ -28,7 +28,7 @@ public:
     float popFloat();
     double popDouble();
     uint16_t popChar();
-    reference popRererence();
+    reference popReference();
 public:
     void pushField(const VmField* field);
     void popField(VmField* field);
