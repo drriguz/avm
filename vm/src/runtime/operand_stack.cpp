@@ -35,7 +35,7 @@ void OperandStack::pushTwoUnits(int64_t value) {
     _variables.push(lowBytes);
 }
 
-int32_t OperandStack::popUnit() {
+SLOT OperandStack::popUnit() {
     SLOT top = _variables.top();
     _variables.pop();
     return top;
