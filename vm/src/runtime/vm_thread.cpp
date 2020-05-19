@@ -19,8 +19,8 @@ VmThread::~VmThread() {
 
 void VmThread::execute() {
     Interpreter interpreter;
-    auto stack = _vmStack.currentFrame()->getOperandStack();
-    interpreter.invoke(_entryMethod, *_jvm, _vmStack, _pcRegister);
+
+    interpreter.invokeMain(_entryMethod, *_jvm, _vmStack, _pcRegister, std::vector<std::string>());
 }
 
 Frame* VmThread::currentFrame() {

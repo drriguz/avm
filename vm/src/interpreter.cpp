@@ -32,29 +32,42 @@ Interpreter::Interpreter() {
 Interpreter::~Interpreter() {
 
 }
+void Interpreter::invokeMain(const VmMethod* method, VirtualMachine& jvm, VmStack& stack, int& pcRegister, std::vector<std::string> args) {
+    auto newFrame = std::unique_ptr<Frame>(new Frame(method->getMaxLocals(),
+                                           method->getMaxStack(),
+                                           method->getClass()->getRuntimeConstantPool(),
+                                           stack.currentFrame()));
+
+
+    stack.push(std::move(newFrame));
+    stack.currentFrame()->getLocalVariables()->setReference(0, 0); // main(String[] args)
+    execute(method, jvm, stack, pcRegister);
+}
 
 void Interpreter::invoke(const VmMethod* method, VirtualMachine& jvm, VmStack& stack, int& pcRegister) {
-    OperandStack* callerStack = stack.currentFrame()->getOperandStack();
-    stack.push(std::unique_ptr<Frame>(new Frame(method->getMaxLocals(),
-                                      method->getMaxStack(),
-                                      method->getClass()->getRuntimeConstantPool(),
-                                      stack.currentFrame())));
-    // TODO: initialize method parameters
+    auto callerStack = stack.currentFrame()->getOperandStack();
+    auto newFrame = std::unique_ptr<Frame>(new Frame(method->getMaxLocals(),
+                                           method->getMaxStack(),
+                                           method->getClass()->getRuntimeConstantPool(),
+                                           stack.currentFrame()));
+
+
+    stack.push(std::move(newFrame));
     int local = 0;
     if(!method->isStatic()) {
         // todo: support instance method
     }
-    // fixme: how to pass main thread arguments？
-    if(method->getName() != "main") {
-        std::string descriptor = method->getDescriptor();
-        std::vector<std::unique_ptr<FieldType>> paramTypes = FieldType::fromSignature(descriptor);
-        stack.currentFrame()->getLocalVariables()->initialize(
-            callerStack,
-            std::move(paramTypes));
-    }
 
+    std::string descriptor = method->getDescriptor();
+    std::vector<std::unique_ptr<FieldType>> paramTypes = FieldType::fromSignature(descriptor);
+    stack.currentFrame()->getLocalVariables()->initialize(
+        callerStack,
+        std::move(paramTypes));
 
+    execute(method, jvm, stack, pcRegister);
+}
 
+void Interpreter::execute(const VmMethod* method, VirtualMachine& jvm, VmStack& stack, int& pcRegister) {
     Frame* frame;
     while((frame = stack.currentFrame()) != nullptr) {
         const Instruction* instruction = (pcRegister < method->getInstructionsCount()) ?

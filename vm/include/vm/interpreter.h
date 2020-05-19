@@ -10,6 +10,7 @@ class Context;
 class VmThread;
 class VirtualMachine;
 class VmStack;
+class Frame;
 class Interpreter {
 public:
     Interpreter();
@@ -19,6 +20,8 @@ public:
     static VmMethod* lookupMethod(Context& context, const u2 methodRefIndex);
     static void checkContext(Context& context);
 public:
+    void execute(const VmMethod* method, VirtualMachine& jvm, VmStack& stack, int& pcRegister);
+    void invokeMain(const VmMethod* method, VirtualMachine& jvm, VmStack& stack, int& pcRegister, std::vector<std::string> args);
     void invoke(const VmMethod* method, VirtualMachine& jvm, VmStack& stack, int& pcRegister);
     void invoke(Context* context, const Instruction* instruction);
 };

@@ -38,10 +38,10 @@ public:
     void dump() const;
 protected:
     void checkStackSize(int valueSize);
-    void pushSingleByte(int32_t value);
-    void pushDoubleByte(int64_t value);
-    int32_t popSingleByte();
-    int64_t popDoubleByte();
+    void pushUnit(SLOT value);
+    void pushTwoUnits(int64_t value);
+    SLOT popUnit();
+    int64_t popTwoUnits();
 protected:
     int _maxSize;
     std::stack<SLOT> _variables;

@@ -21,13 +21,13 @@ void OperandStack::checkStackSize(int valueSize) {
         throw StackOutOfRangeException("Exceed max slot stack size");
 }
 
-void OperandStack::pushSingleByte(int32_t value) {
+void OperandStack::pushUnit(SLOT value) {
     checkStackSize(1);
     uint32_t *uv = reinterpret_cast<uint32_t*>(&value);
     _variables.push(*uv);
 }
 
-void OperandStack::pushDoubleByte(int64_t value) {
+void OperandStack::pushTwoUnits(int64_t value) {
     checkStackSize(2);
     uint32_t highBytes, lowBytes;
     std::tie(highBytes, lowBytes) = Numbers::splitLong(value);
@@ -35,13 +35,13 @@ void OperandStack::pushDoubleByte(int64_t value) {
     _variables.push(lowBytes);
 }
 
-int32_t OperandStack::popSingleByte() {
+int32_t OperandStack::popUnit() {
     SLOT top = _variables.top();
     _variables.pop();
     return top;
 }
 
-int64_t OperandStack::popDoubleByte() {
+int64_t OperandStack::popTwoUnits() {
     uint32_t lowBytes = _variables.top();
     _variables.pop();
     uint32_t highBytes = _variables.top();
@@ -50,41 +50,43 @@ int64_t OperandStack::popDoubleByte() {
 }
 
 void OperandStack::pushByte(int8_t value) {
-    pushSingleByte(value);
+    pushUnit(value);
 }
 
 void OperandStack::pushShort(int16_t value) {
-    pushSingleByte(value);
+    pushUnit(value);
 }
 
 void OperandStack::pushInt(int32_t value) {
-    pushSingleByte(value);
+    pushUnit(value);
 }
 
 void OperandStack::pushLong(int64_t value) {
-    pushDoubleByte(value);
+    pushTwoUnits(value);
 }
 
 void OperandStack::pushFloat(float value) {
     int32_t *sv = reinterpret_cast<int32_t*>(&value);
-    pushSingleByte(*sv);
+    pushUnit(*sv);
 }
 
 void OperandStack::pushDouble(double value) {
     int64_t *sv = reinterpret_cast<int64_t*>(&value);
-    pushDoubleByte(*sv);
+    pushTwoUnits(*sv);
 }
 
 void OperandStack::pushReference(reference value) {
-#ifdef _ARCH_X64_
-    pushSingleByte(value);
-#else
-    pushDoubleByte(value);
-#endif
+    /**
+     * 2.6.2. Operand Stacks
+     * At any point in time, an operand stack has an associated depth,
+     * where a value of type long or double contributes two units to the depth
+     * and a value of any other type contributes one unit.
+     */
+    pushUnit(value);
 }
 
 void OperandStack::pushChar(uint16_t value) {
-    pushSingleByte(value);
+    pushUnit(value);
 }
 
 void OperandStack::dump() const {
@@ -92,41 +94,37 @@ void OperandStack::dump() const {
 }
 
 int8_t OperandStack::popByte() {
-    return popSingleByte();
+    return popUnit();
 }
 
 int16_t OperandStack::popShort() {
-    return popSingleByte();
+    return popUnit();
 }
 
 int32_t OperandStack::popInt() {
-    return popSingleByte();
+    return popUnit();
 }
 
 int64_t OperandStack::popLong() {
-    return popDoubleByte();
+    return popTwoUnits();
 }
 
 float OperandStack::popFloat() {
-    int32_t sv = popSingleByte();
+    int32_t sv = popUnit();
     return *reinterpret_cast<float*>(&sv);
 }
 
 double OperandStack::popDouble() {
-    int64_t sv = popDoubleByte();
+    int64_t sv = popTwoUnits();
     return *reinterpret_cast<double*>(&sv);
 }
 
 uint16_t OperandStack::popChar() {
-    return popSingleByte();
+    return popUnit();
 }
 
 reference OperandStack::popReference() {
-#ifdef _ARCH_X64_
-    return popDoubleByte();
-#else
-    return popSingleByte();
-#endif
+    return popUnit();
 }
 
 void OperandStack::pushField(const VmField* source) {

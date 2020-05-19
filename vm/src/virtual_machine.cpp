@@ -19,7 +19,7 @@ VirtualMachine::VirtualMachine(const std::string &classpath,
 VirtualMachine::~VirtualMachine() {
 }
 
-void VirtualMachine::execute() {
+void VirtualMachine::execute(const std::vector<std::string> args) {
     VmClass *mainClass = getClass(_mainClass);
     const MethodInfo* entry = mainClass->getRawClass()->getMethod("main",
                               "([Ljava/lang/String;)V", 2, ACC_PUBLIC, ACC_STATIC);
