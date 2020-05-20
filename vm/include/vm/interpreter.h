@@ -24,6 +24,7 @@ public:
     void invokeMain(const VmMethod* method, VirtualMachine& jvm, VmStack& stack, std::vector<std::string> args);
     void invoke(const VmMethod* method, VirtualMachine& jvm, VmStack& stack);
     void invoke(Context* context, const Instruction* instruction);
+    void invokeNative(const VmMethod* method, VirtualMachine& jvm, VmStack& stack);
 };
 
 void invoke_nop             (Context& context, const Instruction* instruction);

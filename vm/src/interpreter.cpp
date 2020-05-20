@@ -88,6 +88,19 @@ void Interpreter::invoke(Context* context, const Instruction* instruction) {
     invoker(*context, instruction);
 }
 
+void Interpreter::invokeNative(const VmMethod* method, VirtualMachine& jvm, VmStack& stack) {
+    auto callerStack = stack.currentFrame()->getOperandStack();
+    std::string descriptor = method->getDescriptor();
+    std::vector<std::unique_ptr<FieldType>> paramTypes = FieldType::fromSignature(descriptor);
+    // TODO: here just support 10 parameters at most
+    LocalVariables localVariables(10);
+    localVariables.initialize(
+        callerStack,
+        std::move(paramTypes));
+    if(method->getName() == "println")
+        std::cout << localVariables.getInt(0) << std::endl;
+}
+
 void Interpreter::checkContext(Context& context) {
     if(context.frame() ==nullptr)
         throw RuntimeException("Top frame should not be null");
