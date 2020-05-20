@@ -20,7 +20,7 @@ VmThread::~VmThread() {
 void VmThread::execute() {
     Interpreter interpreter;
 
-    interpreter.invokeMain(_entryMethod, *_jvm, _vmStack, _pcRegister, std::vector<std::string>());
+    interpreter.invokeMain(_entryMethod, *_jvm, _vmStack, std::vector<std::string>());
 }
 
 Frame* VmThread::currentFrame() {

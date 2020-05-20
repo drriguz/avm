@@ -11,8 +11,8 @@ class VmStack;
 class Frame;
 class Context {
 public:
-    Context(VirtualMachine* jvm, VmStack* stack, int* pc)
-        : _stack(stack), _jvm(jvm), _pc(pc) {}
+    Context(VirtualMachine* jvm, VmStack* stack)
+        : _stack(stack), _jvm(jvm) {}
     virtual ~Context() {}
 public:
     inline VirtualMachine* getJVM() const {
@@ -24,9 +24,6 @@ public:
     inline Frame* frame() const {
         return _stack->currentFrame();
     }
-    inline int* getPcRegister() const {
-        return _pc;
-    }
     inline Frame* previousFrame() const {
         if(_stack->currentFrame() == nullptr)
             throw RuntimeException("Cannot get previous frame because current is null");
@@ -35,7 +32,6 @@ public:
 protected:
     VmStack* _stack;
     VirtualMachine* _jvm;
-    int* _pc;
 };
 }
 #endif

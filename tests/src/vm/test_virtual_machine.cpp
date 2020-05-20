@@ -9,7 +9,7 @@
 using namespace avm;
 
 TEST(VirtulMachine, execute) {
-    VirtualMachine vm("res", "com/vm/HelloWorld");
+    VirtualMachine vm("res", "com/op/NativeCall");
     vm.execute();
 }
 

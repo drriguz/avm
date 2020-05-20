@@ -25,6 +25,9 @@ public:
     inline bool isStatic() const {
         return _javaMethod->isStatic();
     }
+    inline bool isNative() const {
+        return _javaMethod->isNative();
+    }
     u2 getMaxLocals() const;
     u2 getMaxStack() const;
     u2 getInstructionsCount() const;

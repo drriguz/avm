@@ -57,9 +57,10 @@ void avm::invoke_invokespecial   (Context& context, const Instruction* instructi
 void avm::invoke_invokestatic    (Context& context, const Instruction* instruction) {
     VmMethod* staticMethod = Interpreter::lookupMethod(context, instruction->getOprandAsU2());
     std::cout << "invoke_static: " << staticMethod->getName() << staticMethod->getDescriptor() << std::endl;
-
+    if(staticMethod->isNative())
+        return;
     Interpreter interpreter;
-    interpreter.invoke(staticMethod, *context.getJVM(), *context.getStack(), *context.getPcRegister());
+    interpreter.invoke(staticMethod, *context.getJVM(), *context.getStack());
 }
 void avm::invoke_invokeinterface (Context& context, const Instruction* instruction) {
     throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));

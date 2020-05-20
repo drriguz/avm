@@ -18,23 +18,18 @@ public:
     inline LocalVariables* getLocalVariables() {
         return &_localVariables;
     }
-    inline bool isReturned() const {
-        return _returned;
-    }
-    inline int getPcOffset() const {
-        return _pcOffset;
-    }
     inline const ConstantPool * getRuntimeConstantPool() const {
         return _runtimeConstants;
     }
     inline Frame* getPreviousFrame() const {
         return _previousFrame;
     }
-    void returnVoid();
+    inline int getNextPc() {
+        return _pc++;
+    }
     void dump() const;
 protected:
-    int _pcOffset;
-    bool _returned;
+    int _pc;
     LocalVariables _localVariables;
     OperandStack _operandStack;
     const ConstantPool *_runtimeConstants;

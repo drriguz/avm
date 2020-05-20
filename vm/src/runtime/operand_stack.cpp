@@ -90,7 +90,7 @@ void OperandStack::pushChar(uint16_t value) {
 }
 
 void OperandStack::dump() const {
-    std::cout << "STACK: " << _variables.size() << std::endl;
+    std::cout << "\tSTACK: " << _variables.size() << std::endl;
 }
 
 int8_t OperandStack::popByte() {

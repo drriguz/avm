@@ -45,6 +45,7 @@ void avm::invoke_ireturn         (Context& context, const Instruction* instructi
     context.previousFrame()->getOperandStack()->pushInt(returnValue);
     context.getStack()->pop();
 }
+
 void avm::invoke_lreturn         (Context& context, const Instruction* instruction) {
     throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
 }
@@ -58,5 +59,5 @@ void avm::invoke_areturn         (Context& context, const Instruction* instructi
     throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
 }
 void avm::invoke_return          (Context& context, const Instruction* instruction) {
-    // do nothing
+    context.getStack()->pop();
 }

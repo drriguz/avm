@@ -6,17 +6,12 @@ Frame::Frame(int locals, int stack, const ConstantPool *constantPool, Frame* pre
     _localVariables(locals),
     _operandStack(stack),
     _runtimeConstants(constantPool),
-    _pcOffset(0),
-    _returned(false),
+    _pc(0),
     _previousFrame(previousFrame) {
 }
 
 Frame::~Frame() {
 
-}
-
-void Frame::returnVoid() {
-    _returned = true;
 }
 
 void Frame::dump() const {

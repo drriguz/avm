@@ -20,9 +20,9 @@ public:
     static VmMethod* lookupMethod(Context& context, const u2 methodRefIndex);
     static void checkContext(Context& context);
 public:
-    void execute(const VmMethod* method, VirtualMachine& jvm, VmStack& stack, int& pcRegister);
-    void invokeMain(const VmMethod* method, VirtualMachine& jvm, VmStack& stack, int& pcRegister, std::vector<std::string> args);
-    void invoke(const VmMethod* method, VirtualMachine& jvm, VmStack& stack, int& pcRegister);
+    void execute(const VmMethod* method, VirtualMachine& jvm, VmStack& stack);
+    void invokeMain(const VmMethod* method, VirtualMachine& jvm, VmStack& stack, std::vector<std::string> args);
+    void invoke(const VmMethod* method, VirtualMachine& jvm, VmStack& stack);
     void invoke(Context* context, const Instruction* instruction);
 };
 

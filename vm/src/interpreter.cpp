@@ -32,7 +32,7 @@ Interpreter::Interpreter() {
 Interpreter::~Interpreter() {
 
 }
-void Interpreter::invokeMain(const VmMethod* method, VirtualMachine& jvm, VmStack& stack, int& pcRegister, std::vector<std::string> args) {
+void Interpreter::invokeMain(const VmMethod* method, VirtualMachine& jvm, VmStack& stack, std::vector<std::string> args) {
     auto newFrame = std::unique_ptr<Frame>(new Frame(method->getMaxLocals(),
                                            method->getMaxStack(),
                                            method->getClass()->getRuntimeConstantPool(),
@@ -41,16 +41,15 @@ void Interpreter::invokeMain(const VmMethod* method, VirtualMachine& jvm, VmStac
 
     stack.push(std::move(newFrame));
     stack.currentFrame()->getLocalVariables()->setReference(0, 0); // main(String[] args)
-    execute(method, jvm, stack, pcRegister);
+    execute(method, jvm, stack);
 }
 
-void Interpreter::invoke(const VmMethod* method, VirtualMachine& jvm, VmStack& stack, int& pcRegister) {
+void Interpreter::invoke(const VmMethod* method, VirtualMachine& jvm, VmStack& stack) {
     auto callerStack = stack.currentFrame()->getOperandStack();
     auto newFrame = std::unique_ptr<Frame>(new Frame(method->getMaxLocals(),
                                            method->getMaxStack(),
                                            method->getClass()->getRuntimeConstantPool(),
                                            stack.currentFrame()));
-
 
     stack.push(std::move(newFrame));
     int local = 0;
@@ -64,19 +63,23 @@ void Interpreter::invoke(const VmMethod* method, VirtualMachine& jvm, VmStack& s
         callerStack,
         std::move(paramTypes));
 
-    execute(method, jvm, stack, pcRegister);
+    execute(method, jvm, stack);
 }
 
-void Interpreter::execute(const VmMethod* method, VirtualMachine& jvm, VmStack& stack, int& pcRegister) {
-    Frame* frame;
-    while((frame = stack.currentFrame()) != nullptr) {
-        const Instruction* instruction = (pcRegister < method->getInstructionsCount()) ?
-                                         method->getInstruction(pcRegister++) : nullptr;
+void Interpreter::execute(const VmMethod* method, VirtualMachine& jvm, VmStack& stack) {
+    Frame* frame = stack.currentFrame();
+    while(true) {
+        int pc = frame->getNextPc();
+        const Instruction* instruction = (pc < method->getInstructionsCount()) ?
+                                         method->getInstruction(pc) : nullptr;
         if(instruction == nullptr)
             break;
-        Context context(&jvm, &stack, &pcRegister);
-        invoke(&context, instruction);
-        std::cout << "> " << instruction->getOpcodeName() << std::endl;
+        std::cout << stack.size() << "/" << pc << " > " << instruction->getOpcodeName() << std::endl;
+        
+        Context context(&jvm, &stack);
+        invoke(&context, instruction);   
+        
+        frame->dump();
     };
 }
 

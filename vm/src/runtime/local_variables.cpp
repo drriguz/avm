@@ -79,7 +79,7 @@ void LocalVariables::setChar(int i, uint16_t value) {
 }
 
 void LocalVariables::dump() const {
-    std::cout << "VARS : " << _size << std::endl;
+    std::cout << "\tVARS : " << _size << std::endl;
 }
 
 int8_t LocalVariables::getByte(int i) {

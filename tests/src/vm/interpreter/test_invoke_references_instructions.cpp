@@ -15,7 +15,7 @@ TEST(Interperter, getStatic) {
     auto frame = std::unique_ptr<Frame>(new Frame(3, 3, vmClass->getRuntimeConstantPool(), nullptr));
     stack.push(std::move(frame));
 
-    Context ctx(&vm, &stack, &pc);
+    Context ctx(&vm, &stack);
     vmClass->getField("count")->setInt(1024);
     Instruction getCount(j_getstatic, 0, 2);
 
@@ -35,7 +35,7 @@ TEST(Interperter, putStatic) {
     auto frame = std::unique_ptr<Frame>(new Frame(3, 3, vmClass->getRuntimeConstantPool(), nullptr));
     stack.push(std::move(frame));
 
-    Context ctx(&vm, &stack, &pc);
+    Context ctx(&vm, &stack);
     VmField* field = vmClass->getField("count");
     field->setInt(1024);
     stack.currentFrame()->getOperandStack()->pushInt(2048);
@@ -71,7 +71,7 @@ TEST(Interperter, invokeStatic) {
     stack.push(std::move(frame));
     stack.currentFrame()->getOperandStack()->pushInt(1);
     stack.currentFrame()->getOperandStack()->pushInt(1024);
-    Context ctx(&vm, &stack, &pc);
+    Context ctx(&vm, &stack);
 
     Instruction setCount(j_invokestatic, 0, 2);
     interpreter.invoke(&ctx, &setCount);
