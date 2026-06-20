@@ -32,13 +32,60 @@ Run a single test by name:
 ./tests --gtest_filter="TestSuiteName.TestName"
 ```
 
-To regenerate test `.class` fixtures from Java sources:
+## Example
 
-```bash
-tests/res/compile.sh
+The `examples/hello/` directory contains a working example. It includes a `HelloWorld.java` with a Fibonacci function, plus stub JDK classes that the VM needs.
+
+**Source** (`examples/hello/HelloWorld.java`):
+
+```java
+public class HelloWorld {
+    public static native void println(int value);
+
+    public static int fibonacci(int n) {
+        if (n <= 1) return n;
+        int a = 0;
+        int b = 1;
+        for (int i = 2; i <= n; i++) {
+            int temp = a + b;
+            a = b;
+            b = temp;
+        }
+        return b;
+    }
+
+    public static void main(String[] args) {
+        println(42);
+        println(1 + 2 + 3);
+        println(fibonacci(10));
+    }
+}
 ```
 
-Requires `javac` on PATH.
+**Compile and run:**
+
+```bash
+cd examples/hello
+javac -encoding utf8 HelloWorld.java
+cd ../../build
+./avm_cli -classpath ../examples/hello HelloWorld
+```
+
+**Output:**
+
+```
+42
+6
+55
+```
+
+### Writing your own programs
+
+1. Create a `.java` file with a `public static void main(String[])` method
+2. Use `public static native void println(int value)` for output (the only native method currently supported)
+3. Compile with `javac`
+4. The classpath directory must contain `java/lang/Object.class` — a stub is provided in `examples/hello/java/lang/`
+5. Run with `./avm_cli -classpath <dir> <ClassName>`
 
 ## Usage
 
@@ -48,8 +95,6 @@ avm -classpath <path> <fully.qualified.MainClass>
 
 - `-classpath` — directory containing `.class` files
 - Main class — fully qualified class name with a `public static void main(String[])` method
-
-**Note:** The CLI is currently a stub that parses arguments but does not invoke the VM.
 
 ## Architecture
 
