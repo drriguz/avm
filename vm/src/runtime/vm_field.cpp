@@ -61,10 +61,14 @@ void VmField::setChar(uint16_t value) {
 }
 
 void VmField::setReference(reference value) {
-    if(sizeof(reference) == 8)
-        setLong(value);
-    else
-        setInt(value);
+    // Store reference in _value1 (and _value2 on 64-bit for the upper 32 bits)
+    if(sizeof(reference) == 8) {
+        uint64_t raw = (uint64_t)value;
+        _value1 = (uint32_t)(raw >> 32);
+        _value2 = (uint32_t)(raw & 0xFFFFFFFF);
+    } else {
+        _value1 = (uint32_t)value;
+    }
 }
 
 int8_t VmField::getByte() const {
@@ -102,18 +106,22 @@ uint16_t VmField::getChar() const {
 }
 
 reference VmField::getReference() const {
-#ifdef _ARCH_X64_
-    return getLong();
-#else
-    return getInt();
-#endif
+    if(sizeof(reference) == 8) {
+        uint64_t raw = ((uint64_t)_value1 << 32) | (uint64_t)_value2;
+        return (reference)raw;
+    } else {
+        return (reference)_value1;
+    }
 }
 
 std::string VmField::getString() const {
-    return *reinterpret_cast<const std::string*>(getLong());
+    return *reinterpret_cast<const std::string*>((int64_t)getReference());
 }
 
 int VmField::getFieldSize() const {
+    // References (object/array types) always occupy 1 position
+    if(_descriptor->isObject() || _descriptor->isArray())
+        return 1;
     if(_descriptor->isDoubleBytes())
         return 2;
     else

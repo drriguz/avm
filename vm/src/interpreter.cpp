@@ -34,14 +34,8 @@ Interpreter::~Interpreter() {
 }
 void Interpreter::invokeMain(const VmMethod* method, VirtualMachine& jvm, VmStack& stack, std::vector<std::string> args) {
     int locals = method->getMaxLocals();
-    // On x64, reference is 64-bit (2 slots), so we need at least 2 locals
-    // for the args parameter (which is a reference)
-    if(locals < 2) locals = 2;
+    if(locals < 1) locals = 1; // need at least 1 for the args parameter
     int maxStack = method->getMaxStack();
-#ifdef _ARCH_X64_
-    if(maxStack > 0)
-        maxStack = maxStack * 2;
-#endif
     auto newFrame = std::unique_ptr<Frame>(new Frame(locals,
                                            maxStack,
                                            method->getClass()->getRuntimeConstantPool(),
@@ -59,30 +53,19 @@ void Interpreter::invoke(const VmMethod* method, VirtualMachine& jvm, VmStack& s
     std::string descriptor = method->getDescriptor();
     std::vector<std::unique_ptr<FieldType>> paramTypes = FieldType::fromSignature(descriptor);
 
-    // Calculate required locals
-    // maxLocals from the class file counts each local as 1 JVM slot (32-bit).
-    // On x64, our SLOT is 64-bit, but references still need 2 positions
-    // (high + low 32-bit halves in setDoubleByte). So we need to scale up.
+    // maxLocals and maxStack from the class file are in JVM slot units.
+    // On all platforms, each value type occupies 1 position (int, float, ref)
+    // or 2 positions (long, double). References always occupy 1 position.
     int requiredLocals = method->getMaxLocals();
-#ifdef _ARCH_X64_
-    // On x64, double maxLocals to have enough space for 2-position references
-    if(requiredLocals > 0)
-        requiredLocals = requiredLocals * 2;
-#endif
     int localStart = 0;
     if(!method->isStatic()) {
-        localStart = 1; // objectref occupies 1 logical slot
+        localStart = 1; // objectref occupies 1 slot
     }
     int neededForParams = localStart + (int)paramTypes.size();
     if(requiredLocals < neededForParams)
         requiredLocals = neededForParams;
 
     int maxStack = method->getMaxStack();
-#ifdef _ARCH_X64_
-    // On x64, each SLOT is 64-bit (2x the 32-bit JVM slot), so scale maxStack
-    if(maxStack > 0)
-        maxStack = maxStack * 2;
-#endif
     auto newFrame = std::unique_ptr<Frame>(new Frame(requiredLocals,
                                            maxStack,
                                            method->getClass()->getRuntimeConstantPool(),

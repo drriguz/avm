@@ -65,18 +65,11 @@ public:
         return *reinterpret_cast<double*>(&val);
     }
     inline void setReferenceAt(int offset, reference value) {
-#ifdef _ARCH_X64_
-        setLongAt(offset, value);
-#else
-        setIntAt(offset, value);
-#endif
+        // Store reference as a full SLOT-sized value in one OBJECT_UNIT
+        _data[offset] = (OBJECT_UNIT)value;
     }
     inline reference getReferenceAt(int offset) const {
-#ifdef _ARCH_X64_
-        return getLongAt(offset);
-#else
-        return getIntAt(offset);
-#endif
+        return (reference)_data[offset];
     }
 protected:
     OBJECT_UNIT* _data;

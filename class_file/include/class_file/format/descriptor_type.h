@@ -69,11 +69,7 @@ public:
         return _className;
     }
     inline virtual bool isDoubleBytes() const {
-#ifdef _ARCH_X64_
-        return true;
-#else
-        return false;
-#endif
+        return false; // references always occupy 1 slot
     }
 protected:
     std::string _className;
@@ -87,11 +83,7 @@ public:
         return true;
     }
     virtual bool isDoubleBytes() const {
-#ifdef _ARCH_X64_
-        return true;
-#else
-        return false;
-#endif
+        return false; // references always occupy 1 slot
     }
     FieldType* getComponentType() const {
         return _componentType.get();

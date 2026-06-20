@@ -5,7 +5,7 @@
 
 #ifdef _WIN32
 #include <winsock.h>
-#elif  __linux__
+#else
 #include <arpa/inet.h>
 #endif
 
