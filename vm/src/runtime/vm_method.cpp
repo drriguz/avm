@@ -46,3 +46,15 @@ u2 VmMethod:: getInstructionsCount() const {
         return 0;
     return _javaMethod->getCode()->getInstructionsCount();
 }
+
+int VmMethod::getInstructionIndexAtByteOffset(int byteOffset) const {
+    if(_isNative)
+        return -1;
+    const Code* code = _javaMethod->getCode();
+    int count = code->getInstructionsCount();
+    for(int i = 0; i < count; i++) {
+        if(code->getInstructionAt(i)->getByteOffset() == byteOffset)
+            return i;
+    }
+    return -1; // not found
+}

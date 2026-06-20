@@ -3,7 +3,6 @@
 #include "vm/thread_context.h"
 #include "class_file/format/constant_pool.h"
 
-
 #include <iostream>
 #include <string>
 
@@ -51,116 +50,193 @@ Math
 132 (0x84)    iinc
 */
 
+// Integer arithmetic
 void avm::invoke_iadd            (Context& context, const Instruction* instruction) {
     int32_t i1 = context.frame()->getOperandStack()->popInt();
     int32_t i2 = context.frame()->getOperandStack()->popInt();
     context.frame()->getOperandStack()->pushInt(i1 + i2);
 }
 void avm::invoke_ladd            (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int64_t i1 = context.frame()->getOperandStack()->popLong();
+    int64_t i2 = context.frame()->getOperandStack()->popLong();
+    context.frame()->getOperandStack()->pushLong(i1 + i2);
 }
 void avm::invoke_fadd            (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    float i1 = context.frame()->getOperandStack()->popFloat();
+    float i2 = context.frame()->getOperandStack()->popFloat();
+    context.frame()->getOperandStack()->pushFloat(i1 + i2);
 }
 void avm::invoke_dadd            (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    double i1 = context.frame()->getOperandStack()->popDouble();
+    double i2 = context.frame()->getOperandStack()->popDouble();
+    context.frame()->getOperandStack()->pushDouble(i1 + i2);
 }
 void avm::invoke_isub            (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int32_t i1 = context.frame()->getOperandStack()->popInt();
+    int32_t i2 = context.frame()->getOperandStack()->popInt();
+    context.frame()->getOperandStack()->pushInt(i2 - i1);
 }
 void avm::invoke_lsub            (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int64_t i1 = context.frame()->getOperandStack()->popLong();
+    int64_t i2 = context.frame()->getOperandStack()->popLong();
+    context.frame()->getOperandStack()->pushLong(i2 - i1);
 }
 void avm::invoke_fsub            (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    float i1 = context.frame()->getOperandStack()->popFloat();
+    float i2 = context.frame()->getOperandStack()->popFloat();
+    context.frame()->getOperandStack()->pushFloat(i2 - i1);
 }
 void avm::invoke_dsub            (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    double i1 = context.frame()->getOperandStack()->popDouble();
+    double i2 = context.frame()->getOperandStack()->popDouble();
+    context.frame()->getOperandStack()->pushDouble(i2 - i1);
 }
 void avm::invoke_imul            (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int32_t i1 = context.frame()->getOperandStack()->popInt();
+    int32_t i2 = context.frame()->getOperandStack()->popInt();
+    context.frame()->getOperandStack()->pushInt(i1 * i2);
 }
 void avm::invoke_lmul            (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int64_t i1 = context.frame()->getOperandStack()->popLong();
+    int64_t i2 = context.frame()->getOperandStack()->popLong();
+    context.frame()->getOperandStack()->pushLong(i1 * i2);
 }
 void avm::invoke_fmul            (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    float i1 = context.frame()->getOperandStack()->popFloat();
+    float i2 = context.frame()->getOperandStack()->popFloat();
+    context.frame()->getOperandStack()->pushFloat(i1 * i2);
 }
 void avm::invoke_dmul            (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    double i1 = context.frame()->getOperandStack()->popDouble();
+    double i2 = context.frame()->getOperandStack()->popDouble();
+    context.frame()->getOperandStack()->pushDouble(i1 * i2);
 }
 void avm::invoke_idiv            (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int32_t i1 = context.frame()->getOperandStack()->popInt();
+    int32_t i2 = context.frame()->getOperandStack()->popInt();
+    if(i1 == 0) throw RuntimeException("Division by zero");
+    context.frame()->getOperandStack()->pushInt(i2 / i1);
 }
 void avm::invoke_ldiv            (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int64_t i1 = context.frame()->getOperandStack()->popLong();
+    int64_t i2 = context.frame()->getOperandStack()->popLong();
+    if(i1 == 0) throw RuntimeException("Division by zero");
+    context.frame()->getOperandStack()->pushLong(i2 / i1);
 }
 void avm::invoke_fdiv            (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    float i1 = context.frame()->getOperandStack()->popFloat();
+    float i2 = context.frame()->getOperandStack()->popFloat();
+    context.frame()->getOperandStack()->pushFloat(i2 / i1);
 }
 void avm::invoke_ddiv            (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    double i1 = context.frame()->getOperandStack()->popDouble();
+    double i2 = context.frame()->getOperandStack()->popDouble();
+    context.frame()->getOperandStack()->pushDouble(i2 / i1);
 }
 void avm::invoke_irem            (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int32_t i1 = context.frame()->getOperandStack()->popInt();
+    int32_t i2 = context.frame()->getOperandStack()->popInt();
+    if(i1 == 0) throw RuntimeException("Division by zero");
+    context.frame()->getOperandStack()->pushInt(i2 % i1);
 }
 void avm::invoke_lrem            (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int64_t i1 = context.frame()->getOperandStack()->popLong();
+    int64_t i2 = context.frame()->getOperandStack()->popLong();
+    if(i1 == 0) throw RuntimeException("Division by zero");
+    context.frame()->getOperandStack()->pushLong(i2 % i1);
 }
 void avm::invoke_frem            (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    float i1 = context.frame()->getOperandStack()->popFloat();
+    float i2 = context.frame()->getOperandStack()->popFloat();
+    context.frame()->getOperandStack()->pushFloat(fmod(i2, i1));
 }
 void avm::invoke_drem            (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    double i1 = context.frame()->getOperandStack()->popDouble();
+    double i2 = context.frame()->getOperandStack()->popDouble();
+    context.frame()->getOperandStack()->pushDouble(fmod(i2, i1));
 }
 void avm::invoke_ineg            (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int32_t i = context.frame()->getOperandStack()->popInt();
+    context.frame()->getOperandStack()->pushInt(-i);
 }
 void avm::invoke_lneg            (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int64_t i = context.frame()->getOperandStack()->popLong();
+    context.frame()->getOperandStack()->pushLong(-i);
 }
 void avm::invoke_fneg            (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    float i = context.frame()->getOperandStack()->popFloat();
+    context.frame()->getOperandStack()->pushFloat(-i);
 }
 void avm::invoke_dneg            (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    double i = context.frame()->getOperandStack()->popDouble();
+    context.frame()->getOperandStack()->pushDouble(-i);
 }
+// Shift operations
 void avm::invoke_ishl            (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int32_t i1 = context.frame()->getOperandStack()->popInt();
+    int32_t i2 = context.frame()->getOperandStack()->popInt();
+    context.frame()->getOperandStack()->pushInt(i2 << (i1 & 0x1f));
 }
 void avm::invoke_lshl            (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int32_t i1 = context.frame()->getOperandStack()->popInt();
+    int64_t i2 = context.frame()->getOperandStack()->popLong();
+    context.frame()->getOperandStack()->pushLong(i2 << (i1 & 0x3f));
 }
 void avm::invoke_ishr            (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int32_t i1 = context.frame()->getOperandStack()->popInt();
+    int32_t i2 = context.frame()->getOperandStack()->popInt();
+    context.frame()->getOperandStack()->pushInt(i2 >> (i1 & 0x1f));
 }
 void avm::invoke_lshr            (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int32_t i1 = context.frame()->getOperandStack()->popInt();
+    int64_t i2 = context.frame()->getOperandStack()->popLong();
+    context.frame()->getOperandStack()->pushLong(i2 >> (i1 & 0x3f));
 }
 void avm::invoke_iushr           (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int32_t i1 = context.frame()->getOperandStack()->popInt();
+    uint32_t i2 = (uint32_t)context.frame()->getOperandStack()->popInt();
+    context.frame()->getOperandStack()->pushInt((int32_t)(i2 >> (i1 & 0x1f)));
 }
 void avm::invoke_lushr           (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int32_t i1 = context.frame()->getOperandStack()->popInt();
+    uint64_t i2 = (uint64_t)context.frame()->getOperandStack()->popLong();
+    context.frame()->getOperandStack()->pushLong((int64_t)(i2 >> (i1 & 0x3f)));
 }
+// Bitwise operations
 void avm::invoke_iand            (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int32_t i1 = context.frame()->getOperandStack()->popInt();
+    int32_t i2 = context.frame()->getOperandStack()->popInt();
+    context.frame()->getOperandStack()->pushInt(i2 & i1);
 }
 void avm::invoke_land            (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int64_t i1 = context.frame()->getOperandStack()->popLong();
+    int64_t i2 = context.frame()->getOperandStack()->popLong();
+    context.frame()->getOperandStack()->pushLong(i2 & i1);
 }
 void avm::invoke_ior             (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int32_t i1 = context.frame()->getOperandStack()->popInt();
+    int32_t i2 = context.frame()->getOperandStack()->popInt();
+    context.frame()->getOperandStack()->pushInt(i2 | i1);
 }
 void avm::invoke_lor             (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int64_t i1 = context.frame()->getOperandStack()->popLong();
+    int64_t i2 = context.frame()->getOperandStack()->popLong();
+    context.frame()->getOperandStack()->pushLong(i2 | i1);
 }
 void avm::invoke_ixor            (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int32_t i1 = context.frame()->getOperandStack()->popInt();
+    int32_t i2 = context.frame()->getOperandStack()->popInt();
+    context.frame()->getOperandStack()->pushInt(i2 ^ i1);
 }
 void avm::invoke_lxor            (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int64_t i1 = context.frame()->getOperandStack()->popLong();
+    int64_t i2 = context.frame()->getOperandStack()->popLong();
+    context.frame()->getOperandStack()->pushLong(i2 ^ i1);
 }
+// Increment local variable
 void avm::invoke_iinc            (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int index = instruction->getOprand(0);
+    int32_t constValue = (int8_t)instruction->getOprand(1);
+    int32_t value = context.frame()->getLocalVariables()->getInt(index);
+    context.frame()->getLocalVariables()->setInt(index, value + constValue);
 }

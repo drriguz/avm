@@ -3,6 +3,7 @@
 #include "vm/util/numbers.h"
 
 #include <iostream>
+#include <vector>
 
 using namespace avm;
 
@@ -23,8 +24,13 @@ void OperandStack::checkStackSize(int valueSize) {
 
 void OperandStack::pushUnit(SLOT value) {
     checkStackSize(1);
-    uint32_t *uv = reinterpret_cast<uint32_t*>(&value);
-    _variables.push(*uv);
+    _variables.push(value);
+}
+
+SLOT OperandStack::popUnit() {
+    SLOT top = _variables.top();
+    _variables.pop();
+    return top;
 }
 
 void OperandStack::pushTwoUnits(int64_t value) {
@@ -33,12 +39,6 @@ void OperandStack::pushTwoUnits(int64_t value) {
     std::tie(highBytes, lowBytes) = Numbers::splitLong(value);
     _variables.push(highBytes);
     _variables.push(lowBytes);
-}
-
-SLOT OperandStack::popUnit() {
-    SLOT top = _variables.top();
-    _variables.pop();
-    return top;
 }
 
 int64_t OperandStack::popTwoUnits() {
@@ -193,4 +193,29 @@ void OperandStack::popField(VmField* field) {
     } else {
         throw "todo: support array type";
     }
+}
+
+void OperandStack::pushSlot(SLOT value) {
+    pushUnit(value);
+}
+
+SLOT OperandStack::popSlot() {
+    return popUnit();
+}
+
+SLOT OperandStack::peekSlot(int offset) {
+    if(offset < 0 || offset >= (int)_variables.size())
+        throw StackOutOfRangeException("Peek offset out of range");
+    // std::stack doesn't support random access, so we use a temp vector
+    std::vector<SLOT> temp;
+    for(int i = 0; i <= offset; i++) {
+        temp.push_back(_variables.top());
+        _variables.pop();
+    }
+    SLOT result = temp.back();
+    // Restore the stack in reverse order
+    for(int i = temp.size() - 1; i >= 0; i--) {
+        _variables.push(temp[i]);
+    }
+    return result;
 }

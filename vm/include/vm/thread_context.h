@@ -3,6 +3,7 @@
 
 #include "virtual_machine.h"
 #include "runtime/method_area.h"
+#include "runtime/vm_method.h"
 
 
 namespace avm {
@@ -12,7 +13,9 @@ class Frame;
 class Context {
 public:
     Context(VirtualMachine* jvm, VmStack* stack)
-        : _stack(stack), _jvm(jvm) {}
+        : _stack(stack), _jvm(jvm), _method(nullptr) {}
+    Context(VirtualMachine* jvm, VmStack* stack, const VmMethod* method)
+        : _stack(stack), _jvm(jvm), _method(method) {}
     virtual ~Context() {}
 public:
     inline VirtualMachine* getJVM() const {
@@ -20,6 +23,9 @@ public:
     }
     inline VmStack* getStack() const {
         return _stack;
+    }
+    inline const VmMethod* getMethod() const {
+        return _method;
     }
     inline Frame* frame() const {
         return _stack->currentFrame();
@@ -32,6 +38,7 @@ public:
 protected:
     VmStack* _stack;
     VirtualMachine* _jvm;
+    const VmMethod* _method;
 };
 }
 #endif

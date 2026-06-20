@@ -3,7 +3,6 @@
 #include "vm/thread_context.h"
 #include "class_file/format/constant_pool.h"
 
-
 #include <iostream>
 #include <string>
 
@@ -26,37 +25,52 @@ Control
 */
 
 void avm::invoke_goto            (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int16_t offset = (int16_t)instruction->getOprandAsU2();
+    int targetByteOffset = instruction->getByteOffset() + offset;
+    int targetIdx = context.getMethod()->getInstructionIndexAtByteOffset(targetByteOffset);
+    context.frame()->setPc(targetIdx);
 }
 void avm::invoke_jsr             (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    // jsr is used for finally blocks in pre-Java 6 class files
+    throw UnsupportedInstructionException("jsr: not yet supported");
 }
 void avm::invoke_ret             (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    throw UnsupportedInstructionException("ret: not yet supported");
 }
 void avm::invoke_tableswitch     (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    // tableswitch has variable-width operands that don't fit the current Instruction model
+    // TODO: requires parser support for variable-length instructions
+    throw UnsupportedInstructionException("tableswitch: not yet supported");
 }
 void avm::invoke_lookupswitch    (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    // lookupswitch has variable-width operands that don't fit the current Instruction model
+    // TODO: requires parser support for variable-length instructions
+    throw UnsupportedInstructionException("lookupswitch: not yet supported");
 }
 void avm::invoke_ireturn         (Context& context, const Instruction* instruction) {
     int32_t returnValue = context.frame()->getOperandStack()->popInt();
     context.previousFrame()->getOperandStack()->pushInt(returnValue);
     context.getStack()->pop();
 }
-
 void avm::invoke_lreturn         (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int64_t returnValue = context.frame()->getOperandStack()->popLong();
+    context.previousFrame()->getOperandStack()->pushLong(returnValue);
+    context.getStack()->pop();
 }
 void avm::invoke_freturn         (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    float returnValue = context.frame()->getOperandStack()->popFloat();
+    context.previousFrame()->getOperandStack()->pushFloat(returnValue);
+    context.getStack()->pop();
 }
 void avm::invoke_dreturn         (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    double returnValue = context.frame()->getOperandStack()->popDouble();
+    context.previousFrame()->getOperandStack()->pushDouble(returnValue);
+    context.getStack()->pop();
 }
 void avm::invoke_areturn         (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    reference returnValue = context.frame()->getOperandStack()->popReference();
+    context.previousFrame()->getOperandStack()->pushReference(returnValue);
+    context.getStack()->pop();
 }
 void avm::invoke_return          (Context& context, const Instruction* instruction) {
     context.getStack()->pop();

@@ -3,7 +3,6 @@
 #include "vm/thread_context.h"
 #include "class_file/format/constant_pool.h"
 
-
 #include <iostream>
 #include <string>
 
@@ -48,105 +47,107 @@ Loads: Local Variables => Oprand stack
 */
 
 void avm::invoke_iload           (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int index = instruction->getOprand(0);
+    context.frame()->getOperandStack()->pushInt(context.frame()->getLocalVariables()->getInt(index));
 }
 void avm::invoke_lload           (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int index = instruction->getOprand(0);
+    context.frame()->getOperandStack()->pushLong(context.frame()->getLocalVariables()->getLong(index));
 }
 void avm::invoke_fload           (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int index = instruction->getOprand(0);
+    context.frame()->getOperandStack()->pushFloat(context.frame()->getLocalVariables()->getFloat(index));
 }
 void avm::invoke_dload           (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int index = instruction->getOprand(0);
+    context.frame()->getOperandStack()->pushDouble(context.frame()->getLocalVariables()->getDouble(index));
 }
 void avm::invoke_aload           (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int index = instruction->getOprand(0);
+    context.frame()->getOperandStack()->pushReference(context.frame()->getLocalVariables()->getReference(index));
 }
 void avm::invoke_iload_0         (Context& context, const Instruction* instruction) {
-    auto value = context.frame()->getLocalVariables()->getInt(0);
-    context.frame()->getOperandStack()->pushInt(value);
+    context.frame()->getOperandStack()->pushInt(context.frame()->getLocalVariables()->getInt(0));
 }
 void avm::invoke_iload_1         (Context& context, const Instruction* instruction) {
-    auto value = context.frame()->getLocalVariables()->getInt(1);
-    context.frame()->getOperandStack()->pushInt(value);
+    context.frame()->getOperandStack()->pushInt(context.frame()->getLocalVariables()->getInt(1));
 }
 void avm::invoke_iload_2         (Context& context, const Instruction* instruction) {
-    auto value = context.frame()->getLocalVariables()->getInt(2);
-    context.frame()->getOperandStack()->pushInt(value);
+    context.frame()->getOperandStack()->pushInt(context.frame()->getLocalVariables()->getInt(2));
 }
 void avm::invoke_iload_3         (Context& context, const Instruction* instruction) {
-    auto value = context.frame()->getLocalVariables()->getInt(3);
-    context.frame()->getOperandStack()->pushInt(value);
+    context.frame()->getOperandStack()->pushInt(context.frame()->getLocalVariables()->getInt(3));
 }
 void avm::invoke_lload_0         (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getOperandStack()->pushLong(context.frame()->getLocalVariables()->getLong(0));
 }
 void avm::invoke_lload_1         (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getOperandStack()->pushLong(context.frame()->getLocalVariables()->getLong(1));
 }
 void avm::invoke_lload_2         (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getOperandStack()->pushLong(context.frame()->getLocalVariables()->getLong(2));
 }
 void avm::invoke_lload_3         (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getOperandStack()->pushLong(context.frame()->getLocalVariables()->getLong(3));
 }
 void avm::invoke_fload_0         (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getOperandStack()->pushFloat(context.frame()->getLocalVariables()->getFloat(0));
 }
 void avm::invoke_fload_1         (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getOperandStack()->pushFloat(context.frame()->getLocalVariables()->getFloat(1));
 }
 void avm::invoke_fload_2         (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getOperandStack()->pushFloat(context.frame()->getLocalVariables()->getFloat(2));
 }
 void avm::invoke_fload_3         (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getOperandStack()->pushFloat(context.frame()->getLocalVariables()->getFloat(3));
 }
 void avm::invoke_dload_0         (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getOperandStack()->pushDouble(context.frame()->getLocalVariables()->getDouble(0));
 }
 void avm::invoke_dload_1         (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getOperandStack()->pushDouble(context.frame()->getLocalVariables()->getDouble(1));
 }
 void avm::invoke_dload_2         (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getOperandStack()->pushDouble(context.frame()->getLocalVariables()->getDouble(2));
 }
 void avm::invoke_dload_3         (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getOperandStack()->pushDouble(context.frame()->getLocalVariables()->getDouble(3));
 }
 void avm::invoke_aload_0         (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getOperandStack()->pushReference(context.frame()->getLocalVariables()->getReference(0));
 }
 void avm::invoke_aload_1         (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getOperandStack()->pushReference(context.frame()->getLocalVariables()->getReference(1));
 }
 void avm::invoke_aload_2         (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getOperandStack()->pushReference(context.frame()->getLocalVariables()->getReference(2));
 }
 void avm::invoke_aload_3         (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getOperandStack()->pushReference(context.frame()->getLocalVariables()->getReference(3));
 }
+// Array loads - require array support
 void avm::invoke_iaload          (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    throw UnsupportedInstructionException("iaload: arrays not yet supported");
 }
 void avm::invoke_laload          (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    throw UnsupportedInstructionException("laload: arrays not yet supported");
 }
 void avm::invoke_faload          (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    throw UnsupportedInstructionException("faload: arrays not yet supported");
 }
 void avm::invoke_daload          (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    throw UnsupportedInstructionException("daload: arrays not yet supported");
 }
 void avm::invoke_aaload          (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    throw UnsupportedInstructionException("aaload: arrays not yet supported");
 }
 void avm::invoke_baload          (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    throw UnsupportedInstructionException("baload: arrays not yet supported");
 }
 void avm::invoke_caload          (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    throw UnsupportedInstructionException("caload: arrays not yet supported");
 }
 void avm::invoke_saload          (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    throw UnsupportedInstructionException("saload: arrays not yet supported");
 }

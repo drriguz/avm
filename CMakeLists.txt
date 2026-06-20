@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 2.6)
+cmake_minimum_required (VERSION 3.5)
 
 project (avm)
 
@@ -116,6 +116,7 @@ add_executable(
 	tests/src/vm/test_method_area.cpp
 	tests/src/vm/test_virtual_machine.cpp
 	tests/src/vm/interpreter/test_invoke_references_instructions.cpp
+	tests/src/vm/interpreter/test_instructions.cpp
 	)
 	
 target_include_directories(tests PRIVATE ${GOOGLE_TEST_DIR}/include)

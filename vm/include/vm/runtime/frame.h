@@ -27,6 +27,16 @@ public:
     inline int getNextPc() {
         return _pc++;
     }
+    inline int getPc() const {
+        return _pc;
+    }
+    // Returns the index of the most recently fetched instruction
+    inline int getCurrentInstructionIndex() const {
+        return _pc - 1;
+    }
+    inline void setPc(int pc) {
+        _pc = pc;
+    }
     void dump() const;
 protected:
     int _pc;

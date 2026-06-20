@@ -3,7 +3,6 @@
 #include "vm/thread_context.h"
 #include "class_file/format/constant_pool.h"
 
-
 #include <iostream>
 #include <string>
 
@@ -47,21 +46,25 @@ Stores: Oprand stack => Local Variables
 86 (0x56)    sastore
 */
 
-
 void avm::invoke_istore          (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int index = instruction->getOprand(0);
+    context.frame()->getLocalVariables()->setInt(index, context.frame()->getOperandStack()->popInt());
 }
 void avm::invoke_lstore          (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int index = instruction->getOprand(0);
+    context.frame()->getLocalVariables()->setLong(index, context.frame()->getOperandStack()->popLong());
 }
 void avm::invoke_fstore          (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int index = instruction->getOprand(0);
+    context.frame()->getLocalVariables()->setFloat(index, context.frame()->getOperandStack()->popFloat());
 }
 void avm::invoke_dstore          (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int index = instruction->getOprand(0);
+    context.frame()->getLocalVariables()->setDouble(index, context.frame()->getOperandStack()->popDouble());
 }
 void avm::invoke_astore          (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int index = instruction->getOprand(0);
+    context.frame()->getLocalVariables()->setReference(index, context.frame()->getOperandStack()->popReference());
 }
 void avm::invoke_istore_0        (Context& context, const Instruction* instruction) {
     context.frame()->getLocalVariables()->setInt(0, context.frame()->getOperandStack()->popInt());
@@ -76,74 +79,75 @@ void avm::invoke_istore_3        (Context& context, const Instruction* instructi
     context.frame()->getLocalVariables()->setInt(3, context.frame()->getOperandStack()->popInt());
 }
 void avm::invoke_lstore_0        (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getLocalVariables()->setLong(0, context.frame()->getOperandStack()->popLong());
 }
 void avm::invoke_lstore_1        (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getLocalVariables()->setLong(1, context.frame()->getOperandStack()->popLong());
 }
 void avm::invoke_lstore_2        (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getLocalVariables()->setLong(2, context.frame()->getOperandStack()->popLong());
 }
 void avm::invoke_lstore_3        (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getLocalVariables()->setLong(3, context.frame()->getOperandStack()->popLong());
 }
 void avm::invoke_fstore_0        (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getLocalVariables()->setFloat(0, context.frame()->getOperandStack()->popFloat());
 }
 void avm::invoke_fstore_1        (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getLocalVariables()->setFloat(1, context.frame()->getOperandStack()->popFloat());
 }
 void avm::invoke_fstore_2        (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getLocalVariables()->setFloat(2, context.frame()->getOperandStack()->popFloat());
 }
 void avm::invoke_fstore_3        (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getLocalVariables()->setFloat(3, context.frame()->getOperandStack()->popFloat());
 }
 void avm::invoke_dstore_0        (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getLocalVariables()->setDouble(0, context.frame()->getOperandStack()->popDouble());
 }
 void avm::invoke_dstore_1        (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getLocalVariables()->setDouble(1, context.frame()->getOperandStack()->popDouble());
 }
 void avm::invoke_dstore_2        (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getLocalVariables()->setDouble(2, context.frame()->getOperandStack()->popDouble());
 }
 void avm::invoke_dstore_3        (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getLocalVariables()->setDouble(3, context.frame()->getOperandStack()->popDouble());
 }
 void avm::invoke_astore_0        (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getLocalVariables()->setReference(0, context.frame()->getOperandStack()->popReference());
 }
 void avm::invoke_astore_1        (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getLocalVariables()->setReference(1, context.frame()->getOperandStack()->popReference());
 }
 void avm::invoke_astore_2        (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getLocalVariables()->setReference(2, context.frame()->getOperandStack()->popReference());
 }
 void avm::invoke_astore_3        (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getLocalVariables()->setReference(3, context.frame()->getOperandStack()->popReference());
 }
+// Array stores - require array support
 void avm::invoke_iastore         (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    throw UnsupportedInstructionException("iastore: arrays not yet supported");
 }
 void avm::invoke_lastore         (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    throw UnsupportedInstructionException("lastore: arrays not yet supported");
 }
 void avm::invoke_fastore         (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    throw UnsupportedInstructionException("fastore: arrays not yet supported");
 }
 void avm::invoke_dastore         (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    throw UnsupportedInstructionException("dastore: arrays not yet supported");
 }
 void avm::invoke_aastore         (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    throw UnsupportedInstructionException("aastore: arrays not yet supported");
 }
 void avm::invoke_bastore         (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    throw UnsupportedInstructionException("bastore: arrays not yet supported");
 }
 void avm::invoke_castore         (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    throw UnsupportedInstructionException("castore: arrays not yet supported");
 }
 void avm::invoke_sastore         (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    throw UnsupportedInstructionException("sastore: arrays not yet supported");
 }

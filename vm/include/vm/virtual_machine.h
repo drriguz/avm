@@ -18,6 +18,7 @@ public:
 public:
     void execute(const std::vector<std::string> args = std::vector<std::string>());
     VmClass* getClass(const std::string &className);
+    inline Heap* getHeap() { return _heap.get(); }
 protected:
     std::string _classPath;
     std::string _mainClass;

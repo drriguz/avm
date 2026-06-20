@@ -32,6 +32,8 @@ public:
     u2 getMaxStack() const;
     u2 getInstructionsCount() const;
     const Instruction* getInstruction(u2 index) const;
+    // Find instruction index for a given bytecode byte offset
+    int getInstructionIndexAtByteOffset(int byteOffset) const;
     u2 getParameterCount() const;
     FieldType getParameterAt(u2 index) const;
 protected:

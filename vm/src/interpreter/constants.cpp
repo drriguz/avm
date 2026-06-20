@@ -3,7 +3,6 @@
 #include "vm/thread_context.h"
 #include "class_file/format/constant_pool.h"
 
-
 #include <iostream>
 #include <string>
 
@@ -36,13 +35,13 @@ Constants: constants => Oprand stack
 */
 
 void avm::invoke_nop             (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    // do nothing
 }
 void avm::invoke_aconst_null     (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getOperandStack()->pushReference(0);
 }
 void avm::invoke_iconst_m1       (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getOperandStack()->pushInt(-1);
 }
 void avm::invoke_iconst_0        (Context& context, const Instruction* instruction) {
     context.frame()->getOperandStack()->pushInt(0);
@@ -63,38 +62,100 @@ void avm::invoke_iconst_5        (Context& context, const Instruction* instructi
     context.frame()->getOperandStack()->pushInt(5);
 }
 void avm::invoke_lconst_0        (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getOperandStack()->pushLong(0);
 }
 void avm::invoke_lconst_1        (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getOperandStack()->pushLong(1);
 }
 void avm::invoke_fconst_0        (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getOperandStack()->pushFloat(0.0f);
 }
 void avm::invoke_fconst_1        (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getOperandStack()->pushFloat(1.0f);
 }
 void avm::invoke_fconst_2        (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getOperandStack()->pushFloat(2.0f);
 }
 void avm::invoke_dconst_0        (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getOperandStack()->pushDouble(0.0);
 }
 void avm::invoke_dconst_1        (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    context.frame()->getOperandStack()->pushDouble(1.0);
 }
 void avm::invoke_bipush          (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int8_t value = (int8_t)instruction->getOprand(0);
+    context.frame()->getOperandStack()->pushInt((int32_t)value);
 }
 void avm::invoke_sipush          (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int16_t value = (int16_t)instruction->getOprandAsU2();
+    context.frame()->getOperandStack()->pushInt((int32_t)value);
 }
 void avm::invoke_ldc             (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    u2 index = instruction->getOprand(0);
+    const ConstantPool* cp = context.frame()->getRuntimeConstantPool();
+    const ConstantInfo* info = cp->at(index);
+    switch(info->getType()) {
+    case CONSTANT_Integer: {
+        int32_t value = (int32_t)((const ConstantInteger*)info)->getValue();
+        context.frame()->getOperandStack()->pushInt(value);
+        break;
+    }
+    case CONSTANT_Float: {
+        float value = ((const ConstantFloat*)info)->getValue();
+        context.frame()->getOperandStack()->pushFloat(value);
+        break;
+    }
+    case CONSTANT_String: {
+        u2 stringIndex = ((const ConstantString*)info)->getStringIndex();
+        const std::string* strRef = cp->getStringReference(stringIndex);
+        context.frame()->getOperandStack()->pushReference(reinterpret_cast<int64_t>(strRef));
+        break;
+    }
+    default:
+        throw UnsupportedInstructionException("ldc: unsupported constant type");
+    }
 }
 void avm::invoke_ldc_w           (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    u2 index = instruction->getOprandAsU2();
+    const ConstantPool* cp = context.frame()->getRuntimeConstantPool();
+    const ConstantInfo* info = cp->at(index);
+    switch(info->getType()) {
+    case CONSTANT_Integer: {
+        int32_t value = (int32_t)((const ConstantInteger*)info)->getValue();
+        context.frame()->getOperandStack()->pushInt(value);
+        break;
+    }
+    case CONSTANT_Float: {
+        float value = ((const ConstantFloat*)info)->getValue();
+        context.frame()->getOperandStack()->pushFloat(value);
+        break;
+    }
+    case CONSTANT_String: {
+        u2 stringIndex = ((const ConstantString*)info)->getStringIndex();
+        const std::string* strRef = cp->getStringReference(stringIndex);
+        context.frame()->getOperandStack()->pushReference(reinterpret_cast<int64_t>(strRef));
+        break;
+    }
+    default:
+        throw UnsupportedInstructionException("ldc_w: unsupported constant type");
+    }
 }
 void avm::invoke_ldc2_w          (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    u2 index = instruction->getOprandAsU2();
+    const ConstantPool* cp = context.frame()->getRuntimeConstantPool();
+    const ConstantInfo* info = cp->at(index);
+    switch(info->getType()) {
+    case CONSTANT_Long: {
+        int64_t value = (int64_t)((const ConstantLong*)info)->getValue();
+        context.frame()->getOperandStack()->pushLong(value);
+        break;
+    }
+    case CONSTANT_Double: {
+        double value = ((const ConstantDouble*)info)->getValue();
+        context.frame()->getOperandStack()->pushDouble(value);
+        break;
+    }
+    default:
+        throw UnsupportedInstructionException("ldc2_w: unsupported constant type");
+    }
 }

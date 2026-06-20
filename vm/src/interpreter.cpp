@@ -33,8 +33,17 @@ Interpreter::~Interpreter() {
 
 }
 void Interpreter::invokeMain(const VmMethod* method, VirtualMachine& jvm, VmStack& stack, std::vector<std::string> args) {
-    auto newFrame = std::unique_ptr<Frame>(new Frame(method->getMaxLocals(),
-                                           method->getMaxStack(),
+    int locals = method->getMaxLocals();
+    // On x64, reference is 64-bit (2 slots), so we need at least 2 locals
+    // for the args parameter (which is a reference)
+    if(locals < 2) locals = 2;
+    int maxStack = method->getMaxStack();
+#ifdef _ARCH_X64_
+    if(maxStack > 0)
+        maxStack = maxStack * 2;
+#endif
+    auto newFrame = std::unique_ptr<Frame>(new Frame(locals,
+                                           maxStack,
                                            method->getClass()->getRuntimeConstantPool(),
                                            stack.currentFrame()));
 
@@ -46,24 +55,85 @@ void Interpreter::invokeMain(const VmMethod* method, VirtualMachine& jvm, VmStac
 
 void Interpreter::invoke(const VmMethod* method, VirtualMachine& jvm, VmStack& stack) {
     auto callerStack = stack.currentFrame()->getOperandStack();
-    auto newFrame = std::unique_ptr<Frame>(new Frame(method->getMaxLocals(),
-                                           method->getMaxStack(),
+
+    std::string descriptor = method->getDescriptor();
+    std::vector<std::unique_ptr<FieldType>> paramTypes = FieldType::fromSignature(descriptor);
+
+    // Calculate required locals
+    // maxLocals from the class file counts each local as 1 JVM slot (32-bit).
+    // On x64, our SLOT is 64-bit, but references still need 2 positions
+    // (high + low 32-bit halves in setDoubleByte). So we need to scale up.
+    int requiredLocals = method->getMaxLocals();
+#ifdef _ARCH_X64_
+    // On x64, double maxLocals to have enough space for 2-position references
+    if(requiredLocals > 0)
+        requiredLocals = requiredLocals * 2;
+#endif
+    int localStart = 0;
+    if(!method->isStatic()) {
+        localStart = 1; // objectref occupies 1 logical slot
+    }
+    int neededForParams = localStart + (int)paramTypes.size();
+    if(requiredLocals < neededForParams)
+        requiredLocals = neededForParams;
+
+    int maxStack = method->getMaxStack();
+#ifdef _ARCH_X64_
+    // On x64, each SLOT is 64-bit (2x the 32-bit JVM slot), so scale maxStack
+    if(maxStack > 0)
+        maxStack = maxStack * 2;
+#endif
+    auto newFrame = std::unique_ptr<Frame>(new Frame(requiredLocals,
+                                           maxStack,
                                            method->getClass()->getRuntimeConstantPool(),
                                            stack.currentFrame()));
 
     stack.push(std::move(newFrame));
-    int local = 0;
     if(!method->isStatic()) {
-        // todo: support instance method
+        // Instance method: pop objectref from caller and set as local 0
+        reference objectref = callerStack->popReference();
+        stack.currentFrame()->getLocalVariables()->setReference(0, objectref);
     }
 
-    std::string descriptor = method->getDescriptor();
-    std::vector<std::unique_ptr<FieldType>> paramTypes = FieldType::fromSignature(descriptor);
-    stack.currentFrame()->getLocalVariables()->initialize(
-        callerStack,
-        std::move(paramTypes));
+    // Initialize parameters starting at localStart
+    for(int i = 0; i < (int)paramTypes.size(); i++) {
+        auto type = paramTypes.at(i).get();
+        int slot = localStart + i;
+        if(type->isBaseType()) {
+            switch(type->as<BaseType>()->getType()) {
+            case FIELD_Byte:
+            case FIELD_Short:
+            case FIELD_Char:
+            case FIELD_Int:
+            case FIELD_Boolean:
+                stack.currentFrame()->getLocalVariables()->setInt(slot, callerStack->popInt());
+                break;
+            case FIELD_Float:
+                stack.currentFrame()->getLocalVariables()->setFloat(slot, callerStack->popFloat());
+                break;
+            case FIELD_Long:
+                stack.currentFrame()->getLocalVariables()->setLong(slot, callerStack->popLong());
+                break;
+            case FIELD_Double:
+                stack.currentFrame()->getLocalVariables()->setDouble(slot, callerStack->popDouble());
+                break;
+            default:
+                break;
+            }
+        } else if(type->isObject()) {
+            stack.currentFrame()->getLocalVariables()->setReference(slot, callerStack->popReference());
+        } else {
+            stack.currentFrame()->getLocalVariables()->setReference(slot, callerStack->popReference());
+        }
+    }
 
     execute(method, jvm, stack);
+
+    // For native methods, execute() returns immediately (no bytecode).
+    // Pop the frame we pushed since the native method is done.
+    if(method->isNative()) {
+        stack.pop();
+    }
 }
 
 void Interpreter::execute(const VmMethod* method, VirtualMachine& jvm, VmStack& stack) {
@@ -75,10 +145,18 @@ void Interpreter::execute(const VmMethod* method, VirtualMachine& jvm, VmStack& 
         if(instruction == nullptr)
             break;
         std::cout << stack.size() << "/" << pc << " > " << instruction->getOpcodeName() << std::endl;
-        
-        Context context(&jvm, &stack);
-        invoke(&context, instruction);   
-        
+
+        Context context(&jvm, &stack, method);
+        invoke(&context, instruction);
+
+        // After invoke(), the frame might have changed (method call pushed/popped a frame).
+        // Re-fetch the current frame from the stack. If our frame was popped (method returned),
+        // the stack's current frame will be different (the caller's frame).
+        Frame* currentFrame = stack.currentFrame();
+        if(currentFrame != frame) {
+            // Our frame was popped by a return instruction - we're done
+            break;
+        }
         frame->dump();
     };
 }

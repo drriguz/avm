@@ -3,9 +3,9 @@
 #include "vm/thread_context.h"
 #include "class_file/format/constant_pool.h"
 
-
 #include <iostream>
 #include <string>
+#include <cmath>
 
 using namespace avm;
 
@@ -30,47 +30,94 @@ Conversions
 */
 
 void avm::invoke_i2l             (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int32_t value = context.frame()->getOperandStack()->popInt();
+    context.frame()->getOperandStack()->pushLong((int64_t)value);
 }
 void avm::invoke_i2f             (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int32_t value = context.frame()->getOperandStack()->popInt();
+    context.frame()->getOperandStack()->pushFloat((float)value);
 }
 void avm::invoke_i2d             (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int32_t value = context.frame()->getOperandStack()->popInt();
+    context.frame()->getOperandStack()->pushDouble((double)value);
 }
 void avm::invoke_l2i             (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int64_t value = context.frame()->getOperandStack()->popLong();
+    context.frame()->getOperandStack()->pushInt((int32_t)value);
 }
 void avm::invoke_l2f             (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int64_t value = context.frame()->getOperandStack()->popLong();
+    context.frame()->getOperandStack()->pushFloat((float)value);
 }
 void avm::invoke_l2d             (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int64_t value = context.frame()->getOperandStack()->popLong();
+    context.frame()->getOperandStack()->pushDouble((double)value);
 }
 void avm::invoke_f2i             (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    float value = context.frame()->getOperandStack()->popFloat();
+    if(std::isnan(value)) {
+        context.frame()->getOperandStack()->pushInt(0);
+    } else if(value >= (float)INT32_MAX) {
+        context.frame()->getOperandStack()->pushInt(INT32_MAX);
+    } else if(value <= (float)INT32_MIN) {
+        context.frame()->getOperandStack()->pushInt(INT32_MIN);
+    } else {
+        context.frame()->getOperandStack()->pushInt((int32_t)value);
+    }
 }
 void avm::invoke_f2l             (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    float value = context.frame()->getOperandStack()->popFloat();
+    if(std::isnan(value)) {
+        context.frame()->getOperandStack()->pushLong(0);
+    } else if(value >= (float)INT64_MAX) {
+        context.frame()->getOperandStack()->pushLong(INT64_MAX);
+    } else if(value <= (float)INT64_MIN) {
+        context.frame()->getOperandStack()->pushLong(INT64_MIN);
+    } else {
+        context.frame()->getOperandStack()->pushLong((int64_t)value);
+    }
 }
 void avm::invoke_f2d             (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    float value = context.frame()->getOperandStack()->popFloat();
+    context.frame()->getOperandStack()->pushDouble((double)value);
 }
 void avm::invoke_d2i             (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    double value = context.frame()->getOperandStack()->popDouble();
+    if(std::isnan(value)) {
+        context.frame()->getOperandStack()->pushInt(0);
+    } else if(value >= (double)INT32_MAX) {
+        context.frame()->getOperandStack()->pushInt(INT32_MAX);
+    } else if(value <= (double)INT32_MIN) {
+        context.frame()->getOperandStack()->pushInt(INT32_MIN);
+    } else {
+        context.frame()->getOperandStack()->pushInt((int32_t)value);
+    }
 }
 void avm::invoke_d2l             (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    double value = context.frame()->getOperandStack()->popDouble();
+    if(std::isnan(value)) {
+        context.frame()->getOperandStack()->pushLong(0);
+    } else if(value >= (double)INT64_MAX) {
+        context.frame()->getOperandStack()->pushLong(INT64_MAX);
+    } else if(value <= (double)INT64_MIN) {
+        context.frame()->getOperandStack()->pushLong(INT64_MIN);
+    } else {
+        context.frame()->getOperandStack()->pushLong((int64_t)value);
+    }
 }
 void avm::invoke_d2f             (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    double value = context.frame()->getOperandStack()->popDouble();
+    context.frame()->getOperandStack()->pushFloat((float)value);
 }
 void avm::invoke_i2b             (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int32_t value = context.frame()->getOperandStack()->popInt();
+    context.frame()->getOperandStack()->pushInt((int32_t)(int8_t)value);
 }
 void avm::invoke_i2c             (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int32_t value = context.frame()->getOperandStack()->popInt();
+    context.frame()->getOperandStack()->pushInt((int32_t)(uint16_t)value);
 }
 void avm::invoke_i2s             (Context& context, const Instruction* instruction) {
-    throw UnsupportedInstructionException(std::to_string(instruction->getOpcode()));
+    int32_t value = context.frame()->getOperandStack()->popInt();
+    context.frame()->getOperandStack()->pushInt((int32_t)(int16_t)value);
 }

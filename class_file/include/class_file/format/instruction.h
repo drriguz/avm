@@ -32,9 +32,18 @@ public:
         u2 indexByte1 = _oprands[0], indexByte2 = _oprands[1];
         return indexByte1 << 8 | indexByte2;
     }
+    // Byte offset of this instruction in the method's bytecode
+    inline int getByteOffset() const {
+        return _byteOffset;
+    }
+    // Length of this instruction in bytes (opcode + operands)
+    inline int getLength() const {
+        return instructionSet[_mnemonic].oprandCount + 1;
+    }
 protected:
     Mnemonic _mnemonic;
     std::vector<u1> _oprands;
+    int _byteOffset;
 };
 }
 

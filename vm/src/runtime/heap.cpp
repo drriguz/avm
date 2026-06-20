@@ -15,11 +15,15 @@ Heap::~Heap() {
 }
 
 Object Heap::newInstance(const VmClass& type) {
-    OBJECT_UNIT* startPos = _data;
-    //FIXME:
     int totalSlots = type.getSize();
+    if(totalSlots == 0) totalSlots = 1; // minimum object size
     if(_freePosition + totalSlots > _maxSize)
         throw OutOfMemoryException("Heap is full");
+    OBJECT_UNIT* startPos = _data + _freePosition;
     _freePosition += totalSlots;
+    // Zero-initialize the object data
+    for(int i = 0; i < totalSlots; i++) {
+        startPos[i] = 0;
+    }
     return Object(startPos, totalSlots);
 }

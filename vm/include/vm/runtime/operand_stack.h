@@ -35,6 +35,10 @@ public:
     inline int size() const {
         return _variables.size();
     }
+    // Raw slot access for stack manipulation (dup, swap, etc.)
+    SLOT peekSlot(int offset = 0);
+    void pushSlot(SLOT value);
+    SLOT popSlot();
     void dump() const;
 protected:
     void checkStackSize(int valueSize);

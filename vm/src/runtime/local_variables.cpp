@@ -24,8 +24,8 @@ void LocalVariables::checkRange(int i, int valueSize) {
 
 void LocalVariables::setSingleByte(int i, int32_t value) {
     checkRange(i, 1);
-    uint32_t *uv = reinterpret_cast<uint32_t*>(&value);
-    _variables[i] = *uv;
+    uint32_t raw = *reinterpret_cast<const uint32_t*>(&value);
+    _variables[i] = (SLOT)raw;
 }
 
 void LocalVariables::setDoubleByte(int i, int64_t value) {
@@ -38,7 +38,7 @@ void LocalVariables::setDoubleByte(int i, int64_t value) {
 
 int32_t LocalVariables::getSingleByte(int i) {
     checkRange(i, 1);
-    return _variables[i];
+    return (int32_t)_variables[i];
 }
 
 int64_t LocalVariables::getDoubleByte(int i) {
@@ -114,19 +114,13 @@ uint16_t LocalVariables::getChar(int i) {
 }
 
 reference LocalVariables::getReference(int i) {
-#ifdef _ARCH_X64_
-    return getDoubleByte(i);
-#else
-    return getSingleByte(i);
-#endif
+    checkRange(i, 1);
+    return (reference)_variables[i];
 }
 
 void LocalVariables::setReference(int i, reference value) {
-#ifdef _ARCH_X64_
-    setDoubleByte(i, value);
-#else
-    setSingleByte(i, value);
-#endif
+    checkRange(i, 1);
+    _variables[i] = (SLOT)value;
 }
 void LocalVariables::initialize(OperandStack* stack, std::vector<std::unique_ptr<FieldType>> paramTypes) {
     for(int i = 0; i < paramTypes.size(); i++) {
