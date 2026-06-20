@@ -118,28 +118,41 @@ add_executable(
 	tests/src/vm/interpreter/test_invoke_references_instructions.cpp
 	tests/src/vm/interpreter/test_instructions.cpp
 	)
-	
-target_include_directories(tests PRIVATE ${GOOGLE_TEST_DIR}/include)
 
-if(MSVC)
-	find_library(GOOGLE_TEST_MAIN_DEBUG   gtest_main ${GOOGLE_TEST_LIB_DIR}/Debug)
-	find_library(GOOGLE_TEST_DEBUG        gtest      ${GOOGLE_TEST_LIB_DIR}/Debug)
-	find_library(GOOGLE_TEST_MAIN_RELEASE gtest_main ${GOOGLE_TEST_LIB_DIR}/Release)
-	find_library(GOOGLE_TEST_RELEASE      gtest      ${GOOGLE_TEST_LIB_DIR}/Release)
-	add_custom_command(
-		TARGET tests POST_BUILD
-		COMMAND ${CMAKE_COMMAND} -E copy_directory 
-			${CMAKE_CURRENT_SOURCE_DIR}/tests/res
-			${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/res)
+option(USE_SYSTEM_GTEST "Use system-installed Google Test instead of bundled" OFF)
+
+if(USE_SYSTEM_GTEST)
+	# Use system-installed Google Test (e.g. from brew or apt)
+	find_package(GTest REQUIRED)
+	target_include_directories(tests PRIVATE ${GTEST_INCLUDE_DIRS})
+	target_link_libraries(tests LINK_PRIVATE class_file vm GTest::GTest GTest::Main pthread)
 else()
-	find_library(GOOGLE_TEST_MAIN gtest_main ${GOOGLE_TEST_LIB_DIR})
-	find_library(GOOGLE_TEST      gtest      ${GOOGLE_TEST_LIB_DIR})
-	add_custom_command(
-		TARGET tests POST_BUILD
-		COMMAND ${CMAKE_COMMAND} -E copy_directory 
-			${CMAKE_CURRENT_SOURCE_DIR}/tests/res
-			${CMAKE_CURRENT_BINARY_DIR}/res/)
+	# Use bundled Google Test
+	target_include_directories(tests PRIVATE ${GOOGLE_TEST_DIR}/include)
+	if(MSVC)
+		find_library(GOOGLE_TEST_MAIN_DEBUG   gtest_main ${GOOGLE_TEST_LIB_DIR}/Debug)
+		find_library(GOOGLE_TEST_DEBUG        gtest      ${GOOGLE_TEST_LIB_DIR}/Debug)
+		find_library(GOOGLE_TEST_MAIN_RELEASE gtest_main ${GOOGLE_TEST_LIB_DIR}/Release)
+		find_library(GOOGLE_TEST_RELEASE      gtest      ${GOOGLE_TEST_LIB_DIR}/Release)
+		target_link_libraries(tests LINK_PRIVATE class_file vm
+			debug ${GOOGLE_TEST_DEBUG}      optimized ${GOOGLE_TEST_RELEASE}
+			debug ${GOOGLE_TEST_MAIN_DEBUG} optimized ${GOOGLE_TEST_MAIN_RELEASE})
+	else()
+		find_library(GOOGLE_TEST_MAIN gtest_main ${GOOGLE_TEST_LIB_DIR})
+		find_library(GOOGLE_TEST      gtest      ${GOOGLE_TEST_LIB_DIR})
+		if(UNIX)
+			target_link_libraries(tests LINK_PRIVATE class_file vm ${GOOGLE_TEST} ${GOOGLE_TEST_MAIN} pthread)
+		else()
+			target_link_libraries(tests LINK_PRIVATE class_file vm ${GOOGLE_TEST} ${GOOGLE_TEST_MAIN})
+		endif()
+	endif()
 endif()
+
+add_custom_command(
+	TARGET tests POST_BUILD
+	COMMAND ${CMAKE_COMMAND} -E copy_directory
+		${CMAKE_CURRENT_SOURCE_DIR}/tests/res
+		${CMAKE_CURRENT_BINARY_DIR}/res/)
 
 if(UNIX)
 	target_link_libraries(tests LINK_PRIVATE class_file vm ${GOOGLE_TEST} ${GOOGLE_TEST_MAIN} pthread)
