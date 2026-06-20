@@ -89,14 +89,12 @@ void Interpreter::invoke(const VmMethod* method, VirtualMachine& jvm, VmStack& s
                                            stack.currentFrame()));
 
     stack.push(std::move(newFrame));
-    if(!method->isStatic()) {
-        // Instance method: pop objectref from caller and set as local 0
-        reference objectref = callerStack->popReference();
-        stack.currentFrame()->getLocalVariables()->setReference(0, objectref);
-    }
 
-    // Initialize parameters starting at localStart
-    for(int i = 0; i < (int)paramTypes.size(); i++) {
+    // Pop parameters in reverse order (rightmost first), then objectref last.
+    // JVM stack has [objectref, param0, param1, ...] with last param on top.
+    // We pop from top: paramN-1 into slot localStart+N-1, ..., param0 into slot localStart, objectref into slot 0.
+    int paramCount = (int)paramTypes.size();
+    for(int i = paramCount - 1; i >= 0; i--) {
         auto type = paramTypes.at(i).get();
         int slot = localStart + i;
         if(type->isBaseType()) {
@@ -125,6 +123,11 @@ void Interpreter::invoke(const VmMethod* method, VirtualMachine& jvm, VmStack& s
         } else {
             stack.currentFrame()->getLocalVariables()->setReference(slot, callerStack->popReference());
         }
+    }
+    if(!method->isStatic()) {
+        // Instance method: pop objectref from caller (it's at the bottom of the stack)
+        reference objectref = callerStack->popReference();
+        stack.currentFrame()->getLocalVariables()->setReference(0, objectref);
     }
 
     execute(method, jvm, stack);
